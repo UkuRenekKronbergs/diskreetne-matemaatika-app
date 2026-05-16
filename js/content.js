@@ -28,7 +28,7 @@ avaleht: `
   </a>
   <a href="#spikker" class="dash-card">
     <span class="icon">1p</span>
-    <h3>Cheat-sheet</h3>
+    <h3>Spikker</h3>
     <p>Kõigi peatükkide kompaktsed definitsioonid ja valemid printimiseks.</p>
   </a>
   <a href="#vead" class="dash-card">
@@ -89,7 +89,7 @@ avaleht: `
     <li><strong>Loe teooriat</strong> järjest läbi vasakult menüüst — alustades lausearvutusest.</li>
     <li><strong>Tee interaktiivseid harjutusi</strong> iga teema juures (tõeväärtustabel, prefikskuju, graafialgoritmid).</li>
     <li><strong>Testi end</strong> kiirviktoriiniga ja vaata vanu kontrolltöid.</li>
-    <li>Edenemine salvestub automaatselt sinu seadmesse (localStorage).</li>
+    <li>Edenemine salvestub automaatselt sinu brauserisse.</li>
   </ol>
 </div>
 
@@ -99,7 +99,7 @@ avaleht: `
 `,
 
 /* ============= ÕPPIMISE TÖÖLAUD ============= */
-oppimine: `<h1>Õppimise töölaud</h1><p>Laadimine...</p>`,
+oppimine: `<h1>Õppimise töölaud</h1><p>Laadin...</p>`,
 
 /* ============= KURSUS ============= */
 kursus: `
@@ -150,16 +150,16 @@ kursus: `
 `,
 
 /* ============= HINDE KALKULAATOR ============= */
-hinnekalkulaator: `<h1>Hinde kalkulaator</h1><p>Laadimine...</p>`,
+hinnekalkulaator: `<h1>Hinde kalkulaator</h1><p>Laadin...</p>`,
 
 /* ============= KONSPEKTI OTSING ============= */
-otsing: `<h1>Konspekti otsing</h1><p>Laadimine...</p>`,
+otsing: `<h1>Konspekti otsing</h1><p>Laadin...</p>`,
 
 /* ============= CHEAT-SHEET ============= */
-spikker: `<h1>Cheat-sheet</h1><p>Laadimine...</p>`,
+spikker: `<h1>Spikker</h1><p>Laadin...</p>`,
 
 /* ============= VIGADE PÄEVIK ============= */
-vead: `<h1>Vigade päevik</h1><p>Laadimine...</p>`,
+vead: `<h1>Vigade päevik</h1><p>Laadin...</p>`,
 
 /* ============= LAUSEARVUTUS ============= */
 lausearvutus: `
@@ -276,7 +276,7 @@ truthtable: `
 `,
 
 /* ============= DNK / KNK ============= */
-normaalkujud: `<h1>DNK/KNK generaator</h1><p>Laadimine...</p>`,
+normaalkujud: `<h1>DNK/KNK generaator</h1><p>Laadin...</p>`,
 
 /* ============= TÕESUSPUU ============= */
 toesuspuu: `
@@ -1652,7 +1652,7 @@ kontrolltood: `
 `,
 
 /* ============= HARJUTUSTÖÖ GENERAATOR (laeb widget) ============= */
-harjutustoo: `<h1>Harjutustöö generaator</h1><p>Laadimine...</p>`,
+harjutustoo: `<h1>Harjutustöö generaator</h1><p>Laadin...</p>`,
 
 /* ============= ÜLESANDED ============= */
 ulesanded: `
@@ -1739,13 +1739,13 @@ sonastik: `
 `,
 
 /* ============= GRAAFIREDAKTOR (laeb widget) ============= */
-grapheditor: `<h1>Graafiredaktor</h1><p>Laadimine...</p>`,
+grapheditor: `<h1>Graafiredaktor</h1><p>Laadin...</p>`,
 
 /* ============= KIIRVIKTORIIN (laeb widget) ============= */
-kviis: `<h1>Kiirviktoriin</h1><p>Laadimine...</p>`,
+kviis: `<h1>Kiirviktoriin</h1><p>Laadin...</p>`,
 
 /* ============= MÕISTEKAARDID (laeb widget) ============= */
-flashcards: `<h1>Mõistekaardid</h1><p>Laadimine...</p>`,
+flashcards: `<h1>Mõistekaardid</h1><p>Laadin...</p>`,
 
 };
 

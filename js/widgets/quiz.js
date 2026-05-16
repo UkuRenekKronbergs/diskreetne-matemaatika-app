@@ -189,7 +189,7 @@
       graafid: 'graafid',
     };
     const tag = q.tags.find(item => map[item]);
-    return map[tag] || 'kviis';
+    return map[tag] || 'viktoriin';
   }
 
   function routeName(route) {
@@ -495,7 +495,7 @@
         <div class="btn-row" style="justify-content:center;">
           <button class="btn small secondary" id="prevCard">Eelmine</button>
           <button class="btn small" id="nextCard">Järgmine</button>
-          <button class="btn small secondary" id="shuffleCards">Sega kõiki</button>
+          <button class="btn small secondary" id="shuffleCards">Sega kaardid</button>
           <button class="btn small secondary" id="resetSrs">Lähtesta kordamine</button>
         </div>
         ${lastAction ? `<p class="muted flashcard-action">${lastAction}</p>` : ''}

@@ -3,8 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Interaktiivne võrguühenduseta kasutatav õppekeskkond Tartu Ülikooli kursusele Diskreetne matemaatika I.">
+<meta name="theme-color" content="#0f1419">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Diskreetne I">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Diskreetne matemaatika I — interaktiivne õppimine</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css?v=20260516-2">
 </head>
@@ -27,7 +35,7 @@
         <a href="#oppimine" data-route="oppimine">Õppimise töölaud</a>
         <a href="#kursus" data-route="kursus">Kursuse info</a>
         <a href="#otsing" data-route="otsing">Konspekti otsing</a>
-        <a href="#spikker" data-route="spikker">Cheat-sheet</a>
+        <a href="#spikker" data-route="spikker">Spikker</a>
         <a href="#hinnekalkulaator" data-route="hinnekalkulaator">Hinde kalkulaator</a>
       </div>
       <div class="nav-group">
@@ -52,11 +60,11 @@
         <a href="#ahelad" data-route="ahelad">Ahelad ja tsüklid</a>
         <a href="#sidusus" data-route="sidusus">Sidusus</a>
         <a href="#isomorfism" data-route="isomorfism">Isomorfism</a>
-        <a href="#eulerhamilton" data-route="eulerhamilton">Euler & Hamilton</a>
+        <a href="#eulerhamilton" data-route="eulerhamilton">Euler ja Hamilton</a>
         <a href="#puud" data-route="puud">Puud</a>
-        <a href="#toespuud" data-route="toespuud">Toespuud (Kruskal/Prim)</a>
+        <a href="#toespuud" data-route="toespuud">Toespuud (Kruskal ja Prim)</a>
         <a href="#suunatud" data-route="suunatud">Suunatud graafid</a>
-        <a href="#luhimtee" data-route="luhimtee">Lühim tee (Dijkstra/Floyd)</a>
+        <a href="#luhimtee" data-route="luhimtee">Lühim tee (Dijkstra ja Floyd)</a>
       </div>
       <div class="nav-group">
         <h3>Harjutamine</h3>
@@ -70,6 +78,10 @@
       </div>
     </nav>
     <div class="sidebar-footer">
+      <div class="pwa-row">
+        <button id="installPwa" class="btn-link pwa-install" type="button" hidden>Paigalda rakendus</button>
+        <span id="pwaStatus" class="pwa-status">Seadistan võrguühenduseta režiimi...</span>
+      </div>
       <button id="resetProgress" class="btn-link">Lähtesta edenemine</button>
       <span class="version">v1.0</span>
     </div>
@@ -97,6 +109,7 @@
 <script src="js/widgets/normal-forms.js"></script>
 <script src="js/widgets/study-tools.js"></script>
 <script src="js/widgets/topic-tools.js"></script>
+<script src="js/pwa.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

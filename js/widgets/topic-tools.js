@@ -1806,7 +1806,7 @@
       <div class="topic-exercises-head">
         <div>
           <h2>Mini-kontroll</h2>
-          <p>Kolm kiiret küsimust selle peatüki põhiasjade üle. Peatükk märgitakse tehtuks pärast vastuste kontrollimist.</p>
+          <p>Kolm kiiret küsimust selle peatüki põhiasjade üle. Peatükk märgitakse tehtuks pärast kõigi vastuste kontrollimist.</p>
         </div>
         <span class="tag ${previous ? 'good' : 'accent'}">${previous ? `${previous.score}/${previous.total}` : `${questions.length} küsimust`}</span>
       </div>
@@ -1879,7 +1879,7 @@
       section.querySelector('#miniCheckResult').innerHTML = `
         <div class="topic-tool-result ${missing ? 'warn' : pct >= 70 ? 'good' : pct >= 40 ? 'warn' : 'bad'}">
           <strong>${missing ? 'Poolik mini-kontroll' : 'Tulemus'}: ${score}/${questions.length} (${pct}%)</strong>
-          <span>${missing ? 'Vasta kõigile küsimustele; peatükk märgitakse tehtuks alles pärast täieliku mini-kontrolli kontrollimist.' : pct >= 70 ? 'Peatüki põhiasjad on heas seisus.' : 'Märgi valed küsimused päevikusse ja tee sama teema üks harjutus juurde.'}</span>
+          <span>${missing ? 'Vasta kõigile küsimustele; peatükk märgitakse tehtuks alles pärast kõigi vastuste kontrollimist.' : pct >= 70 ? 'Peatüki põhiasjad on heas seisus.' : 'Märgi valed küsimused päevikusse ja tee sama teema üks harjutus juurde.'}</span>
         </div>
       `;
 
@@ -2060,7 +2060,7 @@
         ${complete ? `
           <div class="topic-tool-result good">
             <strong>Samm-ülesanne valmis.</strong>
-            <span>Oled selle ülesande kõik kontrollsammud läbi teinud. Nüüd tasub sama peatüki mini-kontroll ära lõpetada.</span>
+            <span>Oled selle ülesande kõik kontrollsammud läbi teinud. Järgmisena tasub lõpetada sama peatüki mini-kontroll.</span>
           </div>
           <div class="btn-row">
             <button class="btn small secondary" id="graphStepRestart" type="button">Tee uuesti</button>

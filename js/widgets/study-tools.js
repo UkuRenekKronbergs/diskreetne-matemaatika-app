@@ -444,7 +444,7 @@
     }
     if (state.miniChecks.completed < state.miniChecks.total) {
       plan.push({
-        title: 'Tee üks teemalõpu mini-kontroll',
+        title: 'Tee üks peatüki lõpu mini-kontroll',
         meta: `${state.miniChecks.completed}/${state.miniChecks.total} mini-kontrolli tehtud`,
         href: `#${state.miniChecks.nextRoute || 'lausearvutus'}`,
         time: '5 min',
@@ -452,7 +452,7 @@
     }
     if (state.quiz && state.quiz.pct < 70) {
       plan.push({
-        title: `Paranda kviisi teemat: ${state.quiz.topicLabel}`,
+        title: `Paranda viktoriini teemat: ${state.quiz.topicLabel}`,
         meta: `Viimane tulemus oli ${state.quiz.score}/${state.quiz.total} (${state.quiz.pct}%)`,
         href: '#kviis',
         time: '8 min',
@@ -471,7 +471,7 @@
         plan.push({
           title: needsCheck ? `Lõpeta mini-kontroll: "${state.nextTopic.label}"` : `Jätka peatükiga "${state.nextTopic.label}"`,
           meta: needsCheck
-            ? 'Peatükk on avatud, aga tehtuks märgitakse see pärast mini-kontrolli'
+            ? 'Peatükk on avatud; tehtuks märgitakse see pärast mini-kontrolli.'
             : `${state.nextTopic.group} osa järgmine lõpetamata teema`,
           href: `#${state.nextTopic.route}`,
           time: '10 min',
@@ -528,7 +528,7 @@
         eyebrow: 'Järgmine samm',
         title: needsCheck ? `Tee mini-kontroll: "${state.nextTopic.label}"` : `Võta ette "${state.nextTopic.label}"`,
         text: needsCheck
-          ? 'Peatükk on juba avatud; tehtuks läheb see siis, kui mini-kontroll on kontrollitud.'
+          ? 'Peatükk on juba avatud; tehtuks märgitakse see pärast mini-kontrolli kontrollimist.'
           : 'Ava peatükk, tee teema juures harjutused ja lõpeta see mini-kontrolliga.',
         href: `#${state.nextTopic.route}`,
         cta: needsCheck ? 'Ava mini-kontroll' : 'Ava peatükk',
@@ -537,7 +537,7 @@
     return {
       eyebrow: 'Kordamise režiim',
       title: 'Põhiring on läbi. Nüüd tasub teha segaharjutusi.',
-      text: 'Koosta harjutustöö või tee kviis, et kontrollida, mis päriselt külge jäi.',
+      text: 'Koosta harjutustöö või tee viktoriin, et kontrollida, mis päriselt külge jäi.',
       href: '#harjutustoo',
       cta: 'Koosta harjutustöö',
     };
@@ -591,13 +591,13 @@
         </a>
         <a class="study-stat" href="#avaleht">
           <strong>${state.progressPct}%</strong>
-          <span>peatükkide ringist</span>
-          <small>${state.visitedTopics}/${state.topicProgress.length} teemat tehtud</small>
+          <span>peatükkidest lõpetatud</span>
+          <small>${state.visitedTopics}/${state.topicProgress.length} teemat lõpetatud</small>
         </a>
         <a class="study-stat" href="#kviis">
           <strong>${state.quiz ? `${state.quiz.pct}%` : '-'}</strong>
-          <span>viimane kviis</span>
-          <small>${state.quiz ? `${state.quiz.topicLabel}, ${formatDate(state.quiz.date)}` : 'tee esimene kviis'}</small>
+          <span>viimane viktoriin</span>
+          <small>${state.quiz ? `${state.quiz.topicLabel}, ${formatDate(state.quiz.date)}` : 'tee esimene viktoriin'}</small>
         </a>
       </section>
 
@@ -627,7 +627,7 @@
           <div class="study-section-head">
             <div>
               <h2>Peatükkide edenemine</h2>
-              <p>Loogika ja graafiteooria teemad, mis lähevad tehtuks pärast mini-kontrolli lõpetamist.</p>
+              <p>Loogika ja graafiteooria teemad, mis märgitakse lõpetatuks pärast mini-kontrolli.</p>
             </div>
             <strong>${state.visitedTopics}/${state.topicProgress.length}</strong>
           </div>
@@ -636,7 +636,7 @@
             ${nextTopics.length ? nextTopics.map(topic => `
               <a href="#${topic.route}">
                 <span>${topic.label}</span>
-                <small>${topic.needsMiniCheck && topic.visited ? 'mini-kontroll tegemata' : topic.group}</small>
+                <small>${topic.needsMiniCheck && topic.visited ? 'mini-kontroll on tegemata' : topic.group}</small>
               </a>
             `).join('') : '<p class="muted">Kõik põhiteemad on lõpetatud. Nüüd on kordamise ja harjutustöö aeg.</p>'}
           </div>
@@ -691,7 +691,7 @@
   }
 
   function weaknessTypeLabel(type) {
-    if (type === 'quiz') return 'Kviis';
+    if (type === 'quiz') return 'Viktoriin';
     if (type === 'exercise') return 'Lahendusülesanne';
     return 'Käsitsi';
   }
@@ -793,7 +793,7 @@
                 </div>
                 <div class="btn-row">
                   ${item.route ? `<a class="btn small secondary" href="#${item.route}">Ava teema</a>` : ''}
-                  ${item.status !== 'reviewing' && item.status !== 'resolved' ? `<button class="btn small secondary" data-weak-status="reviewing" type="button">Märgi kordamisel</button>` : ''}
+                  ${item.status !== 'reviewing' && item.status !== 'resolved' ? `<button class="btn small secondary" data-weak-status="reviewing" type="button">Märgi kordamiseks</button>` : ''}
                   ${item.status !== 'resolved' ? `<button class="btn small success" data-weak-status="resolved" type="button">Parandatud</button>` : `<button class="btn small secondary" data-weak-status="open" type="button">Ava uuesti</button>`}
                   <button class="btn small danger" data-weak-delete type="button">Kustuta</button>
                 </div>
@@ -930,7 +930,7 @@
     if (!view) return;
     const groups = [...new Set(CHEAT_SHEETS.map(item => item.group))];
     view.innerHTML = `
-      <h1>Cheat-sheet</h1>
+      <h1>Spikker</h1>
       <p>Kompaktne viimase hetke kordamisvaade. Printides jäävad alles ainult põhisisu ja valemid.</p>
       <div class="btn-row no-print">
         <button class="btn" id="printCheatSheet" type="button">Prindi / salvesta PDF-iks</button>
