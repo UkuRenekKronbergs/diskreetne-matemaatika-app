@@ -161,9 +161,13 @@ body {
   padding: 32px 48px 64px;
   max-width: 1100px;
   width: 100%;
+  min-width: 0;
 }
 
-.view { animation: fadeIn 0.3s ease; }
+.view {
+  min-width: 0;
+  animation: fadeIn 0.3s ease;
+}
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ===== Typography ===== */
@@ -356,7 +360,7 @@ tbody tr:hover { background: rgba(255,255,255,0.02); }
 
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
 
-input[type="text"], textarea, select {
+input[type="text"], input[type="number"], textarea, select {
   background: var(--bg-2);
   border: 1px solid var(--border);
   color: var(--fg);
@@ -651,6 +655,188 @@ input:focus, textarea:focus, select:focus {
 .tag.warn { background: rgba(251,191,36,0.15); color: var(--warn); }
 .tag.bad { background: rgba(248,113,113,0.15); color: var(--bad); }
 
+/* ===== Grade calculator ===== */
+.muted {
+  color: var(--fg-3);
+  font-size: 14px;
+}
+.grade-calculator {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.grade-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(120px, 1fr));
+  gap: 10px;
+}
+.grade-stat {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  min-height: 96px;
+}
+.grade-stat span,
+.grade-stat small {
+  display: block;
+  color: var(--fg-3);
+  font-size: 12px;
+}
+.grade-stat strong {
+  display: block;
+  color: var(--fg);
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 6px 0 4px;
+}
+.grade-stat.good { border-color: rgba(74,222,128,0.45); }
+.grade-stat.warn { border-color: rgba(251,191,36,0.5); }
+.grade-stat.bad { border-color: rgba(248,113,113,0.55); }
+.grade-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 16px;
+  align-items: start;
+}
+.grade-input-card h3,
+.grade-output-card h3 {
+  margin-top: 0;
+}
+.grade-input-card,
+.grade-output-card {
+  min-width: 0;
+}
+.grade-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.grade-input-table {
+  min-width: 520px;
+  margin-bottom: 0;
+}
+.grade-input-table th,
+.grade-input-table td {
+  text-align: center;
+  vertical-align: middle;
+}
+.grade-input-table input {
+  width: 86px;
+  text-align: right;
+}
+.grade-row-total {
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.grade-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.grade-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.grade-field span {
+  color: var(--fg-2);
+  font-size: 13px;
+  font-weight: 600;
+}
+.grade-field small {
+  color: var(--fg-3);
+  font-size: 12px;
+}
+.grade-bonus-note {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--fg-2);
+  font-size: 13px;
+  margin: 14px 0;
+  padding: 10px 12px;
+}
+.grade-target-row {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.8fr) minmax(220px, 1.2fr);
+  gap: 12px;
+  align-items: end;
+}
+.grade-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  color: var(--fg-2);
+  font-size: 13px;
+}
+.grade-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+.grade-result-panel,
+.grade-advice {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 12px 0;
+  padding: 14px 16px;
+  background: var(--bg-3);
+}
+.grade-result-panel h3,
+.grade-advice h3 {
+  margin-top: 0;
+}
+.grade-result-panel.ok,
+.grade-advice.ok {
+  border-color: rgba(74,222,128,0.45);
+  background: rgba(74,222,128,0.07);
+}
+.grade-result-panel.warn,
+.grade-advice.warn {
+  border-color: rgba(251,191,36,0.45);
+  background: rgba(251,191,36,0.07);
+}
+.grade-status-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.grade-status {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.grade-status strong,
+.grade-status span,
+.grade-status small {
+  display: block;
+}
+.grade-status strong {
+  color: var(--fg-2);
+  font-size: 13px;
+}
+.grade-status span {
+  color: var(--fg);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 3px 0;
+}
+.grade-status small {
+  color: var(--fg-3);
+}
+.grade-status.ok { border-color: rgba(74,222,128,0.45); }
+.grade-status.warn { border-color: rgba(251,191,36,0.45); }
+.grade-scale {
+  max-width: 420px;
+}
+.grade-scale-hit td {
+  background: rgba(74,222,128,0.08);
+  color: var(--good);
+  font-weight: 700;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 900px) {
   .app { grid-template-columns: 1fr; }
@@ -668,6 +854,13 @@ input:focus, textarea:focus, select:focus {
   .main { padding: 60px 20px 40px; }
   .compare, .eq-list { grid-template-columns: 1fr; }
   .dashboard { grid-template-columns: 1fr; }
+  .grade-layout,
+  .grade-summary-grid,
+  .grade-field-grid,
+  .grade-target-row,
+  .grade-status-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ===== Print friendly when needed ===== */

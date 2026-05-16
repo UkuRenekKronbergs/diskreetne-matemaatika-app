@@ -11,6 +11,7 @@ Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I**
 - **Tee viktoriini** 20 juhusliku küsimusega kogu kursuse materjalist.
 - **Korda mõistekaartidega** kõik olulised mõisted.
 - **Vaata vanu kontrolltöid** (variandid A, C, D, E, F) eesti keeles.
+- **Arvuta hinnet** TBL punktide, kontrolltööde lävendite ja lisapunktide põhjal.
 
 ## 🚀 Käivitamine
 
@@ -31,14 +32,16 @@ app/
 ├── css/style.css          # Kujundus (tume teema)
 ├── js/
 │   ├── app.js             # Marsruutimine, edenemise jälgimine
-│   ├── content.js         # Kogu teooriasisu + sõnastik
+│   ├── content.js         # Kogu teooriasisu
+│   ├── glossary.js        # Kursuse Moodle'i sõnastiku mõisted
 │   └── widgets/
 │       ├── truth-table.js # Lausearvutuse parser + tõeväärtustabel
 │       ├── truth-tree.js  # (placeholder)
 │       ├── prefix-form.js # Prefikskuju samm-sammult näited
 │       ├── graph-editor.js# Canvas-põhine graafiredaktor + algoritmid
 │       ├── algorithms.js  # (reserved)
-│       └── quiz.js        # Viktoriin, mõistekaardid, sõnastik
+│       ├── quiz.js        # Viktoriin, mõistekaardid, sõnastik
+│       └── grade-calculator.js # Hinde ja miinimumi kalkulaator
 └── materjalid/            # PDF-id: konspekt, ülesanded, kontrolltööd
 ```
 

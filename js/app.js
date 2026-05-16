@@ -67,6 +67,7 @@
     if (route === 'kviis') window.initQuiz && window.initQuiz();
     if (route === 'flashcards') window.initFlashcards && window.initFlashcards();
     if (route === 'sonastik') window.initGlossary && window.initGlossary();
+    if (route === 'hinnekalkulaator') window.initGradeCalculator && window.initGradeCalculator();
 
     markVisited(route);
 

@@ -11,6 +11,11 @@ avaleht: `
 <p>See on interaktiivne õppekeskkond Tartu Ülikooli kursusele <strong>Diskreetne matemaatika I</strong> (LTMS.00.019). Kõik materjalid põhinevad Kati Aini loengukonspektil (Valdis Laan, 2020; täiendanud Kati Ain, 28.01.2026) ja praktikumiülesannete kogul (Reimo Palm, Valdis Laan, Kati Ain).</p>
 
 <div class="dashboard">
+  <a href="#hinnekalkulaator" class="dash-card">
+    <span class="icon">∑</span>
+    <h3>Hinde kalkulaator</h3>
+    <p>Sisesta TBL, kontrolltööde ja lisapunktide seis ning vaata, mis miinimum on veel vaja.</p>
+  </a>
   <a href="#lausearvutus" class="dash-card">
     <span class="icon">∧</span>
     <h3>Lausearvutus</h3>
@@ -144,6 +149,9 @@ kursus: `
   </a>
 </div>
 `,
+
+/* ============= HINDE KALKULAATOR ============= */
+hinnekalkulaator: `<h1>Hinde kalkulaator</h1><p>Laadimine...</p>`,
 
 /* ============= LAUSEARVUTUS ============= */
 lausearvutus: `
@@ -1697,6 +1705,7 @@ ulesanded: `
 /* ============= SÕNASTIK ============= */
 sonastik: `
 <h1>Mõistete sõnastik</h1>
+<p>Kursuse Moodle'i sõnastiku põhjal koostatud mõistete nimekiri. Otsing vaatab nii mõiste nimetust kui definitsiooni.</p>
 
 <input type="text" id="glossaryFilter" placeholder="Otsi mõistet..." style="margin-bottom: 16px;">
 
