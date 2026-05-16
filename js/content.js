@@ -419,6 +419,8 @@ predikaadid: `
   </ul>
 </div>
 
+<div class="card topic-tool" id="quantifierModelTool"></div>
+
 <h2>Predikaatarvutuse süntaks</h2>
 <div class="def">
   <strong>Predikaatarvutuse valem</strong> ehitatakse järgmiselt:
@@ -524,6 +526,8 @@ samavaarsus: `
   <br><br>
   <em>Kontroll:</em> $F \\equiv G$ parajasti siis, kui $F \\Leftrightarrow G$ on samaselt tõene.
 </div>
+
+<div class="card topic-tool" id="equivalenceTool"></div>
 
 <h2>Lausearvutuse põhisamaväärsused</h2>
 
@@ -1047,6 +1051,8 @@ tipuastmed: `
   </ol>
   Jah, järjend vastab graafile.
 </div>
+
+<div class="card topic-tool" id="degreeSequenceTool"></div>
 `,
 
 /* ============= AHELAD ============= */
@@ -1253,6 +1259,8 @@ eulerhamilton: `
   <strong>Ore teoreem.</strong> Olgu $G$ $n$-tipuline graaf, $n \\geq 3$. Kui iga kahe mitteühenduva tipu $u, v$ korral $d(u) + d(v) \\geq n$, siis $G$ on Hamiltoni graaf.
 </div>
 
+<div class="card topic-tool" id="eulerHamiltonTool"></div>
+
 <h2>Rändkaupmehe ülesanne</h2>
 <p>Kaalutud graafis leida Hamiltoni tsükkel, mille servade kaalude summa on vähim. <strong>NP-raske</strong> probleem.</p>
 `,
@@ -1295,6 +1303,8 @@ puud: `
     <li>$G$ on sidus ja iga kahte erinevat tippu ühendab täpselt üks lihtahel</li>
   </ol>
 </div>
+
+<div class="card topic-tool" id="treePropertyTool"></div>
 
 <h2>Juurega puu</h2>
 <div class="def">

@@ -7,6 +7,8 @@ Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I**
 - **Loe teooriat** kõigi peatükkide kohta — lausearvutusest kuni Dijkstra algoritmini.
 - **Ehita tõeväärtustabeleid** sisestades suvalisi lausearvutuse valemeid (parser toetab `&`, `|`, `!`, `->`, `<->`).
 - **Ehita tõesuspuid** lausearvutuse valemitele ning kontrolli samaselt tõesust, samaselt väärust ja kehtestatavust.
+- **Kasuta teemasiseseid tööriistu** samaväärsuse, kvantorite, astmejärjendite, Euleri/Hamiltoni tingimuste ja puude omaduste kontrollimiseks.
+- **Lahenda teemasiseseid lahendusülesandeid** iga suurema teoorialehe lõpus, koos avatava lahenduskäiguga.
 - **Joonista graafe** interaktiivsel lõuendil — lisa tippe, servi, määra kaale, vaata naabrusmaatriksit.
 - **Jooksuta algoritme** — Kruskali, Primi, Dijkstra ja Floydi–Warshalli — samm-sammult.
 - **Tee teemaviktoriini** 5–15 juhusliku küsimusega kogu kursusest, kontrolltöö 1 teemadest või graafiteooriast.
@@ -44,7 +46,8 @@ app/
 │       ├── algorithms.js  # (reserved)
 │       ├── quiz.js        # Viktoriin, mõistekaardid, sõnastik
 │       ├── exam-practice.js # 32-punktise harjutustöö generaator
-│       └── grade-calculator.js # Hinde ja miinimumi kalkulaator
+│       ├── grade-calculator.js # Hinde ja miinimumi kalkulaator
+│       └── topic-tools.js # Väikesed tööriistad ja lahendusülesanded teoorialehtede sees
 ├── vendor/katex/          # KaTeX lokaalne fallback offline kasutuseks
 └── materjalid/            # PDF-id: konspekt, ülesanded, kontrolltööd
 ```

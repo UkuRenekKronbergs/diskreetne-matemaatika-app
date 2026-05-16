@@ -70,6 +70,7 @@
     if (route === 'hinnekalkulaator') window.initGradeCalculator && window.initGradeCalculator();
     if (route === 'toesuspuu') window.initTruthTree && window.initTruthTree();
     if (route === 'harjutustoo') window.initExamPractice && window.initExamPractice();
+    window.initTopicTools && window.initTopicTools(route);
 
     markVisited(route);
 

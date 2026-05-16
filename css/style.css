@@ -382,7 +382,20 @@ input:focus, textarea:focus, select:focus {
 .input-row input { flex: 1; }
 
 /* ===== Math formula ===== */
-.katex-display { margin: 8px 0; }
+.katex-display {
+  margin: 8px 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+}
+.katex-display > .katex {
+  display: inline-block;
+  min-width: max-content;
+}
+.katex .katex-mathml {
+  contain: strict;
+}
 .formula {
   background: var(--code-bg);
   border: 1px solid var(--border);
@@ -780,15 +793,178 @@ input:focus, textarea:focus, select:focus {
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 10px 12px;
+  margin-top: 10px;
 }
 .exam-task summary {
   cursor: pointer;
   color: var(--accent);
   font-weight: 600;
 }
+.exam-task .exam-solution {
+  background: rgba(74, 222, 128, 0.06);
+  border-color: rgba(74, 222, 128, 0.24);
+}
+.exam-task .exam-solution summary {
+  color: var(--good);
+}
+.exam-solution-body {
+  color: var(--fg);
+  margin-top: 10px;
+}
+.exam-solution-body p {
+  margin: 8px 0;
+}
 .exam-checklist {
   color: var(--fg-2);
   font-size: 14px;
+}
+
+/* ===== Topic-embedded tools ===== */
+.topic-tool {
+  border-color: rgba(92,184,255,0.34);
+}
+.topic-tool h3 {
+  margin-top: 0;
+}
+.topic-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+.topic-table-wrap {
+  overflow-x: auto;
+  margin-top: 12px;
+}
+.topic-tool-result {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 10px 0;
+  background: var(--bg-3);
+}
+.topic-tool-result strong,
+.topic-tool-result span {
+  display: block;
+}
+.topic-tool-result strong {
+  color: var(--fg);
+}
+.topic-tool-result span {
+  color: var(--fg-2);
+  font-size: 13px;
+  margin-top: 4px;
+}
+.topic-tool-result.good {
+  border-color: rgba(74,222,128,0.48);
+  background: rgba(74,222,128,0.07);
+}
+.topic-tool-result.warn {
+  border-color: rgba(251,191,36,0.48);
+  background: rgba(251,191,36,0.07);
+}
+.topic-tool-result.bad {
+  border-color: rgba(248,113,113,0.52);
+  background: rgba(248,113,113,0.07);
+}
+.topic-result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+.topic-steps {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 12px 12px 34px;
+}
+.topic-exercises {
+  border-color: rgba(74,222,128,0.28);
+  margin-top: 24px;
+}
+.topic-exercises-head {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.topic-exercises-head h2 {
+  border-bottom: 0;
+  margin: 0;
+  padding-bottom: 0;
+}
+.topic-exercises-head p {
+  color: var(--fg-2);
+  margin: 4px 0 0;
+}
+.topic-exercise-list {
+  display: grid;
+  gap: 10px;
+}
+.topic-exercise {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.topic-exercise summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 12px 14px;
+}
+.topic-exercise summary span {
+  color: var(--fg);
+  font-weight: 700;
+}
+.topic-exercise summary small {
+  color: var(--good);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.topic-exercise-prompt,
+.topic-exercise-solution {
+  border-top: 1px solid var(--border);
+  padding: 12px 14px;
+}
+.topic-exercise-prompt {
+  color: var(--fg);
+}
+.topic-exercise-solution {
+  background: rgba(74,222,128,0.06);
+}
+.topic-exercise-solution h4 {
+  color: var(--good);
+  margin: 0 0 8px;
+}
+.topic-exercise-solution p {
+  margin: 8px 0;
+}
+.predicate-picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.predicate-picks label,
+.relation-grid label {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+.predicate-picks input,
+.relation-grid input {
+  accent-color: var(--accent);
+}
+.relation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(64px, 1fr));
+  gap: 6px;
 }
 
 /* ===== Comparison table ===== */
@@ -1066,6 +1242,15 @@ input:focus, textarea:focus, select:focus {
   }
   .glossary-controls {
     grid-template-columns: 1fr;
+  }
+  .topic-result-grid,
+  .topic-tool-grid {
+    grid-template-columns: 1fr;
+  }
+  .topic-exercises-head,
+  .topic-exercise summary {
+    align-items: flex-start;
+    flex-direction: column;
   }
   .glossary-entry-head,
   .exam-total {
