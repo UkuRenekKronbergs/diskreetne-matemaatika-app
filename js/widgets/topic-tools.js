@@ -3,6 +3,18 @@
 (function () {
   'use strict';
 
+  const CHAPTER_NOTES_KEY = 'dm_chapter_notes_v1';
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, ch => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    }[ch]));
+  }
+
   function parseNumberList(text) {
     return String(text || '')
       .split(/[,\s;]+/)
@@ -257,6 +269,155 @@
     render();
   }
 
+  function initPredicateModelBuilder() {
+    const root = document.getElementById('predicateModelBuilder');
+    if (!root) return;
+    root.innerHTML = `
+      <h3>Predikaadiloogika mudeli ehitaja</h3>
+      <p>Ehita väike mudel predikaatidega $P$, $Q$ ja seosega $R$. Vali valem ning kontrolli, kas see on mudelis tõene.</p>
+      <div class="topic-tool-grid">
+        <label class="grade-field">
+          <span>Põhihulga suurus</span>
+          <select id="modelSize">
+            <option value="3" selected>3 elementi: 0,1,2</option>
+            <option value="4">4 elementi: 0,1,2,3</option>
+          </select>
+        </label>
+        <label class="grade-field">
+          <span>Valem</span>
+          <select id="modelFormula">
+            <option value="allPimpQ">∀x(P(x) ⇒ Q(x))</option>
+            <option value="counterPnotQ">∃x(P(x) & ¬Q(x))</option>
+            <option value="allExistsR">∀x∃yR(x,y)</option>
+            <option value="existsAllR">∃y∀xR(x,y)</option>
+            <option value="pNeedsRQ">∀x(P(x) ⇒ ∃y(R(x,y) & Q(y)))</option>
+          </select>
+        </label>
+      </div>
+      <div id="predicateModelControls"></div>
+      <div class="btn-row">
+        <button class="btn small" id="modelEvaluate" type="button">Kontrolli valemit</button>
+        <button class="btn small secondary" id="modelPresetChain" type="button">Näidis: ahel</button>
+        <button class="btn small secondary" id="modelPresetCounter" type="button">Näidis: kontranäide</button>
+      </div>
+      <div id="predicateModelResult"></div>
+    `;
+
+    const state = { size: 3, p: new Set([0, 1]), q: new Set([1, 2]), r: new Set(['0,1', '1,2']) };
+
+    function domain() {
+      return Array.from({ length: state.size }, (_, i) => i);
+    }
+    function key(x, y) { return `${x},${y}`; }
+    function p(x) { return state.p.has(x); }
+    function q(x) { return state.q.has(x); }
+    function r(x, y) { return state.r.has(key(x, y)); }
+    function every(fn) { return domain().every(fn); }
+    function some(fn) { return domain().some(fn); }
+
+    function formulaValue() {
+      const selected = root.querySelector('#modelFormula').value;
+      if (selected === 'allPimpQ') return {
+        value: every(x => !p(x) || q(x)),
+        witness: domain().find(x => p(x) && !q(x)),
+        note: 'Vääraks teeb P-element, mis ei ole Q-element.',
+      };
+      if (selected === 'counterPnotQ') return {
+        value: some(x => p(x) && !q(x)),
+        witness: domain().find(x => p(x) && !q(x)),
+        note: 'Tõeseks teeb element, millel P kehtib ja Q ei kehti.',
+      };
+      if (selected === 'allExistsR') return {
+        value: every(x => some(y => r(x, y))),
+        witness: domain().find(x => !some(y => r(x, y))),
+        note: 'Igal real peab olema vähemalt üks märgitud R-paar.',
+      };
+      if (selected === 'existsAllR') return {
+        value: some(y => every(x => r(x, y))),
+        witness: domain().find(y => every(x => r(x, y))),
+        note: 'Üks veerg peab olema täielikult märgitud.',
+      };
+      return {
+        value: every(x => !p(x) || some(y => r(x, y) && q(y))),
+        witness: domain().find(x => p(x) && !some(y => r(x, y) && q(y))),
+        note: 'Igal P-elemendil peab olema R-seose kaudu mõni Q-element.',
+      };
+    }
+
+    function renderControls() {
+      const xs = domain();
+      root.querySelector('#predicateModelControls').innerHTML = `
+        <div class="topic-tool-grid">
+          <div>
+            <h4>Predikaat P</h4>
+            <div class="predicate-picks">${xs.map(x => `<label><input type="checkbox" data-model-p="${x}" ${p(x) ? 'checked' : ''}> P(${x})</label>`).join('')}</div>
+          </div>
+          <div>
+            <h4>Predikaat Q</h4>
+            <div class="predicate-picks">${xs.map(x => `<label><input type="checkbox" data-model-q="${x}" ${q(x) ? 'checked' : ''}> Q(${x})</label>`).join('')}</div>
+          </div>
+          <div>
+            <h4>Seos R(x,y)</h4>
+            <div class="relation-grid model-relation-grid">${xs.map(x => xs.map(y => `<label><input type="checkbox" data-model-r="${x},${y}" ${r(x, y) ? 'checked' : ''}> ${x},${y}</label>`).join('')).join('')}</div>
+          </div>
+        </div>
+      `;
+      root.querySelectorAll('[data-model-p]').forEach(input => input.addEventListener('change', () => {
+        const x = Number(input.dataset.modelP);
+        input.checked ? state.p.add(x) : state.p.delete(x);
+        renderResult();
+      }));
+      root.querySelectorAll('[data-model-q]').forEach(input => input.addEventListener('change', () => {
+        const x = Number(input.dataset.modelQ);
+        input.checked ? state.q.add(x) : state.q.delete(x);
+        renderResult();
+      }));
+      root.querySelectorAll('[data-model-r]').forEach(input => input.addEventListener('change', () => {
+        input.checked ? state.r.add(input.dataset.modelR) : state.r.delete(input.dataset.modelR);
+        renderResult();
+      }));
+      renderResult();
+    }
+
+    function renderResult() {
+      const result = formulaValue();
+      const detail = result.witness === undefined
+        ? 'Sobivat vastunäidet/tunnistajat ei ole vaja.'
+        : `Tunnistaja või vastunäide: ${result.witness}.`;
+      root.querySelector('#predicateModelResult').innerHTML = `
+        <div class="topic-tool-result ${result.value ? 'good' : 'bad'}">
+          <strong>Valem on selles mudelis ${result.value ? 'tõene' : 'väär'}.</strong>
+          <span>${result.note} ${detail}</span>
+        </div>
+      `;
+    }
+
+    root.querySelector('#modelSize').addEventListener('change', e => {
+      state.size = Number(e.target.value);
+      state.p = new Set([...state.p].filter(x => x < state.size));
+      state.q = new Set([...state.q].filter(x => x < state.size));
+      state.r = new Set([...state.r].filter(pair => pair.split(',').every(v => Number(v) < state.size)));
+      renderControls();
+    });
+    root.querySelector('#modelFormula').addEventListener('change', renderResult);
+    root.querySelector('#modelEvaluate').addEventListener('click', renderResult);
+    root.querySelector('#modelPresetChain').addEventListener('click', () => {
+      state.p = new Set(domain().slice(0, -1));
+      state.q = new Set(domain().slice(1));
+      state.r = new Set(domain().slice(0, -1).map(x => key(x, x + 1)));
+      renderControls();
+    });
+    root.querySelector('#modelPresetCounter').addEventListener('click', () => {
+      state.p = new Set([0]);
+      state.q = new Set([]);
+      state.r = new Set([]);
+      renderControls();
+    });
+
+    renderControls();
+    renderMath(root);
+  }
+
   // ---------- Degree sequences ----------
   function havelHakimi(seq) {
     const steps = [];
@@ -277,17 +438,24 @@
   function initDegreeSequenceTool() {
     const root = document.getElementById('degreeSequenceTool');
     if (!root) return;
+    let activeStep = 0;
     root.innerHTML = `
-      <h3>Havel-Hakimi kontrollija</h3>
-      <p>Sisesta astmejärjend ja vaata, kas leidub lihtgraaf, mille tippude astmed on just sellised.</p>
+      <h3>Havel-Hakimi visualiseering</h3>
+      <p>Sisesta astmejärjend ja liigu samm-sammult läbi taandamise. Igas sammus eemaldatakse suurim aste ja lahutatakse 1 järgmistest astmetest.</p>
       <div class="input-row">
         <input id="degreeSequenceInput" type="text" value="4, 3, 3, 2, 2, 1, 1">
         <button class="btn" id="degreeSequenceCheck" type="button">Kontrolli</button>
       </div>
+      <div class="btn-row">
+        <button class="btn small secondary" id="degreePrev" type="button">Eelmine samm</button>
+        <button class="btn small secondary" id="degreeNext" type="button">Järgmine samm</button>
+      </div>
       <div id="degreeSequenceResult"></div>
     `;
-    root.querySelector('#degreeSequenceCheck').addEventListener('click', render);
-    root.querySelector('#degreeSequenceInput').addEventListener('keydown', e => { if (e.key === 'Enter') render(); });
+    root.querySelector('#degreeSequenceCheck').addEventListener('click', () => { activeStep = 0; render(); });
+    root.querySelector('#degreeSequenceInput').addEventListener('keydown', e => { if (e.key === 'Enter') { activeStep = 0; render(); } });
+    root.querySelector('#degreePrev').addEventListener('click', () => { activeStep = Math.max(0, activeStep - 1); render(); });
+    root.querySelector('#degreeNext').addEventListener('click', () => { activeStep += 1; render(); });
     function render() {
       const seq = parseNumberList(root.querySelector('#degreeSequenceInput').value);
       const out = root.querySelector('#degreeSequenceResult');
@@ -300,13 +468,31 @@
       const simpleBounds = seq.every(d => d >= 0 && d < n);
       const even = sum % 2 === 0;
       const hh = simpleBounds && even ? havelHakimi(seq) : { ok: false, steps: [], reason: 'Lihtgraafi jaoks peavad astmed olema vahemikus 0...n-1 ja summa peab olema paaris.' };
+      activeStep = Math.min(activeStep, Math.max(0, hh.steps.length - 1));
+      const currentStep = hh.steps[activeStep] || [];
+      const maxDegree = Math.max(1, ...currentStep);
       out.innerHTML = `
         <div class="topic-tool-result ${hh.ok ? 'good' : 'bad'}">
           <strong>${hh.ok ? 'Jah, see on graafiline järjend.' : 'Ei, see ei saa olla lihtgraafi astmejärjend.'}</strong>
           <span>n=${n}, astmete summa ${sum}, servade arv ${even ? sum / 2 : 'pole täisarv'}.</span>
         </div>
+        <div class="hh-visual">
+          <div class="hh-visual-head">
+            <strong>Samm ${hh.steps.length ? activeStep + 1 : 0} / ${hh.steps.length}</strong>
+            <span>${activeStep === 0 ? 'Algjärjend' : 'Pärast taandamist'}</span>
+          </div>
+          <div class="hh-bars">
+            ${currentStep.map((degree, index) => `
+              <div class="hh-bar-row">
+                <span>v${index + 1}</span>
+                <div class="hh-bar-track"><div class="hh-bar" style="width:${Math.round(100 * degree / maxDegree)}%"></div></div>
+                <strong>${degree}</strong>
+              </div>
+            `).join('')}
+          </div>
+        </div>
         <ol class="topic-steps">
-          ${hh.steps.map(step => `<li>${fmtList(step)}</li>`).join('')}
+          ${hh.steps.map((step, index) => `<li class="${index === activeStep ? 'active' : ''}">${fmtList(step)}</li>`).join('')}
         </ol>
         <p class="muted">${hh.reason}</p>
       `;
@@ -386,6 +572,182 @@
         </div>
       `;
     }
+    render();
+  }
+
+  const SEQUENT_EXAMPLES = [
+    {
+      id: 'swap',
+      title: '$P\\&Q \\vdash Q\\&P$',
+      goal: 'Konjunktsiooni järjekorra vahetamine.',
+      start: '$P\\&Q \\vdash Q\\&P$',
+      steps: [
+        {
+          rule: '&⊢',
+          sequent: '$P,Q \\vdash Q\\&P$',
+          explanation: 'Vasakul oleva konjunktsiooni võib asendada mõlema komponendiga.',
+        },
+        {
+          rule: '⊢&',
+          sequent: '$P,Q \\vdash Q$ ja $P,Q \\vdash P$',
+          explanation: 'Paremal konjunktsiooni tõestamiseks tuleb tõestada mõlemad pooled.',
+        },
+        {
+          rule: 'Aksioom',
+          sequent: '$Q \\vdash Q$ ja $P \\vdash P$',
+          explanation: 'Mõlemad harud lõpevad aksioomiga; lisatingimused eesliikmes on lubatud nõrgestamisega.',
+        },
+      ],
+    },
+    {
+      id: 'modus',
+      title: '$P\\Rightarrow Q, P \\vdash Q$',
+      goal: 'Modus ponensi tuletus sekventsireeglitega.',
+      start: '$P\\Rightarrow Q, P \\vdash Q$',
+      steps: [
+        {
+          rule: '⇒⊢',
+          sequent: '$P \\vdash P$ ja $Q,P \\vdash Q$',
+          explanation: 'Implikatsioon vasakul tekitab kaks alamsekventsi: eelduse tõestamine ja järelduse kasutamine.',
+        },
+        {
+          rule: 'Aksioom',
+          sequent: '$P \\vdash P$ ning $Q \\vdash Q$',
+          explanation: 'Mõlemad alamsekventsid sulguvad aksioomidega.',
+        },
+      ],
+    },
+    {
+      id: 'demorgan',
+      title: '$\\neg(P\\lor Q) \\vdash \\neg P\\&\\neg Q$',
+      goal: 'De Morgani suund sekventsiaalselt.',
+      start: '$\\neg(P\\lor Q) \\vdash \\neg P\\&\\neg Q$',
+      steps: [
+        {
+          rule: '⊢&',
+          sequent: '$\\neg(P\\lor Q) \\vdash \\neg P$ ja $\\neg(P\\lor Q) \\vdash \\neg Q$',
+          explanation: 'Paremal konjunktsioon jagab eesmärgi kaheks haruks.',
+        },
+        {
+          rule: '⊢¬',
+          sequent: '$\\neg(P\\lor Q),P \\vdash$ ja $\\neg(P\\lor Q),Q \\vdash$',
+          explanation: 'Paremal oleva eituse tõestamiseks vii eitatav valem vasakule.',
+        },
+        {
+          rule: '¬⊢',
+          sequent: '$P \\vdash P\\lor Q$ ja $Q \\vdash P\\lor Q$',
+          explanation: 'Vasakul olev eitus muudab eesmärgi vastuolu näitamiseks.',
+        },
+        {
+          rule: '⊢∨',
+          sequent: '$P \\vdash P$ ja $Q \\vdash Q$',
+          explanation: 'Paremal disjunktsiooni saamiseks piisab vastavast poolest.',
+        },
+        {
+          rule: 'Aksioom',
+          sequent: '$P \\vdash P$ ning $Q \\vdash Q$',
+          explanation: 'Lõpuks on mõlemad harud aksioomid.',
+        },
+      ],
+    },
+  ];
+
+  function sequentLabel(mathText) {
+    return mathText
+      .replace(/\$/g, '')
+      .replace(/\\&/g, '&')
+      .replace(/\\vdash/g, '⊢')
+      .replace(/\\Rightarrow/g, '⇒')
+      .replace(/\\lor/g, '∨')
+      .replace(/\\neg/g, '¬');
+  }
+
+  function initSequentHelperTool() {
+    const view = document.getElementById('view');
+    if (!view || document.getElementById('sequentHelperTool')) return;
+
+    const section = document.createElement('section');
+    section.className = 'card topic-tool sequent-helper';
+    section.id = 'sequentHelperTool';
+    view.appendChild(section);
+
+    let exampleId = SEQUENT_EXAMPLES[0].id;
+    let step = 0;
+    let feedback = 'Vali reegel ja rakenda seda järgmise sammu jaoks.';
+    const rules = ['Aksioom', '&⊢', '⊢&', '⇒⊢', '⊢⇒', '∨⊢', '⊢∨', '¬⊢', '⊢¬'];
+
+    function currentExample() {
+      return SEQUENT_EXAMPLES.find(example => example.id === exampleId) || SEQUENT_EXAMPLES[0];
+    }
+
+    function render() {
+      const example = currentExample();
+      const expected = example.steps[step];
+      section.innerHTML = `
+        <h3>Sekventsiaalse tuletuse abimees</h3>
+        <p>Harjuta reegli valimist puuvormis tuletuse järgmise sammu jaoks. Vali näide, siis proovi sammud õiges järjekorras läbi.</p>
+        <div class="topic-tool-grid">
+          <label class="grade-field">
+            <span>Näide</span>
+            <select id="seqExample">
+              ${SEQUENT_EXAMPLES.map(item => `<option value="${item.id}" ${item.id === example.id ? 'selected' : ''}>${sequentLabel(item.title)}</option>`).join('')}
+            </select>
+          </label>
+          <label class="grade-field">
+            <span>Järgmine reegel</span>
+            <select id="seqRule">
+              ${rules.map(rule => `<option value="${rule}">${rule}</option>`).join('')}
+            </select>
+          </label>
+        </div>
+        <div class="sequent-goal">
+          <strong>Eesmärk:</strong>
+          <span>${example.title}</span>
+          <small>${example.goal}</small>
+        </div>
+        <div class="btn-row">
+          <button class="btn small" id="seqApply" type="button" ${expected ? '' : 'disabled'}>Rakenda reegel</button>
+          <button class="btn small secondary" id="seqReset" type="button">Lähtesta</button>
+        </div>
+        <div class="sequent-feedback ${expected ? '' : 'done'}">${escapeHtml(feedback)}</div>
+        <ol class="topic-steps sequent-steps">
+          <li class="active"><strong>Algus:</strong> ${example.start}</li>
+          ${example.steps.map((item, index) => `
+            <li class="${index < step ? 'complete' : index === step ? 'active' : ''}">
+              <strong>${item.rule}</strong>: ${index < step ? item.sequent : index === step ? 'vali see samm järgmisena' : 'ootab'}
+              ${index < step ? `<small>${item.explanation}</small>` : ''}
+            </li>
+          `).join('')}
+        </ol>
+        ${expected ? `<p class="muted">Järgmise sammu vihje: ${expected.explanation}</p>` : '<div class="topic-tool-result good"><strong>Tuletus on valmis.</strong><span>Kõik harud jõudsid aksioomideni.</span></div>'}
+      `;
+
+      section.querySelector('#seqExample').addEventListener('change', event => {
+        exampleId = event.target.value;
+        step = 0;
+        feedback = 'Uus näide valitud. Alusta esimesest reeglist.';
+        render();
+      });
+      section.querySelector('#seqApply')?.addEventListener('click', () => {
+        const selected = section.querySelector('#seqRule').value;
+        const next = currentExample().steps[step];
+        if (!next) return;
+        if (selected === next.rule) {
+          step += 1;
+          feedback = `Õige: ${next.rule}. ${next.explanation}`;
+        } else {
+          feedback = `Praegu ei sobi ${selected}. Vaata, milline tehtemärk on sekventsi põhikohal.`;
+        }
+        render();
+      });
+      section.querySelector('#seqReset').addEventListener('click', () => {
+        step = 0;
+        feedback = 'Tuletus lähtestatud.';
+        render();
+      });
+      renderMath(section);
+    }
+
     render();
   }
 
@@ -636,12 +998,62 @@
     renderMath(section);
   }
 
+  function readNotes() {
+    try { return JSON.parse(localStorage.getItem(CHAPTER_NOTES_KEY)) || {}; }
+    catch { return {}; }
+  }
+
+  function saveNotes(notes) {
+    localStorage.setItem(CHAPTER_NOTES_KEY, JSON.stringify(notes));
+  }
+
+  function initChapterNotes(route) {
+    if (!TOPIC_EXERCISES[route]) return;
+    const view = document.getElementById('view');
+    if (!view || document.getElementById('chapterNotes')) return;
+
+    const notes = readNotes();
+    const section = document.createElement('section');
+    section.className = 'card chapter-notes';
+    section.id = 'chapterNotes';
+    section.innerHTML = `
+      <div class="chapter-notes-head">
+        <div>
+          <h2>Minu märkmed</h2>
+          <p>Kirjuta siia selle peatüki segased kohad, meeldetuletused või lahenduse ideed.</p>
+        </div>
+        <span class="notes-status" id="chapterNotesStatus">Salvestatud</span>
+      </div>
+      <textarea id="chapterNotesText" rows="6" placeholder="Näiteks: vaata üle kvantorite eitamine või tee veel üks Havel-Hakimi näide.">${escapeHtml(notes[route] || '')}</textarea>
+    `;
+    view.appendChild(section);
+
+    const textarea = section.querySelector('#chapterNotesText');
+    const status = section.querySelector('#chapterNotesStatus');
+    let timer = null;
+    textarea.addEventListener('input', () => {
+      status.textContent = 'Salvestan...';
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const next = readNotes();
+        next[route] = textarea.value;
+        saveNotes(next);
+        status.textContent = 'Salvestatud';
+      }, 200);
+    });
+  }
+
   window.initTopicTools = function (route) {
     if (route === 'samavaarsus') initEquivalenceTool();
-    if (route === 'predikaadid') initQuantifierModelTool();
+    if (route === 'predikaadid') {
+      initQuantifierModelTool();
+      initPredicateModelBuilder();
+    }
+    if (route === 'sekvents') initSequentHelperTool();
     if (route === 'tipuastmed') initDegreeSequenceTool();
     if (route === 'eulerhamilton') initEulerHamiltonTool();
     if (route === 'puud') initTreePropertyTool();
     initTopicExercises(route);
+    initChapterNotes(route);
   };
 })();

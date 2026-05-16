@@ -4,6 +4,7 @@
   'use strict';
 
   const GLOSSARY_LEARNED_KEY = 'dm_glossary_learned_v1';
+  const FLASH_SRS_KEY = 'dm_flashcard_srs_v1';
 
   // ============ QUIZ ============
   const QUESTIONS = [
@@ -296,39 +297,160 @@
     const view = document.getElementById('view');
     const cards = window.GLOSSARY || [];
     let idx = 0;
-    let order = pickRandom(cards.map((_, i) => i), cards.length);
+    let order = [];
+    let lastAction = '';
 
     view.innerHTML = `
       <h1>Mõistekaardid</h1>
-      <p>Juhuslikus järjekorras mõisted. Kliki kaardile, et näha definitsiooni.</p>
+      <p>Anki-stiilis kordamine: unustatud mõisted tulevad varem tagasi, kindlalt teatud mõisted liiguvad kaugemale tulevikku.</p>
+      <div class="flashcard-srs" id="flashStats"></div>
       <div id="flashContainer"></div>
     `;
 
+    function todayKey(offset = 0) {
+      const d = new Date();
+      d.setDate(d.getDate() + offset);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function loadSchedule() {
+      try { return JSON.parse(localStorage.getItem(FLASH_SRS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function saveSchedule(schedule) {
+      localStorage.setItem(FLASH_SRS_KEY, JSON.stringify(schedule));
+    }
+
+    function stateFor(schedule, card) {
+      if (!schedule[card.term]) {
+        schedule[card.term] = {
+          due: todayKey(),
+          interval: 0,
+          ease: 2.35,
+          reps: 0,
+          lapses: 0,
+        };
+      }
+      return schedule[card.term];
+    }
+
+    function buildQueue(mode = 'due') {
+      const schedule = loadSchedule();
+      const today = todayKey();
+      const indexes = cards.map((_, i) => i);
+      indexes.forEach(i => stateFor(schedule, cards[i]));
+      saveSchedule(schedule);
+      const due = indexes.filter(i => stateFor(schedule, cards[i]).due <= today);
+      order = mode === 'all' || due.length === 0
+        ? pickRandom(indexes, indexes.length)
+        : due.sort((a, b) => {
+          const sa = stateFor(schedule, cards[a]);
+          const sb = stateFor(schedule, cards[b]);
+          return sa.due.localeCompare(sb.due) || sa.reps - sb.reps || sb.lapses - sa.lapses;
+        });
+      idx = 0;
+    }
+
+    function updateStats() {
+      const schedule = loadSchedule();
+      const today = todayKey();
+      const total = cards.length;
+      const due = cards.filter(card => stateFor(schedule, card).due <= today).length;
+      const learning = cards.filter(card => stateFor(schedule, card).reps > 0).length;
+      const mature = cards.filter(card => stateFor(schedule, card).interval >= 7).length;
+      saveSchedule(schedule);
+      document.getElementById('flashStats').innerHTML = `
+        <div><strong>${due}</strong><span>täna korrata</span></div>
+        <div><strong>${learning}</strong><span>alustatud</span></div>
+        <div><strong>${mature}</strong><span>7+ päeva vahega</span></div>
+        <div><strong>${total}</strong><span>mõistet kokku</span></div>
+      `;
+    }
+
+    function gradeCurrent(grade) {
+      const card = cards[order[idx]];
+      if (!card) return;
+      const schedule = loadSchedule();
+      const state = stateFor(schedule, card);
+      if (grade === 'known') {
+        state.interval = state.reps === 0 ? 3 : Math.max(3, Math.round(state.interval * state.ease));
+        state.ease = Math.min(3.2, state.ease + 0.15);
+        state.reps += 1;
+        state.due = todayKey(state.interval);
+        lastAction = `"${card.term}" liigub ${state.interval} päeva kaugusele.`;
+      } else if (grade === 'partial') {
+        state.interval = 1;
+        state.ease = Math.max(1.35, state.ease - 0.05);
+        state.reps += 1;
+        state.due = todayKey(1);
+        lastAction = `"${card.term}" tuleb homme uuesti.`;
+      } else {
+        state.interval = 0;
+        state.ease = Math.max(1.3, state.ease - 0.2);
+        state.lapses += 1;
+        state.due = todayKey();
+        order.splice(Math.min(idx + 3, order.length), 0, order[idx]);
+        lastAction = `"${card.term}" jääb tänasesse kordamisse.`;
+      }
+      saveSchedule(schedule);
+      idx += 1;
+      if (idx >= order.length) buildQueue();
+      show();
+    }
+
     function show() {
+      updateStats();
       const card = cards[order[idx]];
       if (!card) {
-        document.getElementById('flashContainer').innerHTML = '<p>Sõnastik puudub.</p>';
+        document.getElementById('flashContainer').innerHTML = `
+          <div class="card">
+            <h3>${cards.length ? 'Tänane kordamine on valmis.' : 'Sõnastik puudub.'}</h3>
+            <p>${cards.length ? 'Kõik tänase kuupäevaga mõisted on üle vaadatud. Võid segada kõik kaardid, kui tahad veel harjutada.' : ''}</p>
+            <button class="btn small" id="studyAllCards" type="button">Harjuta kõiki kaarte</button>
+          </div>
+        `;
+        document.getElementById('studyAllCards')?.addEventListener('click', () => {
+          buildQueue('all');
+          show();
+        });
         return;
       }
+      const state = stateFor(loadSchedule(), card);
       document.getElementById('flashContainer').innerHTML = `
         <div class="flashcard" id="flashCard">
           <div class="flashcard-front">
             <div class="term">${card.term}</div>
+            <div class="flashcard-meta">Korda: ${state.due} · intervall ${state.interval} päeva · eksimusi ${state.lapses}</div>
           </div>
           <div class="flashcard-back">
             <div class="def-text">${card.def}</div>
           </div>
           <span class="flashcard-hint">Kliki, et pöörata · ${idx + 1} / ${order.length}</span>
         </div>
+        <div class="srs-buttons" aria-label="Kordamise hinnang">
+          <button class="btn small success" id="knownCard" type="button">Teadsin</button>
+          <button class="btn small secondary" id="partialCard" type="button">Poolteadsin</button>
+          <button class="btn small danger" id="missedCard" type="button">Ei teadnud</button>
+        </div>
         <div class="btn-row" style="justify-content:center;">
           <button class="btn small secondary" id="prevCard">Eelmine</button>
           <button class="btn small" id="nextCard">Järgmine</button>
-          <button class="btn small secondary" id="shuffleCards">Sega uuesti</button>
+          <button class="btn small secondary" id="shuffleCards">Sega kõiki</button>
+          <button class="btn small secondary" id="resetSrs">Lähtesta kordamine</button>
         </div>
+        ${lastAction ? `<p class="muted flashcard-action">${lastAction}</p>` : ''}
       `;
+      renderMath(document.getElementById('flashContainer'));
       document.getElementById('flashCard').addEventListener('click', e => {
         e.currentTarget.classList.toggle('flipped');
       });
+      document.getElementById('knownCard').addEventListener('click', () => gradeCurrent('known'));
+      document.getElementById('partialCard').addEventListener('click', () => gradeCurrent('partial'));
+      document.getElementById('missedCard').addEventListener('click', () => gradeCurrent('missed'));
       document.getElementById('prevCard').addEventListener('click', () => {
         idx = (idx - 1 + order.length) % order.length;
         show();
@@ -338,11 +460,19 @@
         show();
       });
       document.getElementById('shuffleCards').addEventListener('click', () => {
-        order = pickRandom(cards.map((_, i) => i), cards.length);
-        idx = 0;
+        buildQueue('all');
+        lastAction = 'Kõik kaardid on segatud.';
+        show();
+      });
+      document.getElementById('resetSrs').addEventListener('click', () => {
+        if (!confirm('Lähtesta mõistekaartide kordamise ajalugu?')) return;
+        localStorage.removeItem(FLASH_SRS_KEY);
+        lastAction = 'Kordamise ajalugu lähtestatud.';
+        buildQueue();
         show();
       });
     }
+    buildQueue();
     show();
   };
 

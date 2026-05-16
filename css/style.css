@@ -85,6 +85,15 @@ body {
   font-size: 11px;
   color: var(--fg-3);
 }
+.streak {
+  background: rgba(92,184,255,0.09);
+  border: 1px solid rgba(92,184,255,0.22);
+  border-radius: 6px;
+  color: var(--fg-2);
+  font-size: 12px;
+  margin-top: 10px;
+  padding: 6px 8px;
+}
 
 .nav-group { margin-bottom: 16px; }
 .nav-group h3 {
@@ -532,6 +541,47 @@ input:focus, textarea:focus, select:focus {
 .flashcard .term { font-size: 24px; color: var(--accent); }
 .flashcard .def-text { font-size: 16px; }
 .flashcard-hint { position: absolute; bottom: 10px; right: 14px; font-size: 11px; color: var(--fg-3); }
+.flashcard-meta {
+  color: var(--fg-3);
+  font-size: 12px;
+  line-height: 1.4;
+  margin-top: 10px;
+  overflow-wrap: anywhere;
+}
+.flashcard-srs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+.flashcard-srs div {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.flashcard-srs strong,
+.flashcard-srs span {
+  display: block;
+}
+.flashcard-srs strong {
+  color: var(--accent);
+  font-size: 22px;
+}
+.flashcard-srs span {
+  color: var(--fg-3);
+  font-size: 12px;
+}
+.srs-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: -4px 0 12px;
+}
+.flashcard-action {
+  text-align: center;
+}
 
 /* ===== Glossary learning state ===== */
 .glossary-controls {
@@ -966,6 +1016,204 @@ input:focus, textarea:focus, select:focus {
   grid-template-columns: repeat(3, minmax(64px, 1fr));
   gap: 6px;
 }
+.model-relation-grid {
+  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+}
+.hh-visual,
+.sequent-goal {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 12px 0;
+  padding: 12px;
+}
+.hh-visual-head,
+.chapter-notes-head {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.hh-visual-head span,
+.sequent-goal small,
+.chapter-notes-head p {
+  color: var(--fg-3);
+}
+.hh-bars {
+  display: grid;
+  gap: 7px;
+}
+.hh-bar-row {
+  align-items: center;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 34px 1fr 32px;
+}
+.hh-bar-track {
+  background: var(--bg-3);
+  border-radius: 999px;
+  height: 10px;
+  overflow: hidden;
+}
+.hh-bar {
+  background: linear-gradient(90deg, var(--accent), var(--good));
+  height: 100%;
+}
+.topic-steps li.active {
+  color: var(--accent);
+  font-weight: 700;
+}
+.topic-steps li.complete {
+  color: var(--good);
+}
+.sequent-goal strong,
+.sequent-goal span,
+.sequent-goal small {
+  display: block;
+}
+.sequent-feedback {
+  background: rgba(251,191,36,0.08);
+  border: 1px solid rgba(251,191,36,0.28);
+  border-radius: 8px;
+  color: var(--fg-2);
+  padding: 10px 12px;
+}
+.sequent-feedback.done {
+  background: rgba(74,222,128,0.08);
+  border-color: rgba(74,222,128,0.28);
+}
+.sequent-steps small {
+  color: var(--fg-3);
+  display: block;
+  margin-top: 2px;
+}
+.chapter-notes {
+  border-color: rgba(251,191,36,0.25);
+  margin-top: 24px;
+}
+.chapter-notes-head h2 {
+  border-bottom: 0;
+  margin: 0;
+  padding-bottom: 0;
+}
+.chapter-notes textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+.notes-status {
+  background: rgba(74,222,128,0.1);
+  border: 1px solid rgba(74,222,128,0.24);
+  border-radius: 999px;
+  color: var(--good);
+  font-size: 12px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+
+/* ===== Search, cheat-sheet, normal forms ===== */
+.search-panel,
+.normal-form-panel {
+  display: grid;
+  gap: 12px;
+}
+.search-hit {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 10px 0;
+  padding: 12px 14px;
+}
+.search-hit-head {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+.search-hit-head a {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+.search-hit mark {
+  background: rgba(251,191,36,0.25);
+  color: var(--fg);
+  padding: 0 2px;
+}
+.cheat-toolbar {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  margin: 12px 0;
+}
+.cheat-sheet {
+  display: grid;
+  gap: 16px;
+}
+.cheat-group h2 {
+  margin-top: 6px;
+}
+.cheat-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.cheat-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+.cheat-card h3 {
+  margin-top: 0;
+}
+.cheat-card ul {
+  margin-bottom: 0;
+  padding-left: 20px;
+}
+.normal-form-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.7fr);
+}
+.symbol-row,
+.symbol-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.symbol-row button,
+.symbol-bar button {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--fg);
+  cursor: pointer;
+  min-width: 36px;
+  padding: 6px 9px;
+}
+.formula-output {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 10px 0;
+  padding: 12px;
+}
+.formula-output strong,
+.formula-output code {
+  display: block;
+}
+.formula-output code {
+  color: var(--accent);
+  margin-top: 4px;
+  white-space: normal;
+  word-break: break-word;
+}
+.form-error {
+  color: var(--bad);
+  font-weight: 700;
+}
 
 /* ===== Comparison table ===== */
 .compare {
@@ -1261,8 +1509,16 @@ input:focus, textarea:focus, select:focus {
   .grade-summary-grid,
   .grade-field-grid,
   .grade-target-row,
-  .grade-status-list {
+  .grade-status-list,
+  .flashcard-srs,
+  .normal-form-grid {
     grid-template-columns: 1fr;
+  }
+  .search-hit-head,
+  .cheat-toolbar,
+  .chapter-notes-head {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 
@@ -1270,4 +1526,15 @@ input:focus, textarea:focus, select:focus {
 @media print {
   .sidebar, .menu-toggle { display: none; }
   .main { padding: 0; max-width: 100%; }
+  .no-print, .cheat-toolbar { display: none !important; }
+  body { background: #fff; color: #111; }
+  .card,
+  .cheat-card {
+    background: #fff;
+    border-color: #ccc;
+    box-shadow: none;
+  }
+  .cheat-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }

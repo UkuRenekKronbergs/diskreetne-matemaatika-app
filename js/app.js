@@ -70,9 +70,13 @@
     if (route === 'hinnekalkulaator') window.initGradeCalculator && window.initGradeCalculator();
     if (route === 'toesuspuu') window.initTruthTree && window.initTruthTree();
     if (route === 'harjutustoo') window.initExamPractice && window.initExamPractice();
+    if (route === 'otsing') window.initStudySearch && window.initStudySearch();
+    if (route === 'spikker') window.initCheatSheet && window.initCheatSheet();
+    if (route === 'normaalkujud') window.initNormalForms && window.initNormalForms();
     window.initTopicTools && window.initTopicTools(route);
 
     markVisited(route);
+    window.initStreak && window.initStreak();
 
     // Scroll to top + close sidebar on mobile
     window.scrollTo(0, 0);
@@ -98,11 +102,13 @@
     document.getElementById('resetProgress')?.addEventListener('click', () => {
       if (confirm('Lähtesta edenemine? Kõik märkmed kaovad.')) {
         localStorage.removeItem(VISITED_KEY);
+        localStorage.removeItem('dm_chapter_notes_v1');
         updateProgress();
       }
     });
 
     updateProgress();
+    window.initStreak && window.initStreak();
     navigate();
   });
 

@@ -16,6 +16,16 @@ avaleht: `
     <h3>Hinde kalkulaator</h3>
     <p>Sisesta TBL, kontrolltööde ja lisapunktide seis ning vaata, mis miinimum on veel vaja.</p>
   </a>
+  <a href="#otsing" class="dash-card">
+    <span class="icon">⌕</span>
+    <h3>Konspekti otsing</h3>
+    <p>Leia mõiste või teoreem kõigist PDF-idest koos lehekülje ja kontekstiga.</p>
+  </a>
+  <a href="#spikker" class="dash-card">
+    <span class="icon">1p</span>
+    <h3>Cheat-sheet</h3>
+    <p>Kõigi peatükkide kompaktsed definitsioonid ja valemid printimiseks.</p>
+  </a>
   <a href="#lausearvutus" class="dash-card">
     <span class="icon">∧</span>
     <h3>Lausearvutus</h3>
@@ -124,39 +134,16 @@ kursus: `
   <li>Lühima tee leidmise ülesanne (Floyd–Warshall, Dijkstra)</li>
 </ul>
 
-<h2>Materjalid</h2>
-<div class="pdf-list">
-  <a href="materjalid/DMI_konspekt_2026_28.01.pdf" target="_blank">
-    📘 Loengukonspekt (Valdis Laan, täiendanud Kati Ain, 28.01.2026)
-    <div class="meta">125 lehekülge — kogu teooria</div>
-  </a>
-  <a href="materjalid/DM_1_ülesannete_kogu_2026K.pdf" target="_blank">
-    📋 Praktikumiülesannete kogu (kevad 2026)
-    <div class="meta">47 lehekülge, 20 peatükki</div>
-  </a>
-  <a href="materjalid/Kontrolltoo_1_07.04.2026_Variant_A.pdf" target="_blank">
-    📝 Kontrolltöö 1 (07.04.2026), Variant A
-  </a>
-  <a href="materjalid/Kontrolltoo_1_Variant_D.pdf" target="_blank">
-    📝 Kontrolltöö 1, Variant D
-  </a>
-  <a href="materjalid/Kontrolltoo_1_Variant_E.pdf" target="_blank">
-    📝 Kontrolltöö 1, Variant E
-  </a>
-  <a href="materjalid/Kontrolltoo_1_Variant_F.pdf" target="_blank">
-    📝 Kontrolltöö 1, Variant F
-  </a>
-  <a href="materjalid/Kontrolltoo_1_jareltoo_21.04.2026_Variant_C.pdf" target="_blank">
-    📝 Järeltöö (21.04.2026), Variant C
-  </a>
-  <a href="materjalid/Kontrolltoo_1_lahendused.pdf" target="_blank">
-    ✅ Kontrolltöö 1 lahendused
-  </a>
-</div>
 `,
 
 /* ============= HINDE KALKULAATOR ============= */
 hinnekalkulaator: `<h1>Hinde kalkulaator</h1><p>Laadimine...</p>`,
+
+/* ============= KONSPEKTI OTSING ============= */
+otsing: `<h1>Konspekti otsing</h1><p>Laadimine...</p>`,
+
+/* ============= CHEAT-SHEET ============= */
+spikker: `<h1>Cheat-sheet</h1><p>Laadimine...</p>`,
 
 /* ============= LAUSEARVUTUS ============= */
 lausearvutus: `
@@ -271,6 +258,9 @@ truthtable: `
 
 <div id="ttResult"></div>
 `,
+
+/* ============= DNK / KNK ============= */
+normaalkujud: `<h1>DNK/KNK generaator</h1><p>Laadimine...</p>`,
 
 /* ============= TÕESUSPUU ============= */
 toesuspuu: `
@@ -420,6 +410,8 @@ predikaadid: `
 </div>
 
 <div class="card topic-tool" id="quantifierModelTool"></div>
+
+<div class="card topic-tool" id="predicateModelBuilder"></div>
 
 <h2>Predikaatarvutuse süntaks</h2>
 <div class="def">
