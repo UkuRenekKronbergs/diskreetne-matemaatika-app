@@ -4,6 +4,7 @@
   'use strict';
 
   const VISITED_KEY = 'dm_visited_v1';
+  const TOPIC_CHECK_KEY = 'dm_topic_checks_v1';
   const ROUTES = Object.keys(window.CONTENT);
 
   // ---------- Progress tracking ----------
@@ -11,22 +12,46 @@
     try { return new Set(JSON.parse(localStorage.getItem(VISITED_KEY)) || []); }
     catch { return new Set(); }
   }
+
+  function getTopicChecks() {
+    try { return JSON.parse(localStorage.getItem(TOPIC_CHECK_KEY)) || {}; }
+    catch { return {}; }
+  }
+
+  function getMiniCheckRoutes() {
+    return Array.isArray(window.DM_MINI_CHECK_ROUTES) ? window.DM_MINI_CHECK_ROUTES : [];
+  }
+
+  function isTopicCheckCompleted(result) {
+    return Boolean(result?.total)
+      && Array.isArray(result.answers)
+      && result.answers.length >= result.total
+      && result.answers.every(answer => answer !== null && answer !== undefined);
+  }
+
+  function isRouteCompleted(route) {
+    if (getMiniCheckRoutes().includes(route)) {
+      return isTopicCheckCompleted(getTopicChecks()[route]);
+    }
+    return getVisited().has(route);
+  }
+
   function markVisited(route) {
     const v = getVisited(); v.add(route);
     localStorage.setItem(VISITED_KEY, JSON.stringify([...v]));
     updateProgress();
   }
   function updateProgress() {
-    const v = getVisited();
+    const completed = ROUTES.filter(isRouteCompleted);
     const total = ROUTES.length;
-    const pct = Math.round((v.size / total) * 100);
+    const pct = Math.round((completed.length / total) * 100);
     const fill = document.getElementById('progressFill');
     const text = document.getElementById('progressText');
     if (fill) fill.style.width = pct + '%';
-    if (text) text.textContent = `${v.size}/${total} läbitud (${pct}%)`;
+    if (text) text.textContent = `${completed.length}/${total} läbitud (${pct}%)`;
     document.querySelectorAll('.nav-group a').forEach(a => {
       const r = a.dataset.route;
-      a.classList.toggle('done', v.has(r));
+      a.classList.toggle('done', isRouteCompleted(r));
     });
   }
 
@@ -70,8 +95,10 @@
     if (route === 'hinnekalkulaator') window.initGradeCalculator && window.initGradeCalculator();
     if (route === 'toesuspuu') window.initTruthTree && window.initTruthTree();
     if (route === 'harjutustoo') window.initExamPractice && window.initExamPractice();
+    if (route === 'oppimine') window.initStudyDashboard && window.initStudyDashboard();
     if (route === 'otsing') window.initStudySearch && window.initStudySearch();
     if (route === 'spikker') window.initCheatSheet && window.initCheatSheet();
+    if (route === 'vead') window.initWeaknessJournal && window.initWeaknessJournal();
     if (route === 'normaalkujud') window.initNormalForms && window.initNormalForms();
     window.initTopicTools && window.initTopicTools(route);
 
@@ -103,6 +130,7 @@
       if (confirm('Lähtesta edenemine? Kõik märkmed kaovad.')) {
         localStorage.removeItem(VISITED_KEY);
         localStorage.removeItem('dm_chapter_notes_v1');
+        localStorage.removeItem('dm_topic_checks_v1');
         updateProgress();
       }
     });
@@ -113,5 +141,5 @@
   });
 
   // Expose helpers
-  window.DM = { markVisited, updateProgress, render };
+  window.DM = { markVisited, updateProgress, render, isRouteCompleted };
 })();

@@ -4,6 +4,7 @@
   'use strict';
 
   const CHAPTER_NOTES_KEY = 'dm_chapter_notes_v1';
+  const TOPIC_CHECK_KEY = 'dm_topic_checks_v1';
 
   function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>"']/g, ch => ({
@@ -24,6 +25,37 @@
 
   function fmtList(arr) {
     return `(${arr.join(', ')})`;
+  }
+
+  function routeLabel(route) {
+    const labels = {
+      lausearvutus: 'Lausearvutus',
+      toesuspuu: 'Tõesuspuu',
+      predikaadid: 'Predikaadid',
+      signatuur: 'Signatuur',
+      samavaarsus: 'Samaväärsus',
+      prefikskuju: 'Prefikskuju',
+      aksiomaatika: 'Aksiomaatika',
+      sekvents: 'Sekvents',
+      peano: 'Peano',
+      graafid: 'Graafid',
+      tipuastmed: 'Tipuastmed',
+      ahelad: 'Ahelad',
+      sidusus: 'Sidusus',
+      isomorfism: 'Isomorfism',
+      eulerhamilton: 'Euler ja Hamilton',
+      puud: 'Puud',
+      toespuud: 'Toespuud',
+      suunatud: 'Suunatud graafid',
+      luhimtee: 'Lühim tee',
+    };
+    return labels[route] || route;
+  }
+
+  function plainText(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent.replace(/\s+/g, ' ').trim();
   }
 
   function renderMath(el) {
@@ -962,6 +994,934 @@
     ],
   };
 
+  const GRAPH_STEP_TASKS = {
+    tipuastmed: [
+      {
+        title: 'Havel-Hakimi taandamine',
+        intro: 'Kontrolli astmejärjendit $(3,3,2,2,2,0)$. Vali igal sammul õige järgmine taandatud järjend.',
+        steps: [
+          {
+            question: 'Millest tuleb alustada?',
+            options: [
+              'Järjesta mittekasvavalt ja eemalda suurim aste $3$.',
+              'Liida kõik astmed ja jaga kohe kahega.',
+              'Eemalda kõik nullid ning kuuluta järjend graafiliseks.',
+              'Lahuta ühest kõigist kuuest astmest.',
+            ],
+            correct: 0,
+            explanation: 'Havel-Hakimi samm võtab suurima astme $d$ ja vähendab järgmist $d$ astet ühe võrra.',
+          },
+          {
+            question: 'Pärast suurima astme $3$ eemaldamist lahutame ühest kolmest järgmisest astmest. Mis järjend jääb pärast sorteerimist?',
+            options: [
+              '$(2,1,1,2,0)$',
+              '$(2,2,2,0,0)$',
+              '$(2,1,1,1,0)$',
+              '$(3,2,2,1,0)$',
+            ],
+            correct: 2,
+            explanation: 'Algjärjendist $(3,3,2,2,2,0)$ eemaldame esimese $3$ ja saame $(3,2,2,2,0)$. Lahutades esimesest kolmest: $(2,1,1,2,0)$, sorteerides $(2,1,1,1,0)$.',
+          },
+          {
+            question: 'Nüüd on järjend $(2,1,1,1,0)$. Mis on järgmine taandatud ja sorditud järjend?',
+            options: [
+              '$(1,1,1,0)$',
+              '$(0,0,1,0)$ ehk sorditult $(1,0,0,0)$',
+              '$(2,0,0,0)$',
+              '$(0,0,0)$',
+            ],
+            correct: 1,
+            explanation: 'Eemaldame $2$ ja lahutame ühest kahest järgmisest arvust: $(1,1,1,0) \\to (0,0,1,0)$, sorteerides $(1,0,0,0)$.',
+          },
+          {
+            question: 'Järjend $(1,0,0,0)$ taandub milleks?',
+            options: [
+              '$(0,0,0)$, seega algne järjend on graafiline.',
+              '$(-1,0,0)$, seega algne järjend ei ole graafiline.',
+              '$(1,1,1)$, seega algne järjend on regulaarne.',
+              'Taandamine peatub, sest järjendis on nullid.',
+            ],
+            correct: 0,
+            explanation: 'Eemaldame $1$ ja vähendame üht järgmist nullist suuremat elementi: tulemuseks on nulljärjend. Seega järjend on graafiline.',
+          },
+        ],
+      },
+    ],
+    sidusus: [
+      {
+        title: 'Silla leidmine komponendi mõttes',
+        intro: 'Olgu graafi servad $ab,bc,cd,ce,de$. Otsusta sammhaaval, kas serv $bc$ on sild.',
+        steps: [
+          {
+            question: 'Mis on algse graafi sidususkomponendid?',
+            options: [
+              '$\\{a,b,c,d,e\\}$ on üks sidususkomponent.',
+              '$\\{a,b\\}$ ja $\\{c,d,e\\}$ on kaks komponenti.',
+              'Iga tipp on eraldi komponent.',
+              '$\\{a,b,c\\}$ ja $\\{d,e\\}$ on kaks komponenti.',
+            ],
+            correct: 0,
+            explanation: 'Ahelad ühendavad kõik tipud: $a-b-c-d$ ja $c-e$, seega graaf on sidus.',
+          },
+          {
+            question: 'Eemaldame serva $bc$. Millised komponendid jäävad?',
+            options: [
+              'Graaf jääb endiselt üheks komponendiks.',
+              '$\\{a,b\\}$ ja $\\{c,d,e\\}$.',
+              '$\\{a\\}$ ja $\\{b,c,d,e\\}$.',
+              '$\\{a,b,c\\}$ ja $\\{d,e\\}$.',
+            ],
+            correct: 1,
+            explanation: 'Pärast $bc$ eemaldamist ei ole tippudel $a,b$ enam ühendust kolmnurgaga $c,d,e$.',
+          },
+          {
+            question: 'Mis järeldub serva $bc$ kohta?',
+            options: [
+              '$bc$ on sild, sest komponentide arv suurenes.',
+              '$bc$ ei ole sild, sest ta kuulub tsüklisse.',
+              '$bc$ on eraldav tipp.',
+              '$bc$ on Hamiltoni serv.',
+            ],
+            correct: 0,
+            explanation: 'Sild on serv, mille eemaldamisel sidususkomponentide arv kasvab.',
+          },
+        ],
+      },
+    ],
+    isomorfism: [
+      {
+        title: 'Mitteisomorfsuse kiire kontroll',
+        intro: 'Võrdle kahte 5-tipulist graafi: $G_1$ astmed on $(3,2,2,2,1)$ ja $G_2$ astmed $(2,2,2,2,2)$.',
+        steps: [
+          {
+            question: 'Millist invarianti on mõistlik esimesena võrrelda?',
+            options: [
+              'Tipuastmete järjendit.',
+              'Tippude värvi joonisel.',
+              'Tippude nimetuste tähestikulist järjekorda.',
+              'Kas üks graaf on ekraanil vasakul.',
+            ],
+            correct: 0,
+            explanation: 'Isomorfism säilitab tippude astmed ja seega ka astmejärjendi.',
+          },
+          {
+            question: 'Mida astmejärjendite võrdlus näitab?',
+            options: [
+              'Järjendid erinevad, seega graafid ei saa olla isomorfsed.',
+              'Järjendid erinevad, aga graafid on kindlasti isomorfsed.',
+              'Järjendid on samad.',
+              'Astmejärjend ei ütle isomorfismi kohta midagi.',
+            ],
+            correct: 0,
+            explanation: 'Erinev invariant välistab isomorfismi kohe.',
+          },
+          {
+            question: 'Milline oleks korrektne lõppvastus?',
+            options: [
+              '$G_1 \\not\\cong G_2$, sest astmejärjendid erinevad.',
+              '$G_1 \\cong G_2$, sest mõlemas on 5 tippu.',
+              '$G_1 \\cong G_2$, sest mõlemas on paarisarvulise astmega tippe.',
+              'Otsustada ei saa, sest astmeid ei tohi kasutada.',
+            ],
+            correct: 0,
+            explanation: 'Sama tipuarv on ainult tarvilik tingimus. Erinev astmejärjend on piisav põhjus mitteisomorfsuseks.',
+          },
+        ],
+      },
+    ],
+    eulerhamilton: [
+      {
+        title: 'Euleri ahel või Euleri graaf',
+        intro: 'Sidusa graafi astmed on $(4,3,3,2,2)$. Otsusta, kas leidub Euleri ahel ja kas graaf on Euleri graaf.',
+        steps: [
+          {
+            question: 'Mitu paaritu astmega tippu on?',
+            options: ['0', '1', '2', '4'],
+            correct: 2,
+            explanation: 'Paaritud on kaks astet $3$ ja $3$.',
+          },
+          {
+            question: 'Mida ütleb see lahtise Euleri ahela kohta?',
+            options: [
+              'Sidusas graafis leidub Euleri ahel, sest paarituid tippe on täpselt kaks.',
+              'Euleri ahelat ei leidu, sest kõik astmed peavad olema paaritud.',
+              'Euleri ahel leidub ainult täisgraafis.',
+              'Seda saab otsustada ainult Hamiltoni teoreemiga.',
+            ],
+            correct: 0,
+            explanation: 'Sidusas graafis leidub Euleri ahel parajasti siis, kui paaritu astmega tippe on $0$ või $2$.',
+          },
+          {
+            question: 'Kas see graaf on Euleri graaf ehk kas leidub kinnine Euleri ahel?',
+            options: [
+              'Ei, sest kinnise Euleri ahela jaoks peavad kõik astmed olema paarisarvud.',
+              'Jah, sest kaks paaritut tippu on lubatud.',
+              'Jah, sest graaf on sidus.',
+              'Ei, sest astmete summa on paaris.',
+            ],
+            correct: 0,
+            explanation: 'Kinnine Euleri ahel algab ja lõpeb samas tipus; selleks peab igasse tippu sisenemisi ja väljumisi olema paarisarv.',
+          },
+        ],
+      },
+    ],
+    puud: [
+      {
+        title: 'Puu tunnuse kasutamine',
+        intro: 'Graafil on $n=7$ tippu, $m=6$ serva ja graaf on sidus. Otsusta, kas see on puu.',
+        steps: [
+          {
+            question: 'Millist puu tunnust saab kohe kasutada?',
+            options: [
+              'Sidus graaf $n-1$ servaga on puu.',
+              'Iga $n$ tipuga graaf on puu.',
+              'Kui $m=n$, siis graaf on puu.',
+              'Ainult täisgraaf võib olla puu.',
+            ],
+            correct: 0,
+            explanation: 'Üks puu karakteriseering on: graaf on sidus ja tal on täpselt $n-1$ serva.',
+          },
+          {
+            question: 'Kas servade arv sobib?',
+            options: [
+              'Jah, sest $m=6=n-1=7-1$.',
+              'Ei, sest $m$ peaks olema $7$.',
+              'Ei, sest $m$ peaks olema $21$.',
+              'Seda ei saa arvutada.',
+            ],
+            correct: 0,
+            explanation: 'Seitsme tipuga puus peab olema $7-1=6$ serva.',
+          },
+          {
+            question: 'Mis on lõppjäreldus?',
+            options: [
+              'Graaf on puu.',
+              'Graaf ei saa olla puu.',
+              'Graaf on kindlasti tsükliga.',
+              'Graaf on Euleri graaf.',
+            ],
+            correct: 0,
+            explanation: 'Sidusus ja $n-1$ serva koos annavad puu.',
+          },
+        ],
+      },
+    ],
+    toespuud: [
+      {
+        title: 'Kruskal kontrollitava valikuna',
+        intro: 'Kaalutud graafi servad on $ab:1$, $bc:2$, $ac:3$, $cd:4$, $bd:5$. Leia Kruskali algoritmi servad.',
+        steps: [
+          {
+            question: 'Millise serva valib Kruskal esimesena?',
+            options: ['$ab:1$', '$bc:2$', '$ac:3$', '$bd:5$'],
+            correct: 0,
+            explanation: 'Kruskal alustab väikseima kaaluga servast.',
+          },
+          {
+            question: 'Milline serv lisatakse järgmisena?',
+            options: ['$bc:2$', '$ac:3$', '$cd:4$', '$bd:5$'],
+            correct: 0,
+            explanation: '$bc$ on järgmine odavaim serv ja tsüklit ei teki.',
+          },
+          {
+            question: 'Miks jäetakse serv $ac:3$ vahele?',
+            options: [
+              'See tekitaks tsükli $a-b-c-a$.',
+              'Selle kaal on negatiivne.',
+              'Kruskal ei kasuta kolmanda kaaluga servi.',
+              'Sest $a$ on juba valitud.',
+            ],
+            correct: 0,
+            explanation: 'Kruskal jätab vahele täpselt need servad, mis moodustaksid juba valitud servadega tsükli.',
+          },
+          {
+            question: 'Milline serv lõpetab toespuu?',
+            options: ['$cd:4$', '$bd:5$', '$ac:3$', 'ükski, sest toespuu on juba valmis'],
+            correct: 0,
+            explanation: 'Nelja tipu korral vajame $n-1=3$ serva. $cd$ ühendab tipu $d$ olemasoleva komponendiga.',
+          },
+        ],
+      },
+      {
+        title: 'Primi kasvav puu',
+        intro: 'Alusta tipust $a$. Kaalud: $ab:2$, $ac:5$, $bc:1$, $bd:4$, $cd:3$.',
+        steps: [
+          {
+            question: 'Millise serva lisab Prim esimesena?',
+            options: ['$ab:2$', '$ac:5$', '$bc:1$', '$cd:3$'],
+            correct: 0,
+            explanation: 'Alguses on puus ainult $a$, seega saab valida ainult $a$-st väljuvate servade vahel. Odavaim on $ab$.',
+          },
+          {
+            question: 'Puu tippude hulk on nüüd $\\{a,b\\}$. Milline lubatud serv on odavaim?',
+            options: ['$bc:1$', '$bd:4$', '$ac:5$', '$cd:3$'],
+            correct: 0,
+            explanation: 'Prim valib odavaima serva, mis ühendab olemasolevat puud välise tipuga. $bc$ lisab tipu $c$.',
+          },
+          {
+            question: 'Puu tippude hulk on $\\{a,b,c\\}$. Millise servaga lisame tipu $d$?',
+            options: ['$cd:3$', '$bd:4$', '$ac:5$', '$bc:1$ uuesti'],
+            correct: 0,
+            explanation: '$cd$ on odavaim serv puust välja tippu $d$.',
+          },
+        ],
+      },
+    ],
+    suunatud: [
+      {
+        title: 'Tugeva sidususe kontroll',
+        intro: 'Suunatud graafi kaared on $(a,b)$, $(b,c)$, $(c,a)$ ja $(c,d)$. Kontrolli tugevat sidusust.',
+        steps: [
+          {
+            question: 'Millised tipud on omavahel tsüklis?',
+            options: [
+              '$a,b,c$',
+              '$a,d$',
+              '$b,d$',
+              'ainult $d$',
+            ],
+            correct: 0,
+            explanation: 'Kaared $a\\to b$, $b\\to c$, $c\\to a$ annavad suunatud tsükli.',
+          },
+          {
+            question: 'Kas tipust $d$ leidub suunatud tee tagasi tippu $a$?',
+            options: [
+              'Ei, sest $d$-st ei välju ühtegi kaart.',
+              'Jah, tee on $d\\to c\\to a$.',
+              'Jah, sest alusgraaf on sidus.',
+              'Seda ei pea tugeva sidususe jaoks kontrollima.',
+            ],
+            correct: 0,
+            explanation: 'Tugev sidusus nõuab suunatud teid mõlemas suunas iga tipupaari vahel.',
+          },
+          {
+            question: 'Mis on lõppjäreldus?',
+            options: [
+              'Graaf ei ole tugevalt sidus.',
+              'Graaf on tugevalt sidus.',
+              'Graaf on Euleri graaf.',
+              'Graaf on nullgraaf.',
+            ],
+            correct: 0,
+            explanation: 'Tippu $d$ saab jõuda, kuid sealt ei saa tagasi teistesse tippudesse.',
+          },
+        ],
+      },
+    ],
+    luhimtee: [
+      {
+        title: 'Dijkstra lõdvendused',
+        intro: 'Algustipp on $s$. Kaalud: $sa:2$, $sb:5$, $ab:1$, $ac:4$, $bc:1$. Leia kaugus tippu $c$.',
+        steps: [
+          {
+            question: 'Mis on algsed kaugused pärast $s$ naabrite vaatamist?',
+            options: [
+              '$d(a)=2$, $d(b)=5$, $d(c)=\\infty$',
+              '$d(a)=\\infty$, $d(b)=\\infty$, $d(c)=0$',
+              '$d(a)=1$, $d(b)=2$, $d(c)=5$',
+              '$d(a)=2$, $d(b)=1$, $d(c)=4$',
+            ],
+            correct: 0,
+            explanation: 'Otse $s$-st saame tippu $a$ kaaluga 2 ja tippu $b$ kaaluga 5; $c$ pole veel teada.',
+          },
+          {
+            question: 'Milline tipp fikseeritakse järgmisena?',
+            options: ['$a$', '$b$', '$c$', '$s$ uuesti'],
+            correct: 0,
+            explanation: 'Valitakse vähima ajutise kaugusega fikseerimata tipp, seega $a$ kaugusega 2.',
+          },
+          {
+            question: 'Mida annab tipu $a$ kaudu lõdvendamine?',
+            options: [
+              '$d(b)$ paraneb väärtusele $3$ ja $d(c)$ väärtusele $6$.',
+              '$d(b)$ jääb $5$ ja $d(c)$ jääb $\\infty$.',
+              '$d(a)$ muutub väärtuseks $0$.',
+              '$d(c)$ muutub väärtuseks $1$.',
+            ],
+            correct: 0,
+            explanation: '$s-a-b$ pikkus on $2+1=3$ ja $s-a-c$ pikkus on $2+4=6$.',
+          },
+          {
+            question: 'Järgmisena fikseeritakse $b$. Mis saab tipust $c$?',
+            options: [
+              '$d(c)$ paraneb väärtusele $4$.',
+              '$d(c)$ jääb väärtusele $6$.',
+              '$d(c)$ muutub lõpmatuseks.',
+              '$c$ eemaldatakse graafist.',
+            ],
+            correct: 0,
+            explanation: 'Tee $s-a-b-c$ pikkus on $2+1+1=4$, mis on parem kui senine $6$.',
+          },
+        ],
+      },
+      {
+        title: 'Floydi-Warshalli üks vahepeatus',
+        intro: 'Olgu $D(a,c)=8$, $D(a,b)=3$ ja $D(b,c)=2$. Kontrolli sammu, kus lubatud vahetipp on $b$.',
+        steps: [
+          {
+            question: 'Millist võrdlust Floydi-Warshall teeb?',
+            options: [
+              '$D(a,c) \\leftarrow \\min(D(a,c), D(a,b)+D(b,c))$',
+              '$D(a,c) \\leftarrow D(a,c)+D(a,b)+D(b,c)$',
+              '$D(a,b) \\leftarrow D(a,c)-D(b,c)$',
+              'Floydi-Warshall ei kasuta vahetippe.',
+            ],
+            correct: 0,
+            explanation: 'Igal sammul võrreldakse vana kaugust teega, mis läheb läbi lubatud vahetipu.',
+          },
+          {
+            question: 'Mis on uus $D(a,c)$ väärtus?',
+            options: ['5', '8', '10', '13'],
+            correct: 0,
+            explanation: '$D(a,b)+D(b,c)=3+2=5$, mis on väiksem kui vana väärtus $8$.',
+          },
+          {
+            question: 'Kuidas seda sõnaliselt tõlgendada?',
+            options: [
+              'Tee $a\\to b\\to c$ on lühem kui senine otsetee $a\\to c$.',
+              'Otsetee $a\\to c$ on endiselt parem.',
+              'Vahetipu kasutamine on keelatud.',
+              'Kõik kaugused muutuvad nulliks.',
+            ],
+            correct: 0,
+            explanation: 'Floydi-Warshall parandab kaugusmaatriksit, kui vahetipuga tee on lühem.',
+          },
+        ],
+      },
+    ],
+  };
+
+  const TOPIC_MINI_CHECKS = {
+    lausearvutus: [
+      {
+        q: 'Millal on implikatsioon $F\\Rightarrow G$ väär?',
+        options: ['$F=1, G=0$', '$F=0, G=0$', '$F=0, G=1$', 'ainult siis, kui mõlemad on väärad'],
+        correct: 0,
+        exp: 'Implikatsioon on väär täpselt juhul, kui eeldus on tõene ja järeldus väär.',
+      },
+      {
+        q: 'Mida tähendab, et valem on samaselt tõene?',
+        options: ['Valem on tõene vähemalt ühel väärtustusel', 'Valem on tõene igal väärtustusel', 'Valem ei sisalda muutujaid', 'Valemi eitus on kehtestatav'],
+        correct: 1,
+        exp: 'Samaselt tõene ehk tautoloogiline valem on tõene kõikidel muutujate väärtustustel.',
+      },
+      {
+        q: 'Mitu väärtustust on valemil, milles esineb kolm lausemuutujat?',
+        options: ['3', '6', '8', '9'],
+        correct: 2,
+        exp: 'Kui muutujaid on $n$, siis väärtustusi on $2^n$. Kolme muutuja korral $2^3=8$.',
+      },
+    ],
+    toesuspuu: [
+      {
+        q: 'Mida näitab tõesuspuu avatud haru?',
+        options: ['Vastuolu', 'Valemi või valemihulga kehtestavat väärtustust', 'Ainult tautoloogiat', 'Sekventsi tuletust'],
+        correct: 1,
+        exp: 'Avatud haru annab väärtustuse, millel haru valemid saavad korraga tõesed olla.',
+      },
+      {
+        q: 'Kuidas kontrollida tõesuspuuga, kas $F$ on samaselt tõene?',
+        options: ['Ehita puu valemile $F$ ja otsi avatud haru', 'Ehita puu valemile $\\neg F$ ja kontrolli, kas kõik harud sulguvad', 'Ehita puu ainult atomaarsetele valemitele', 'Kontrolli ainult ühte väärtustust'],
+        correct: 1,
+        exp: '$F$ on tautoloogia siis, kui $\\neg F$ ei ole kehtestatav ehk tõesuspuu kõik harud sulguvad.',
+      },
+      {
+        q: 'Millal haru sulgub?',
+        options: ['Kui harus on ainult literaalid', 'Kui harus esineb valem ja tema eitus', 'Kui harus on disjunktsioon', 'Kui harus on rohkem kui kolm valemit'],
+        correct: 1,
+        exp: 'Haru sulgub vastuolu tõttu: samal harus on korraga $A$ ja $\\neg A$.',
+      },
+    ],
+    predikaadid: [
+      {
+        q: 'Milline samaväärsus on korrektne?',
+        options: ['$\\neg\\forall xF \\equiv \\forall x\\neg F$', '$\\neg\\forall xF \\equiv \\exists x\\neg F$', '$\\forall xF \\equiv \\exists xF$', '$\\neg\\exists xF \\equiv \\exists x\\neg F$'],
+        correct: 1,
+        exp: 'Kvantori eitamisel vahetub $\\forall$ kvantoriks $\\exists$ ning eitus liigub valemi sisse.',
+      },
+      {
+        q: 'Mida tähendab kinnine predikaatarvutuse valem?',
+        options: ['Valemil ei ole vabu muutujaid', 'Valem on samaselt tõene', 'Valem sisaldab ainult ühte kvantorit', 'Valem on alati väär'],
+        correct: 0,
+        exp: 'Kinnine valem ehk lause ei sõltu vabade muutujate väärtustest.',
+      },
+      {
+        q: 'Miks ei saa kvantoreid üldiselt vabalt vahetada?',
+        options: ['$\\forall x\\exists y$ lubab y-l sõltuda x-ist', 'Kvantorid ei mõjuta tõeväärtust', '$\\exists$ ja $\\forall$ on samad', 'Sest predikaate ei tohi eitada'],
+        correct: 0,
+        exp: '$\\forall x\\exists y$ korral võib iga $x$ jaoks sobida erinev $y$; $\\exists y\\forall x$ nõuab ühte sama $y$ kõigile.',
+      },
+    ],
+    signatuur: [
+      {
+        q: 'Mis kuulub signatuuri $\\sigma=\\langle C;F;P\\rangle$?',
+        options: ['Konstandid, funktsionaalsümbolid ja predikaatsümbolid', 'Ainult tõeväärtused', 'Ainult muutujad', 'Ainult kvantorid'],
+        correct: 0,
+        exp: 'Signatuur fikseerib keeletähised: konstandid, funktsioonisümbolid ja predikaatsümbolid.',
+      },
+      {
+        q: 'Mida teeb interpretatsioon funktsionaalsümboliga?',
+        options: ['Muudab selle predikaadiks', 'Annab sellele vastava funktsiooni põhihulgal', 'Eemaldab selle valemist', 'Muudab selle kvantoriks'],
+        correct: 1,
+        exp: 'Interpretatsioon annab igale $n$-kohalisele funktsionaalsümbolile $n$-kohalise funktsiooni kandjal.',
+      },
+      {
+        q: 'Mis on valemi mudel?',
+        options: ['Tabel kõigi väärtustustega', 'Interpretatsioon, milles valem on tõene', 'Ainult põhihulk', 'Valemi prefikskuju'],
+        correct: 1,
+        exp: 'Mudel on interpretatsioon, kus valem kehtib vastavalt vabade muutujate väärtustele.',
+      },
+    ],
+    samavaarsus: [
+      {
+        q: 'Milline on De Morgani seadus?',
+        options: ['$\\neg(F\\&G)\\equiv\\neg F\\lor\\neg G$', '$\\neg(F\\&G)\\equiv F\\lor G$', '$F\\Rightarrow G\\equiv F\\&G$', '$F\\lor(F\\&G)\\equiv G$'],
+        correct: 0,
+        exp: 'Konjunktsiooni eitus muutub eituste disjunktsiooniks.',
+      },
+      {
+        q: 'Kuidas saada täielik DNK tõeväärtustabelist?',
+        options: ['Võta väärad read', 'Võta tõesed read ja tee neist täielikud lihtkonjunktsioonid', 'Kustuta kõik eitused', 'Võta ainult esimene rida'],
+        correct: 1,
+        exp: 'Täielik DNK koostatakse nendest ridadest, kus valem on tõene.',
+      },
+      {
+        q: 'Millal on valemid $F$ ja $G$ samaväärsed?',
+        options: ['Kui neil on sama pikkus', 'Kui nende tõeväärtused langevad kõigil väärtustustel kokku', 'Kui mõlemas on sama arv sulge', 'Kui mõlemad sisaldavad implikatsiooni'],
+        correct: 1,
+        exp: 'Samaväärsus tähendab sama tõeväärtust igal muutujate väärtustusel.',
+      },
+    ],
+    prefikskuju: [
+      {
+        q: 'Mis on prefikskujul valemi üldine kuju?',
+        options: ['$M Q_1x_1\\cdots Q_nx_n$', '$Q_1x_1\\cdots Q_nx_nM$', '$F\\vdash G$', '$F\\Leftrightarrow G$'],
+        correct: 1,
+        exp: 'Prefikskujul on kõik kvantorid ees ja kvantoriteta maatriks järel.',
+      },
+      {
+        q: 'Mida tuleb enne kvantorite ette toomist tavaliselt teha?',
+        options: ['Eemaldada kõik muutujad', 'Eemaldada implikatsioonid ja viia eitused atomaarsete valemiteni', 'Asendada kõik kvantorid disjunktsiooniga', 'Kirjutada valem alati DNK-sse'],
+        correct: 1,
+        exp: 'Prefikskujule viimiseks puhastatakse loogilised tehted ja eitused enne kvantorite liigutamist.',
+      },
+      {
+        q: 'Miks muutujaid vahel ümber nimetatakse?',
+        options: ['Et vältida muutujate sidumise konflikte', 'Et valem muutuks alati vääraks', 'Et kvantorid kaoksid', 'Et saada lühem tekst'],
+        correct: 0,
+        exp: 'Ümbernimetamine aitab vältida olukorda, kus kvantori ette toomine seob vale muutuja.',
+      },
+    ],
+    aksiomaatika: [
+      {
+        q: 'Mida tähendab teooria korrektsus?',
+        options: ['Kõik tõesed valemid on tuletatavad', 'Iga tuletatav valem on semantiliselt tõene', 'Kõik valemid on aksioomid', 'Ühtegi valemit ei saa tuletada'],
+        correct: 1,
+        exp: 'Korrektsus liigub süntaksist semantikasse: tuletatavus tagab tõesuse.',
+      },
+      {
+        q: 'Mida tähendab täielikkus?',
+        options: ['Iga semantiliselt tõene valem on tuletatav', 'Iga valem on väär', 'Iga aksioom on prefikskujul', 'Ükski reegel ei säilita tõesust'],
+        correct: 0,
+        exp: 'Täielikkus on korrektsuse vastassuund: semantiline kehtivus annab tuletatavuse.',
+      },
+      {
+        q: 'Mis on formaalne tuletus?',
+        options: ['Valemite järjend, kus iga valem on aksioom või saadud reegliga eelnevatest', 'Ainult tõeväärtustabel', 'Graafi ahel', 'Suvaline seletus sõnadega'],
+        correct: 0,
+        exp: 'Tuletus on reeglitega kontrollitav valemite järjend.',
+      },
+    ],
+    sekvents: [
+      {
+        q: 'Mis on sekventsi $F_1,\\ldots,F_n\\vdash G$ valemkuju?',
+        options: ['$F_1\\lor\\cdots\\lor F_n\\lor G$', '$F_1\\&\\cdots\\&F_n\\Rightarrow G$', '$G\\Rightarrow F_1$', '$\\neg G$'],
+        correct: 1,
+        exp: 'Sekventsi valemkuju on eesliikmete konjunktsioonist tagaliikmesse minev implikatsioon.',
+      },
+      {
+        q: 'Milleks kasutatakse reeglit $\\vdash\\&$?',
+        options: ['Paremal konjunktsiooni tõestamiseks', 'Vasakul konjunktsiooni eemaldamiseks', 'Implikatsiooni eitamiseks', 'Kvantori eemaldamiseks'],
+        correct: 0,
+        exp: 'Paremal $F\\&G$ tõestamiseks tuleb tõestada mõlemad pooled.',
+      },
+      {
+        q: 'Millal saab haru sulgeda aksioomina?',
+        options: ['Kui sama valem on vasakul ja paremal', 'Kui paremal on alati konjunktsioon', 'Kui vasakul on kolm valemit', 'Kui sekvents sisaldab kvantorit'],
+        correct: 0,
+        exp: 'Aksioomse haru tüüpiline kuju on $F\\vdash F$ või selle nõrgestatud variant.',
+      },
+    ],
+    peano: [
+      {
+        q: 'Mis on Peano aritmeetika signatuur kursuses?',
+        options: ['$\\langle0;\\prime,+,\\cdot;=\\rangle$', '$\\langle;\\lor,\\&;=\\rangle$', '$\\langle V;E\\rangle$', '$\\langle0;R;P\\rangle$'],
+        correct: 0,
+        exp: 'Peano aritmeetikas kasutatakse nulli, järglase operatsiooni, liitmist, korrutamist ja võrdust.',
+      },
+      {
+        q: 'Mida ütleb induktsiooni idee?',
+        options: ['Kui väide kehtib $0$ korral ja kandub $x$-ilt $x\\prime$-le, siis kehtib kõigi naturaalarvude korral', 'Kõik arvud on võrdsed', 'Iga valem on väär', 'Korrutamine on keelatud'],
+        correct: 0,
+        exp: 'Induktsioon koosneb baasist ja sammust ning annab väite kõigi naturaalarvude jaoks.',
+      },
+      {
+        q: 'Milline on liitmise rekursiooni põhireegel?',
+        options: ['$x+0=x$', '$x+0=0$', '$x+y=x$', '$x\\cdot0=x$'],
+        correct: 0,
+        exp: 'Liitmise baasreegel on $x+0=x$; järglasega liitmine defineeritakse eraldi.',
+      },
+    ],
+    graafid: [
+      {
+        q: 'Mis on lihtgraafi serv?',
+        options: ['Tipuhulga kaheelemendiline alamhulk', 'Suvaline arv', 'Ühe tipu järglane', 'Predikaat'],
+        correct: 0,
+        exp: 'Suunamata lihtgraafi serv ühendab kahte erinevat tippu.',
+      },
+      {
+        q: 'Mida ütleb tipuastmete teoreem?',
+        options: ['$\\sum d(v)=2|E|$', '$\\sum d(v)=|V|$', '$|E|=|V|$', '$d(v)=0$ igal tipul'],
+        correct: 0,
+        exp: 'Iga serv panustab astmete summasse kahega.',
+      },
+      {
+        q: 'Mitu serva on täisgraafil $K_n$?',
+        options: ['$n$', '$n-1$', '$\\frac{n(n-1)}2$', '$2n$'],
+        correct: 2,
+        exp: 'Täisgraafis on iga kahe tipu vahel serv, seega servade arv on $\\binom n2$.',
+      },
+    ],
+    tipuastmed: [
+      {
+        q: 'Milline tingimus peab lihtgraafi astmejärjendil kindlasti kehtima?',
+        options: ['Astmete summa on paaris', 'Kõik astmed on paaritud', 'Kõik astmed on võrdsed', 'Astmete summa on $|V|$'],
+        correct: 0,
+        exp: 'Astmete summa on $2|E|$, seega alati paarisarv.',
+      },
+      {
+        q: 'Mida teeb Havel-Hakimi algoritm ühes sammus?',
+        options: ['Eemaldab suurima astme ja vähendab järgmist sama arvu astmeid ühe võrra', 'Liidab kõik astmed kokku', 'Asendab kõik astmed nulliga', 'Kontrollib ainult paarsust'],
+        correct: 0,
+        exp: 'See samm modelleerib suurima astmega tipu ühendamist järgmiste tippudega.',
+      },
+      {
+        q: 'Miks ei saa lihtgraafis aste olla vähemalt $n$?',
+        options: ['Tipul saab olla ühendus maksimaalselt ülejäänud $n-1$ tipuga', 'Sest astmed peavad olema negatiivsed', 'Sest graaf peab olema puu', 'Sest silmused on kohustuslikud'],
+        correct: 0,
+        exp: 'Lihtgraafis ei ole silmuseid ega kordusservi, seega tipp saab olla ühendatud kuni $n-1$ teise tipuga.',
+      },
+    ],
+    ahelad: [
+      {
+        q: 'Mis on ahela pikkus?',
+        options: ['Tippude arv', 'Servade arv ahelas', 'Graafi kõikide servade arv', 'Sidususkomponentide arv'],
+        correct: 1,
+        exp: 'Ahela pikkuseks loetakse järjestikuste sammude ehk servade arvu.',
+      },
+      {
+        q: 'Mis eristab tsüklit kinnisest ahelast?',
+        options: ['Tsüklis ei kordu vahepealsed tipud ja servi on vähemalt kolm', 'Tsüklis ei ole servi', 'Tsükkel on alati suunatud', 'Tsükkel peab läbima kõik tipud'],
+        correct: 0,
+        exp: 'Tsükkel on kinnine ahel, mis ei läbi ühtegi vahepealset tippu kaks korda.',
+      },
+      {
+        q: 'Mis on Hamiltoni ahel?',
+        options: ['Ahel, mis läbib iga serva täpselt korra', 'Ahel, mis läbib iga tipu täpselt korra', 'Lühim tee kahe tipu vahel', 'Nullgraafi ahel'],
+        correct: 1,
+        exp: 'Hamiltoni ahel on tippude, mitte servade, ühekordse läbimise tingimus.',
+      },
+    ],
+    sidusus: [
+      {
+        q: 'Millal on graaf sidus?',
+        options: ['Iga kahe tipu vahel leidub ahel', 'Kõik astmed on nullid', 'Graafis pole tsükleid', 'Graaf on alati täisgraaf'],
+        correct: 0,
+        exp: 'Sidusus tähendab, et ühestkõik millise kahe tipu vahel on võimalik liikuda ahelat mööda.',
+      },
+      {
+        q: 'Mis on sild?',
+        options: ['Serv, mille eemaldamisel sidususkomponentide arv kasvab', 'Isoleeritud tipp', 'Kõige suurema astmega tipp', 'Hamiltoni tsükkel'],
+        correct: 0,
+        exp: 'Silla eemaldamine lõhub graafi rohkemateks komponentideks.',
+      },
+      {
+        q: 'Mis on eraldav tipp?',
+        options: ['Tipp, mille eemaldamisel sidususkomponentide arv kasvab', 'Tipp astmega 0 ainult', 'Iga puu leht', 'Tipp, mis kuulub täisgraafi'],
+        correct: 0,
+        exp: 'Eraldav tipp on tipu analoog sillale.',
+      },
+    ],
+    isomorfism: [
+      {
+        q: 'Mida graafide isomorfism säilitab?',
+        options: ['Tipuarvu, servaarvu ja astmeid', 'Ainult joonise välimust', 'Ainult tippude nimesid', 'Ainult värvi'],
+        correct: 0,
+        exp: 'Isomorfism nimetab tipud ümber, kuid säilitab struktuursed omadused.',
+      },
+      {
+        q: 'Kui kahel graafil on erinev astmejärjend, siis nad...',
+        options: ['ei saa olla isomorfsed', 'on kindlasti isomorfsed', 'on mõlemad puud', 'on mõlemad Euleri graafid'],
+        correct: 0,
+        exp: 'Astmejärjend on isomorfismi invariant.',
+      },
+      {
+        q: 'Mida tähendab bijektiivne tipukujutus isomorfismis?',
+        options: ['Igal lähtegraafi tipul on täpselt üks vastav tipp ja vastupidi', 'Kõik tipud lähevad samaks tipuks', 'Servad kustutatakse', 'Ainult üks tipp jääb alles'],
+        correct: 0,
+        exp: 'Bijektsioon seob tippude hulgad üks-üheselt.',
+      },
+    ],
+    eulerhamilton: [
+      {
+        q: 'Millal on sidus graaf Euleri graaf?',
+        options: ['Kui kõik tipuastmed on paarisarvud', 'Kui leidub Hamiltoni ahel', 'Kui graaf on täisgraaf', 'Kui tal pole servi'],
+        correct: 0,
+        exp: 'Sidusas graafis leidub kinnine Euleri ahel parajasti siis, kui kõik astmed on paarisarvud.',
+      },
+      {
+        q: 'Millal leidub sidusas graafis lahtine Euleri ahel?',
+        options: ['Kui paaritu astmega tippe on 0 või 2', 'Kui paaritu astmega tippe on 3', 'Kui kõik tipud on isoleeritud', 'Ainult puudes'],
+        correct: 0,
+        exp: 'Euleri ahel võib alata ja lõppeda kahes paaritu astmega tipus.',
+      },
+      {
+        q: 'Mida annab Diraci teoreem?',
+        options: ['Piisava tingimuse Hamiltoni tsükli leidumiseks', 'Täieliku Euleri graafi kriteeriumi', 'Lühima tee algoritmi', 'Astmete summa valemi'],
+        correct: 0,
+        exp: 'Diraci tingimus on piisav, mitte tarvilik: selle täitumisel on graaf Hamiltoni graaf.',
+      },
+    ],
+    puud: [
+      {
+        q: 'Mitu serva on $n$-tipulisel puul?',
+        options: ['$n-1$', '$n$', '$2n$', '$\\frac{n(n-1)}2$'],
+        correct: 0,
+        exp: 'Igas $n$-tipulises puus on täpselt $n-1$ serva.',
+      },
+      {
+        q: 'Mis juhtub puus ühe serva eemaldamisel?',
+        options: ['Graaf ei ole enam sidus', 'Tekib täisgraaf', 'Servade arv kasvab', 'Kõik tipud kaovad'],
+        correct: 0,
+        exp: 'Puu iga serv on sild; selle eemaldamine lõhub sidususe.',
+      },
+      {
+        q: 'Mis on mets?',
+        options: ['Graaf, mille iga sidususkomponent on puu', 'Ainult üks tsükkel', 'Täisgraafide kogum', 'Suunatud graaf ilma kaarteta'],
+        correct: 0,
+        exp: 'Mets koosneb puudest sidususkomponentidena.',
+      },
+    ],
+    toespuud: [
+      {
+        q: 'Mis on toespuu?',
+        options: ['Sidusa graafi alamgraaf, mis sisaldab kõiki tippe ja on puu', 'Kõigi servade hulk', 'Suunatud tsükkel', 'Graafi täiend'],
+        correct: 0,
+        exp: 'Toespuu säilitab kõik tipud, kuid jätab alles just nii palju servi, et saada puu.',
+      },
+      {
+        q: 'Mis on Kruskali algoritmi põhiidee?',
+        options: ['Vali kasvava kaaluga servi ja väldi tsükleid', 'Alusta alati suurima kaaluga servast', 'Leia ainult lühim tee', 'Kustuta kõik lehed'],
+        correct: 0,
+        exp: 'Kruskal lisab odavaimaid servi, mis ei tekita tsüklit.',
+      },
+      {
+        q: 'Mis eristab Primi algoritmi Kruskalist?',
+        options: ['Prim kasvatab ühte puud valitud algtipust', 'Prim ei kasuta kaale', 'Prim töötab ainult suunatud graafidel', 'Prim leiab Hamiltoni tsükli'],
+        correct: 0,
+        exp: 'Prim hoiab üht kasvavat puud ning lisab odavaima serva puu ja välise tipu vahel.',
+      },
+    ],
+    suunatud: [
+      {
+        q: 'Mis on suunatud graafi kaar $(u,v)$?',
+        options: ['Ühendus algtipust $u$ lõpptippu $v$', 'Suunamata serv', 'Kaheelemendiline alamhulk', 'Tipp astmega 0'],
+        correct: 0,
+        exp: 'Suunatud kaarel on algtipp ja lõpptipp.',
+      },
+      {
+        q: 'Mis on tipu sisendaste?',
+        options: ['Tipusse sisenevate kaarte arv', 'Tipust väljuvate kaarte arv', 'Kõigi tippude arv', 'Servade kogukaal'],
+        correct: 0,
+        exp: 'Sisendaste loendab kaared, mille lõpptipp on antud tipp.',
+      },
+      {
+        q: 'Mis on suunatud graafi alusgraaf?',
+        options: ['Suunamata graaf, mis saadakse kaarte asendamisel servadega', 'Graaf ainult silmustega', 'Graaf ilma tippudeta', 'Ainult naabrusmaatriks'],
+        correct: 0,
+        exp: 'Alusgraaf unustab kaarte suuna ning eemaldab silmused.',
+      },
+    ],
+    luhimtee: [
+      {
+        q: 'Millal Dijkstra algoritm ei tööta korrektselt?',
+        options: ['Kui leidub negatiivse kaaluga serv', 'Kui kaalud on positiivsed', 'Kui graaf on sidus', 'Kui graafis on rohkem kui kolm tippu'],
+        correct: 0,
+        exp: 'Dijkstra eeldab mittenegatiivseid kaale.',
+      },
+      {
+        q: 'Milleks kasutatakse Floydi-Warshalli algoritmi?',
+        options: ['Kõigi tipupaaride lühimate teede leidmiseks', 'Ainult minimaalse toespuu leidmiseks', 'Ainult Euleri ahela leidmiseks', 'Isomorfismi kontrolliks'],
+        correct: 0,
+        exp: 'Floydi-Warshall arvutab lühimad teed kõigi tipupaaride vahel.',
+      },
+      {
+        q: 'Mis on lõdvendamine Dijkstra algoritmis?',
+        options: ['Naabri kauguse parandamine, kui leiti lühem tee', 'Kõigi servade kustutamine', 'Tipu astme suurendamine', 'Graafi täiendamine'],
+        correct: 0,
+        exp: 'Kui tee läbi valitud tipu annab väiksema kauguse, uuendatakse naabri kaugust.',
+      },
+    ],
+  };
+
+  window.DM_MINI_CHECK_ROUTES = Object.keys(TOPIC_MINI_CHECKS);
+
+  function readTopicChecks() {
+    try { return JSON.parse(localStorage.getItem(TOPIC_CHECK_KEY)) || {}; }
+    catch { return {}; }
+  }
+
+  function saveTopicChecks(results) {
+    localStorage.setItem(TOPIC_CHECK_KEY, JSON.stringify(results));
+  }
+
+  function isTopicCheckCompleted(result) {
+    return Boolean(result?.total)
+      && Array.isArray(result.answers)
+      && result.answers.length >= result.total
+      && result.answers.every(answer => answer !== null && answer !== undefined);
+  }
+
+  function initTopicMiniCheck(route) {
+    const questions = TOPIC_MINI_CHECKS[route];
+    const view = document.getElementById('view');
+    if (!view || !questions || document.getElementById('topicMiniCheck')) return;
+
+    const savedChecks = readTopicChecks();
+    const previous = isTopicCheckCompleted(savedChecks[route]) ? savedChecks[route] : null;
+    const section = document.createElement('section');
+    section.className = 'card topic-mini-check';
+    section.id = 'topicMiniCheck';
+    section.innerHTML = `
+      <div class="topic-exercises-head">
+        <div>
+          <h2>Mini-kontroll</h2>
+          <p>Kolm kiiret küsimust selle peatüki põhiasjade üle. Peatükk märgitakse tehtuks pärast vastuste kontrollimist.</p>
+        </div>
+        <span class="tag ${previous ? 'good' : 'accent'}">${previous ? `${previous.score}/${previous.total}` : `${questions.length} küsimust`}</span>
+      </div>
+      ${previous ? `<p class="muted">Viimane tulemus: ${previous.score}/${previous.total} (${Math.round(100 * previous.score / previous.total)}%)</p>` : ''}
+      <div class="mini-question-list">
+        ${questions.map((question, index) => `
+          <article class="mini-question" data-mini-question="${index}">
+            <h3>${index + 1}. ${question.q}</h3>
+            <div class="mini-options">
+              ${question.options.map((option, optionIndex) => `
+                <label class="mini-option" data-mini-option="${optionIndex}">
+                  <input type="radio" name="mini-${route}-${index}" value="${optionIndex}">
+                  <span>${option}</span>
+                </label>
+              `).join('')}
+            </div>
+            <div class="mini-feedback" data-mini-feedback="${index}"></div>
+          </article>
+        `).join('')}
+      </div>
+      <div class="btn-row">
+        <button class="btn small" id="checkMiniControl" type="button">Kontrolli vastuseid</button>
+        <button class="btn small secondary" id="resetMiniControl" type="button">Tühjenda valikud</button>
+        ${previous ? '<button class="btn small secondary" id="clearMiniResult" type="button">Eemalda salvestatud tulemus</button>' : ''}
+      </div>
+      <div id="miniCheckResult"></div>
+    `;
+    view.appendChild(section);
+    renderMath(section);
+
+    section.querySelector('#checkMiniControl').addEventListener('click', () => {
+      let score = 0;
+      const answers = [];
+      questions.forEach((question, index) => {
+        const selected = section.querySelector(`input[name="mini-${route}-${index}"]:checked`);
+        const selectedValue = selected ? Number(selected.value) : null;
+        const correct = selectedValue === question.correct;
+        if (correct) score++;
+        answers.push(selectedValue);
+
+        const questionEl = section.querySelector(`[data-mini-question="${index}"]`);
+        questionEl.querySelectorAll('.mini-option').forEach(label => {
+          const optionIndex = Number(label.dataset.miniOption);
+          label.classList.toggle('correct', optionIndex === question.correct);
+          label.classList.toggle('wrong', selectedValue === optionIndex && !correct);
+        });
+        const feedback = section.querySelector(`[data-mini-feedback="${index}"]`);
+        feedback.className = `mini-feedback ${correct ? 'good' : 'bad'} show`;
+        feedback.innerHTML = `
+          <strong>${correct ? 'Õige.' : selectedValue === null ? 'Vastus valimata.' : 'Vale.'}</strong>
+          <span>${question.exp}</span>
+          ${correct ? '' : `<div class="btn-row"><button class="btn small secondary" data-mini-weak="${index}" type="button">Lisa vigade päevikusse</button><span class="muted" data-mini-weak-status="${index}"></span></div>`}
+        `;
+      });
+
+      const missing = answers.some(answer => answer === null);
+      const pct = Math.round(100 * score / questions.length);
+      if (!missing) {
+        const results = readTopicChecks();
+        results[route] = {
+          score,
+          total: questions.length,
+          answers,
+          date: new Date().toISOString(),
+        };
+        saveTopicChecks(results);
+        window.DM?.updateProgress?.();
+      }
+
+      section.querySelector('#miniCheckResult').innerHTML = `
+        <div class="topic-tool-result ${missing ? 'warn' : pct >= 70 ? 'good' : pct >= 40 ? 'warn' : 'bad'}">
+          <strong>${missing ? 'Poolik mini-kontroll' : 'Tulemus'}: ${score}/${questions.length} (${pct}%)</strong>
+          <span>${missing ? 'Vasta kõigile küsimustele; peatükk märgitakse tehtuks alles pärast täieliku mini-kontrolli kontrollimist.' : pct >= 70 ? 'Peatüki põhiasjad on heas seisus.' : 'Märgi valed küsimused päevikusse ja tee sama teema üks harjutus juurde.'}</span>
+        </div>
+      `;
+
+      section.querySelectorAll('[data-mini-weak]').forEach(button => {
+        button.addEventListener('click', () => {
+          const index = Number(button.dataset.miniWeak);
+          const question = questions[index];
+          const selectedValue = answers[index];
+          const selectedText = selectedValue === null ? 'Vastus jäi valimata' : plainText(question.options[selectedValue]);
+          window.DMWeaknesses?.add({
+            type: 'mini-check',
+            route,
+            topic: routeLabel(route),
+            title: plainText(question.q).slice(0, 120),
+            note: `Valisin: ${selectedText}. Õige: ${plainText(question.options[question.correct])}.`,
+            sourceKey: `mini:${route}:${index}`,
+          });
+          const status = section.querySelector(`[data-mini-weak-status="${index}"]`);
+          if (status) status.textContent = 'Lisatud.';
+        });
+      });
+      renderMath(section);
+    });
+
+    section.querySelector('#resetMiniControl').addEventListener('click', () => {
+      section.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
+      section.querySelectorAll('.mini-option').forEach(label => label.classList.remove('correct', 'wrong'));
+      section.querySelectorAll('.mini-feedback').forEach(feedback => {
+        feedback.className = 'mini-feedback';
+        feedback.innerHTML = '';
+      });
+      section.querySelector('#miniCheckResult').innerHTML = '';
+    });
+
+    section.querySelector('#clearMiniResult')?.addEventListener('click', () => {
+      const results = readTopicChecks();
+      delete results[route];
+      saveTopicChecks(results);
+      window.DM?.render ? window.DM.render(route) : location.reload();
+    });
+  }
+
   function initTopicExercises(route) {
     const exercises = TOPIC_EXERCISES[route];
     const view = document.getElementById('view');
@@ -989,6 +1949,10 @@
             <div class="topic-exercise-solution">
               <h4>Lahendus</h4>
               ${exercise.solution}
+              <div class="btn-row">
+                <button class="btn small secondary" data-topic-weak="${index}" type="button">Märgi vigade päevikusse</button>
+                <span class="muted" data-topic-weak-status="${index}"></span>
+              </div>
             </div>
           </details>
         `).join('')}
@@ -996,6 +1960,177 @@
     `;
     view.appendChild(section);
     renderMath(section);
+    section.querySelectorAll('[data-topic-weak]').forEach(button => {
+      button.addEventListener('click', () => {
+        const index = Number(button.dataset.topicWeak);
+        const exercise = exercises[index];
+        window.DMWeaknesses?.add({
+          type: 'exercise',
+          route,
+          topic: routeLabel(route),
+          title: exercise.title,
+          note: plainText(exercise.prompt).slice(0, 220),
+          sourceKey: `exercise:${route}:${index}`,
+        });
+        const status = section.querySelector(`[data-topic-weak-status="${index}"]`);
+        if (status) status.textContent = 'Lisatud.';
+      });
+    });
+  }
+
+  function initGraphStepTasks(route) {
+    const tasks = GRAPH_STEP_TASKS[route];
+    const view = document.getElementById('view');
+    if (!view || !tasks || document.getElementById('graphStepTasks')) return;
+
+    const section = document.createElement('section');
+    section.className = 'card graph-step-tasks';
+    section.id = 'graphStepTasks';
+    view.appendChild(section);
+
+    let taskIndex = 0;
+    let stepIndex = 0;
+    let feedback = null;
+
+    function resetTask(index = taskIndex) {
+      taskIndex = index;
+      stepIndex = 0;
+      feedback = null;
+    }
+
+    function choiceClass(step, optionIndex) {
+      if (!feedback || feedback.selected === null) return '';
+      if (optionIndex === step.correct) return ' correct';
+      if (optionIndex === feedback.selected && !feedback.correct) return ' wrong';
+      return '';
+    }
+
+    function addWeaknessForStep(step, selected) {
+      const selectedText = selected === null ? 'Vastus jäi valimata' : plainText(step.options[selected]);
+      window.DMWeaknesses?.add({
+        type: 'graph-step',
+        route,
+        topic: routeLabel(route),
+        title: `${tasks[taskIndex].title}: ${plainText(step.question).slice(0, 90)}`,
+        note: `Valisin: ${selectedText}. Õige: ${plainText(step.options[step.correct])}.`,
+        sourceKey: `graph-step:${route}:${taskIndex}:${stepIndex}`,
+      });
+    }
+
+    function render() {
+      const task = tasks[taskIndex];
+      const complete = stepIndex >= task.steps.length;
+      const activeStep = complete ? null : task.steps[stepIndex];
+      const completedCount = Math.min(stepIndex, task.steps.length);
+      const progressPct = Math.round(100 * completedCount / task.steps.length);
+
+      section.innerHTML = `
+        <div class="topic-exercises-head">
+          <div>
+            <h2>Kontrollitavad samm-ülesanded</h2>
+            <p>Vali iga graafiteooria ülesande juures järgmine õige samm. Vale valiku saad kohe vigade päevikusse lisada.</p>
+          </div>
+          <span class="tag accent">${completedCount}/${task.steps.length}</span>
+        </div>
+
+        ${tasks.length > 1 ? `
+          <div class="graph-step-tabs">
+            ${tasks.map((item, index) => `
+              <button class="btn small ${index === taskIndex ? '' : 'secondary'}" data-graph-task="${index}" type="button">${item.title}</button>
+            `).join('')}
+          </div>
+        ` : ''}
+
+        <div class="graph-step-case">
+          <strong>${task.title}</strong>
+          <p>${task.intro}</p>
+        </div>
+
+        <div class="progress-bar graph-step-progress"><div class="progress-fill" style="width:${progressPct}%"></div></div>
+
+        <ol class="graph-step-list">
+          ${task.steps.map((step, index) => `
+            <li class="${complete || index < stepIndex ? 'complete' : index === stepIndex ? 'active' : ''}">
+              <strong>Samm ${index + 1}</strong>
+              <span>${complete || index < stepIndex ? plainText(step.options[step.correct]) : index === stepIndex ? 'vali järgmine samm' : 'ootab'}</span>
+            </li>
+          `).join('')}
+        </ol>
+
+        ${complete ? `
+          <div class="topic-tool-result good">
+            <strong>Samm-ülesanne valmis.</strong>
+            <span>Oled selle ülesande kõik kontrollsammud läbi teinud. Nüüd tasub sama peatüki mini-kontroll ära lõpetada.</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn small secondary" id="graphStepRestart" type="button">Tee uuesti</button>
+          </div>
+        ` : `
+          <div class="graph-step-panel">
+            <h3>Samm ${stepIndex + 1}. ${activeStep.question}</h3>
+            <div class="graph-step-choices">
+              ${activeStep.options.map((option, optionIndex) => `
+                <label class="graph-step-choice${choiceClass(activeStep, optionIndex)}">
+                  <input type="radio" name="graph-step-choice" value="${optionIndex}" ${feedback ? 'disabled' : ''} ${feedback?.selected === optionIndex ? 'checked' : ''}>
+                  <span>${option}</span>
+                </label>
+              `).join('')}
+            </div>
+            ${feedback ? `
+              <div class="topic-tool-result ${feedback.selected === null ? 'warn' : feedback.correct ? 'good' : 'bad'} graph-step-feedback">
+                <strong>${feedback.selected === null ? 'Vali vastus.' : feedback.correct ? 'Õige samm.' : 'Vale samm.'}</strong>
+                <span>${feedback.selected === null ? 'Enne kontrollimist vali üks pakutud sammudest.' : activeStep.explanation}</span>
+              </div>
+            ` : ''}
+            <div class="btn-row">
+              <button class="btn small" id="graphStepCheck" type="button" ${feedback ? 'disabled' : ''}>Kontrolli sammu</button>
+              ${feedback?.correct ? '<button class="btn small" id="graphStepNext" type="button">Järgmine samm</button>' : ''}
+              <button class="btn small secondary" id="graphStepRestart" type="button">Alusta uuesti</button>
+              ${feedback && !feedback.correct && feedback.selected !== null ? '<button class="btn small secondary" id="graphStepWeak" type="button">Lisa vigade päevikusse</button><span class="muted" id="graphStepWeakStatus"></span>' : ''}
+            </div>
+          </div>
+        `}
+      `;
+
+      renderMath(section);
+
+      section.querySelectorAll('[data-graph-task]').forEach(button => {
+        button.addEventListener('click', () => {
+          resetTask(Number(button.dataset.graphTask));
+          render();
+        });
+      });
+
+      section.querySelector('#graphStepCheck')?.addEventListener('click', () => {
+        const selected = section.querySelector('input[name="graph-step-choice"]:checked');
+        const selectedValue = selected ? Number(selected.value) : null;
+        feedback = {
+          selected: selectedValue,
+          correct: selectedValue === activeStep.correct,
+        };
+        render();
+      });
+
+      section.querySelector('#graphStepNext')?.addEventListener('click', () => {
+        if (!feedback?.correct) return;
+        stepIndex += 1;
+        feedback = null;
+        render();
+      });
+
+      section.querySelector('#graphStepRestart')?.addEventListener('click', () => {
+        resetTask();
+        render();
+      });
+
+      section.querySelector('#graphStepWeak')?.addEventListener('click', () => {
+        addWeaknessForStep(activeStep, feedback?.selected ?? null);
+        const status = section.querySelector('#graphStepWeakStatus');
+        if (status) status.textContent = 'Lisatud.';
+      });
+    }
+
+    render();
   }
 
   function readNotes() {
@@ -1054,6 +2189,8 @@
     if (route === 'eulerhamilton') initEulerHamiltonTool();
     if (route === 'puud') initTreePropertyTool();
     initTopicExercises(route);
+    initGraphStepTasks(route);
+    initTopicMiniCheck(route);
     initChapterNotes(route);
   };
 })();

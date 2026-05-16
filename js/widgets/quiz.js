@@ -5,6 +5,7 @@
 
   const GLOSSARY_LEARNED_KEY = 'dm_glossary_learned_v1';
   const FLASH_SRS_KEY = 'dm_flashcard_srs_v1';
+  const QUIZ_RESULT_KEY = 'dm_quiz_last_v1';
 
   // ============ QUIZ ============
   const QUESTIONS = [
@@ -179,6 +180,36 @@
     return topic === 'all' ? QUESTIONS : QUESTIONS.filter(q => q.tags.includes(topic));
   }
 
+  function routeForQuestion(q) {
+    const map = {
+      loogika: 'lausearvutus',
+      predikaadid: 'predikaadid',
+      peano: 'peano',
+      sekvents: 'sekvents',
+      graafid: 'graafid',
+    };
+    const tag = q.tags.find(item => map[item]);
+    return map[tag] || 'kviis';
+  }
+
+  function routeName(route) {
+    const names = {
+      lausearvutus: 'Lausearvutus',
+      predikaadid: 'Predikaadid',
+      peano: 'Peano',
+      sekvents: 'Sekvents',
+      graafid: 'Graafiteooria',
+      kviis: 'Kogu kursus',
+    };
+    return names[route] || route;
+  }
+
+  function plainText(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent.replace(/\s+/g, ' ').trim();
+  }
+
   window.initQuiz = function () {
     const view = document.getElementById('view');
     const topicCards = QUIZ_TOPICS.map(topic => {
@@ -251,8 +282,9 @@
       content.querySelectorAll('.quiz-option').forEach(btn => {
         btn.addEventListener('click', () => {
           const i = +btn.dataset.i;
+          const wrong = i !== q.correct;
           content.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
-          if (i === q.correct) {
+          if (!wrong) {
             btn.classList.add('correct');
             score++;
           } else {
@@ -260,9 +292,24 @@
             content.querySelectorAll('.quiz-option')[q.correct].classList.add('correct');
           }
           const exp = document.getElementById('quizExp');
-          exp.innerHTML = q.exp;
+          exp.innerHTML = wrong
+            ? `${q.exp}<div class="btn-row"><button class="btn small secondary" id="logQuizMistake" type="button">Lisa vigade päevikusse</button><span class="muted" id="quizMistakeStatus"></span></div>`
+            : q.exp;
           exp.classList.add('show');
           renderMath(exp);
+          document.getElementById('logQuizMistake')?.addEventListener('click', () => {
+            const route = routeForQuestion(q);
+            window.DMWeaknesses?.add({
+              type: 'quiz',
+              route,
+              topic: topic === 'all' ? routeName(route) : QUIZ_TOPICS.find(item => item.id === topic)?.label || routeName(route),
+              title: plainText(q.q).slice(0, 120),
+              note: `Valisin: ${plainText(q.options[i])}. Õige: ${plainText(q.options[q.correct])}.`,
+              sourceKey: `quiz:${plainText(q.q)}`,
+            });
+            const status = document.getElementById('quizMistakeStatus');
+            if (status) status.textContent = 'Lisatud.';
+          });
           document.getElementById('nextQ').style.display = 'inline-block';
         });
       });
@@ -276,6 +323,15 @@
     function showResult() {
       document.getElementById('quizContent').innerHTML = '';
       const pct = Math.round(100 * score / questions.length);
+      const topicLabel = QUIZ_TOPICS.find(item => item.id === topic)?.label || 'Kogu kursus';
+      localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
+        topic,
+        topicLabel,
+        score,
+        total: questions.length,
+        pct,
+        date: new Date().toISOString(),
+      }));
       document.getElementById('quizResult').innerHTML = `
         <div class="card">
           <div class="quiz-score">${score} / ${questions.length} (${pct}%)</div>

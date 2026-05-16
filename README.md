@@ -5,6 +5,10 @@ Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I**
 ## ✨ Mida saab teha
 
 - **Loe teooriat** kõigi peatükkide kohta — lausearvutusest kuni Dijkstra algoritmini.
+- **Kasuta õppimise töölauda**, mis koondab tänased mõistekaardid, peatükkide edenemise, märkmed ja viimase kviisi tulemuse.
+- **Pea vigade päevikut**, kuhu saab lisada nõrgad kohad käsitsi, kviisi valed vastused või teemaharjutused kordamiseks.
+- **Tee teemalõpu mini-kontrolle** iga suurema peatüki lõpus; peatükk märgitakse tehtuks alles pärast mini-kontrolli vastuste kontrollimist.
+- **Lahenda graafiteooria kontrollitavaid samm-ülesandeid**, kus Havel-Hakimi, Kruskali, Primi, Dijkstra, Floydi-Warshalli ja sidususe otsused kontrollitakse sammhaaval.
 - **Ehita tõeväärtustabeleid** sisestades suvalisi lausearvutuse valemeid (parser toetab `&`, `|`, `!`, `->`, `<->`).
 - **Genereeri täielikku DNK/KNK kuju** valemist koos tõeväärtustabeliga.
 - **Ehita tõesuspuid** lausearvutuse valemitele ning kontrolli samaselt tõesust, samaselt väärust ja kehtestatavust.
@@ -53,7 +57,7 @@ app/
 │       ├── exam-practice.js # 32-punktise harjutustöö generaator
 │       ├── grade-calculator.js # Hinde ja miinimumi kalkulaator
 │       ├── normal-forms.js # Täieliku DNK/KNK generaator
-│       ├── study-tools.js # Konspektiotsing, cheat-sheet, streak
+│       ├── study-tools.js # Õppimise töölaud, vigade päevik, konspektiotsing, cheat-sheet, streak
 │       └── topic-tools.js # Väikesed tööriistad ja lahendusülesanded teoorialehtede sees
 ├── vendor/katex/          # KaTeX lokaalne fallback offline kasutuseks
 └── materjalid/            # PDF-id: konspekt, ülesanded, kontrolltööd

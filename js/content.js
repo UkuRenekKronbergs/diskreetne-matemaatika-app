@@ -11,6 +11,11 @@ avaleht: `
 <p>See on interaktiivne õppekeskkond Tartu Ülikooli kursusele <strong>Diskreetne matemaatika I</strong> (LTMS.00.019). Kõik materjalid põhinevad Kati Aini loengukonspektil (Valdis Laan, 2020; täiendanud Kati Ain, 28.01.2026) ja praktikumiülesannete kogul (Reimo Palm, Valdis Laan, Kati Ain).</p>
 
 <div class="dashboard">
+  <a href="#oppimine" class="dash-card">
+    <span class="icon">◎</span>
+    <h3>Õppimise töölaud</h3>
+    <p>Tänased kordamised, märkmed, edenemine ja järgmised soovitatud sammud ühes vaates.</p>
+  </a>
   <a href="#hinnekalkulaator" class="dash-card">
     <span class="icon">∑</span>
     <h3>Hinde kalkulaator</h3>
@@ -25,6 +30,11 @@ avaleht: `
     <span class="icon">1p</span>
     <h3>Cheat-sheet</h3>
     <p>Kõigi peatükkide kompaktsed definitsioonid ja valemid printimiseks.</p>
+  </a>
+  <a href="#vead" class="dash-card">
+    <span class="icon">!</span>
+    <h3>Vigade päevik</h3>
+    <p>Kogu nõrgad kohad ühte kohta ja märgi need kordamisel või parandatuks.</p>
   </a>
   <a href="#lausearvutus" class="dash-card">
     <span class="icon">∧</span>
@@ -88,6 +98,9 @@ avaleht: `
 </div>
 `,
 
+/* ============= ÕPPIMISE TÖÖLAUD ============= */
+oppimine: `<h1>Õppimise töölaud</h1><p>Laadimine...</p>`,
+
 /* ============= KURSUS ============= */
 kursus: `
 <h1>Kursuse info</h1>
@@ -144,6 +157,9 @@ otsing: `<h1>Konspekti otsing</h1><p>Laadimine...</p>`,
 
 /* ============= CHEAT-SHEET ============= */
 spikker: `<h1>Cheat-sheet</h1><p>Laadimine...</p>`,
+
+/* ============= VIGADE PÄEVIK ============= */
+vead: `<h1>Vigade päevik</h1><p>Laadimine...</p>`,
 
 /* ============= LAUSEARVUTUS ============= */
 lausearvutus: `

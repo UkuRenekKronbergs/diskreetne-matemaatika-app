@@ -4,6 +4,60 @@
   'use strict';
 
   const STREAK_KEY = 'dm_streak_v1';
+  const VISITED_KEY = 'dm_visited_v1';
+  const FLASH_SRS_KEY = 'dm_flashcard_srs_v1';
+  const GLOSSARY_LEARNED_KEY = 'dm_glossary_learned_v1';
+  const CHAPTER_NOTES_KEY = 'dm_chapter_notes_v1';
+  const QUIZ_RESULT_KEY = 'dm_quiz_last_v1';
+  const WEAKNESS_KEY = 'dm_weakness_log_v1';
+  const TOPIC_CHECK_KEY = 'dm_topic_checks_v1';
+
+  const STUDY_TOPICS = [
+    { route: 'lausearvutus', label: 'Lausearvutus', group: 'Loogika' },
+    { route: 'truthtable', label: 'Tõeväärtustabelid', group: 'Loogika' },
+    { route: 'normaalkujud', label: 'DNK/KNK', group: 'Loogika' },
+    { route: 'toesuspuu', label: 'Tõesuspuu meetod', group: 'Loogika' },
+    { route: 'predikaadid', label: 'Predikaadid ja kvantorid', group: 'Loogika' },
+    { route: 'signatuur', label: 'Signatuur ja interpretatsioonid', group: 'Loogika' },
+    { route: 'samavaarsus', label: 'Samaväärsus', group: 'Loogika' },
+    { route: 'prefikskuju', label: 'Prefikskuju', group: 'Loogika' },
+    { route: 'aksiomaatika', label: 'Aksiomaatilised teooriad', group: 'Loogika' },
+    { route: 'sekvents', label: 'Sekventsiaalne lausearvutus', group: 'Loogika' },
+    { route: 'peano', label: 'Peano aritmeetika', group: 'Loogika' },
+    { route: 'graafid', label: 'Graafi mõiste', group: 'Graafid' },
+    { route: 'grapheditor', label: 'Graafiredaktor', group: 'Graafid' },
+    { route: 'tipuastmed', label: 'Tipuastmed', group: 'Graafid' },
+    { route: 'ahelad', label: 'Ahelad ja tsüklid', group: 'Graafid' },
+    { route: 'sidusus', label: 'Sidusus', group: 'Graafid' },
+    { route: 'isomorfism', label: 'Isomorfism', group: 'Graafid' },
+    { route: 'eulerhamilton', label: 'Euler ja Hamilton', group: 'Graafid' },
+    { route: 'puud', label: 'Puud', group: 'Graafid' },
+    { route: 'toespuud', label: 'Toespuud', group: 'Graafid' },
+    { route: 'suunatud', label: 'Suunatud graafid', group: 'Graafid' },
+    { route: 'luhimtee', label: 'Lühim tee', group: 'Graafid' },
+  ];
+
+  const MINI_CHECK_ROUTES = [
+    'lausearvutus',
+    'toesuspuu',
+    'predikaadid',
+    'signatuur',
+    'samavaarsus',
+    'prefikskuju',
+    'aksiomaatika',
+    'sekvents',
+    'peano',
+    'graafid',
+    'tipuastmed',
+    'ahelad',
+    'sidusus',
+    'isomorfism',
+    'eulerhamilton',
+    'puud',
+    'toespuud',
+    'suunatud',
+    'luhimtee',
+  ];
 
   const CHEAT_SHEETS = [
     {
@@ -184,6 +238,614 @@
   function escapeRegExp(text) {
     return String(text || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
+
+  function readJson(key, fallback) {
+    try {
+      const value = JSON.parse(localStorage.getItem(key));
+      return value ?? fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function asSet(value) {
+    return new Set(Array.isArray(value) ? value : []);
+  }
+
+  function formatDate(value) {
+    if (!value) return 'puudub';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return 'puudub';
+    return date.toLocaleString('et-EE', { dateStyle: 'medium', timeStyle: 'short' });
+  }
+
+  function topicLabel(route) {
+    return STUDY_TOPICS.find(topic => topic.route === route)?.label || route;
+  }
+
+  function getMiniCheckRoutes() {
+    return Array.isArray(window.DM_MINI_CHECK_ROUTES) && window.DM_MINI_CHECK_ROUTES.length
+      ? window.DM_MINI_CHECK_ROUTES
+      : MINI_CHECK_ROUTES;
+  }
+
+  function hasMiniCheckResult(route, results) {
+    const result = results[route];
+    return Boolean(result?.total)
+      && Array.isArray(result.answers)
+      && result.answers.length >= result.total
+      && result.answers.every(answer => answer !== null && answer !== undefined);
+  }
+
+  function getFlashStats() {
+    const cards = window.GLOSSARY || [];
+    const schedule = readJson(FLASH_SRS_KEY, {});
+    const today = localDateKey();
+    const due = cards.filter(card => {
+      const state = schedule[card.term];
+      return !state || !state.due || state.due <= today;
+    }).length;
+    const started = cards.filter(card => schedule[card.term]?.reps > 0).length;
+    const mature = cards.filter(card => (schedule[card.term]?.interval || 0) >= 7).length;
+    return { total: cards.length, due, started, mature };
+  }
+
+  function getMiniCheckStats(results = readJson(TOPIC_CHECK_KEY, {})) {
+    const routes = getMiniCheckRoutes();
+    const completedRoutes = routes.filter(route => hasMiniCheckResult(route, results));
+    const totalScore = completedRoutes.reduce((sum, route) => sum + (results[route].score || 0), 0);
+    const totalQuestions = completedRoutes.reduce((sum, route) => sum + (results[route].total || 0), 0);
+    const nextRoute = routes.find(route => !hasMiniCheckResult(route, results));
+    return {
+      total: routes.length,
+      completed: completedRoutes.length,
+      average: totalQuestions ? Math.round(100 * totalScore / totalQuestions) : null,
+      nextRoute,
+    };
+  }
+
+  function readWeaknesses() {
+    const items = readJson(WEAKNESS_KEY, []);
+    return Array.isArray(items) ? items : [];
+  }
+
+  function saveWeaknesses(items) {
+    localStorage.setItem(WEAKNESS_KEY, JSON.stringify(items));
+  }
+
+  function weaknessStats(items = readWeaknesses()) {
+    const openItems = items.filter(item => item.status !== 'resolved');
+    const resolved = items.length - openItems.length;
+    const byRoute = openItems.reduce((acc, item) => {
+      const key = item.route || 'kogu-kursus';
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    }, {});
+    const topRoutes = Object.entries(byRoute)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 4)
+      .map(([route, count]) => ({ route, count, label: route === 'kogu-kursus' ? 'Kogu kursus' : topicLabel(route) }));
+    return { total: items.length, open: openItems.length, resolved, topRoutes };
+  }
+
+  function addWeakness(data) {
+    const now = new Date().toISOString();
+    const sourceKey = data.sourceKey || `${data.type || 'manual'}:${data.route || 'general'}:${data.title || now}`;
+    const items = readWeaknesses();
+    const existing = items.find(item => item.sourceKey === sourceKey && item.status !== 'resolved');
+    if (existing) {
+      existing.count = (existing.count || 1) + 1;
+      existing.updatedAt = now;
+      existing.note = data.note || existing.note;
+      existing.status = 'open';
+      saveWeaknesses(items);
+      return existing;
+    }
+    const item = {
+      id: `weak_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      sourceKey,
+      type: data.type || 'manual',
+      title: String(data.title || 'Nõrk koht').trim(),
+      topic: data.topic || topicLabel(data.route || ''),
+      route: data.route || '',
+      note: String(data.note || '').trim(),
+      status: 'open',
+      count: 1,
+      createdAt: now,
+      updatedAt: now,
+    };
+    items.unshift(item);
+    saveWeaknesses(items);
+    return item;
+  }
+
+  function updateWeakness(id, patch) {
+    const now = new Date().toISOString();
+    const items = readWeaknesses().map(item => item.id === id ? { ...item, ...patch, updatedAt: now } : item);
+    saveWeaknesses(items);
+    return items.find(item => item.id === id);
+  }
+
+  function removeWeakness(id) {
+    saveWeaknesses(readWeaknesses().filter(item => item.id !== id));
+  }
+
+  window.DMWeaknesses = {
+    add: addWeakness,
+    list: readWeaknesses,
+    stats: weaknessStats,
+    update: updateWeakness,
+    remove: removeWeakness,
+  };
+
+  function getStudyState() {
+    const visited = asSet(readJson(VISITED_KEY, []));
+    const miniResults = readJson(TOPIC_CHECK_KEY, {});
+    const miniCheckRoutes = new Set(getMiniCheckRoutes());
+    const notes = readJson(CHAPTER_NOTES_KEY, {});
+    const learned = asSet(readJson(GLOSSARY_LEARNED_KEY, []));
+    const quiz = readJson(QUIZ_RESULT_KEY, null);
+    const streak = readJson(STREAK_KEY, { streak: 0, best: 0, last: null });
+    const flash = getFlashStats();
+    const miniChecks = getMiniCheckStats(miniResults);
+    const weaknesses = readWeaknesses();
+    const weakStats = weaknessStats(weaknesses);
+    const topicProgress = STUDY_TOPICS.map(topic => {
+      const needsMiniCheck = miniCheckRoutes.has(topic.route);
+      const routeVisited = visited.has(topic.route);
+      return {
+        ...topic,
+        visited: routeVisited,
+        needsMiniCheck,
+        done: needsMiniCheck ? hasMiniCheckResult(topic.route, miniResults) : routeVisited,
+        hasNote: Boolean(String(notes[topic.route] || '').trim()),
+      };
+    });
+    const visitedTopics = topicProgress.filter(topic => topic.done).length;
+    const noteTopics = topicProgress.filter(topic => topic.hasNote);
+    const nextTopic = topicProgress.find(topic => !topic.done);
+    return {
+      visited,
+      notes,
+      learned,
+      quiz,
+      streak,
+      flash,
+      miniChecks,
+      weaknesses,
+      weakStats,
+      topicProgress,
+      visitedTopics,
+      noteTopics,
+      nextTopic,
+      progressPct: Math.round(100 * visitedTopics / Math.max(1, topicProgress.length)),
+    };
+  }
+
+  function buildStudyPlan(state) {
+    const plan = [];
+    if (state.flash.due > 0) {
+      plan.push({
+        title: `Korda ${Math.min(state.flash.due, 12)} mõistekaarti`,
+        meta: `${state.flash.due} kaarti on täna tähtajaga`,
+        href: '#flashcards',
+        time: '6 min',
+      });
+    }
+    if (state.weakStats.open > 0) {
+      plan.push({
+        title: `Paranda ${Math.min(state.weakStats.open, 3)} nõrka kohta`,
+        meta: state.weakStats.topRoutes.length
+          ? `Fookus: ${state.weakStats.topRoutes.map(item => item.label).join(', ')}`
+          : 'Ava vigade päevik ja vali kordamiseks üks kirje',
+        href: '#vead',
+        time: '8 min',
+      });
+    }
+    if (state.miniChecks.completed < state.miniChecks.total) {
+      plan.push({
+        title: 'Tee üks teemalõpu mini-kontroll',
+        meta: `${state.miniChecks.completed}/${state.miniChecks.total} mini-kontrolli tehtud`,
+        href: `#${state.miniChecks.nextRoute || 'lausearvutus'}`,
+        time: '5 min',
+      });
+    }
+    if (state.quiz && state.quiz.pct < 70) {
+      plan.push({
+        title: `Paranda kviisi teemat: ${state.quiz.topicLabel}`,
+        meta: `Viimane tulemus oli ${state.quiz.score}/${state.quiz.total} (${state.quiz.pct}%)`,
+        href: '#kviis',
+        time: '8 min',
+      });
+    } else {
+      plan.push({
+        title: 'Tee üks 5-küsimuseline kiirviktoriin',
+        meta: state.quiz ? `Viimane tulemus: ${state.quiz.pct}%` : 'Esimene tulemus annab töölauale võrdluspunkti',
+        href: '#kviis',
+        time: '5 min',
+      });
+    }
+    if (state.nextTopic) {
+      const needsCheck = state.nextTopic.needsMiniCheck && state.nextTopic.visited;
+      if (state.miniChecks.nextRoute !== state.nextTopic.route) {
+        plan.push({
+          title: needsCheck ? `Lõpeta mini-kontroll: "${state.nextTopic.label}"` : `Jätka peatükiga "${state.nextTopic.label}"`,
+          meta: needsCheck
+            ? 'Peatükk on avatud, aga tehtuks märgitakse see pärast mini-kontrolli'
+            : `${state.nextTopic.group} osa järgmine lõpetamata teema`,
+          href: `#${state.nextTopic.route}`,
+          time: '10 min',
+        });
+      }
+    } else {
+      plan.push({
+        title: 'Koosta üks 32-punktine harjutustöö',
+        meta: 'Kõik põhiteemad on lõpetatud',
+        href: '#harjutustoo',
+        time: '25 min',
+      });
+    }
+    if (state.noteTopics.length > 0) {
+      plan.push({
+        title: 'Vaata üle oma viimased peatükimärkmed',
+        meta: `${state.noteTopics.length} peatükil on märkmed`,
+        href: `#${state.noteTopics[0].route}`,
+        time: '4 min',
+      });
+    } else {
+      plan.push({
+        title: 'Lisa ühele peatükile oma märge',
+        meta: 'Märgi üles üks koht, kuhu tahad hiljem tagasi tulla',
+        href: state.nextTopic ? `#${state.nextTopic.route}` : '#lausearvutus',
+        time: '2 min',
+      });
+    }
+    return plan.slice(0, 4);
+  }
+
+  function primaryStudyAction(state) {
+    if (state.flash.due > 0) {
+      return {
+        eyebrow: 'Tänane fookus',
+        title: `${state.flash.due} mõistekaarti ootab kordamist`,
+        text: 'Alusta lühikesest mõisteringi soojendusest. See annab loogikale ja graafidele kohe parema pidamise.',
+        href: '#flashcards',
+        cta: 'Ava mõistekaardid',
+      };
+    }
+    if (state.weakStats.open > 0) {
+      return {
+        eyebrow: 'Nõrgad kohad',
+        title: `${state.weakStats.open} kirjet ootab ülevaatamist`,
+        text: 'Võta päevikust üks korduv viga ja tee selle kõrvale vastav harjutus. Väike parandusring annab palju tagasi.',
+        href: '#vead',
+        cta: 'Ava vigade päevik',
+      };
+    }
+    if (state.nextTopic) {
+      const needsCheck = state.nextTopic.needsMiniCheck && state.nextTopic.visited;
+      return {
+        eyebrow: 'Järgmine samm',
+        title: needsCheck ? `Tee mini-kontroll: "${state.nextTopic.label}"` : `Võta ette "${state.nextTopic.label}"`,
+        text: needsCheck
+          ? 'Peatükk on juba avatud; tehtuks läheb see siis, kui mini-kontroll on kontrollitud.'
+          : 'Ava peatükk, tee teema juures harjutused ja lõpeta see mini-kontrolliga.',
+        href: `#${state.nextTopic.route}`,
+        cta: needsCheck ? 'Ava mini-kontroll' : 'Ava peatükk',
+      };
+    }
+    return {
+      eyebrow: 'Kordamise režiim',
+      title: 'Põhiring on läbi. Nüüd tasub teha segaharjutusi.',
+      text: 'Koosta harjutustöö või tee kviis, et kontrollida, mis päriselt külge jäi.',
+      href: '#harjutustoo',
+      cta: 'Koosta harjutustöö',
+    };
+  }
+
+  window.initStudyDashboard = function () {
+    const view = document.getElementById('view');
+    if (!view) return;
+    const state = getStudyState();
+    const primary = primaryStudyAction(state);
+    const plan = buildStudyPlan(state);
+    const notesPreview = state.noteTopics.slice(0, 5);
+    const nextTopics = state.topicProgress.filter(topic => !topic.done).slice(0, 6);
+    const streakText = `${state.streak.streak || 0} ${(state.streak.streak || 0) === 1 ? 'päev' : 'päeva'}`;
+    const glossaryTotal = (window.GLOSSARY || []).length;
+    const learnedPct = Math.round(100 * state.learned.size / Math.max(1, glossaryTotal));
+
+    view.innerHTML = `
+      <h1>Õppimise töölaud</h1>
+      <p>Üks vaade, mis seob kokku kordamise, peatükkide edenemise, märkmed ja viimase enesekontrolli.</p>
+
+      <section class="card study-hero">
+        <div>
+          <span class="tag accent">${primary.eyebrow}</span>
+          <h2>${primary.title}</h2>
+          <p>${primary.text}</p>
+        </div>
+        <a class="btn" href="${primary.href}">${primary.cta}</a>
+      </section>
+
+      <section class="study-stat-grid">
+        <a class="study-stat" href="#vead">
+          <strong>${state.weakStats.open}</strong>
+          <span>nõrka kohta</span>
+          <small>${state.weakStats.resolved} kirjet parandatud</small>
+        </a>
+        <a class="study-stat" href="#${state.miniChecks.nextRoute || 'oppimine'}">
+          <strong>${state.miniChecks.completed}/${state.miniChecks.total}</strong>
+          <span>mini-kontrolli tehtud</span>
+          <small>${state.miniChecks.average === null ? 'keskmine puudub' : `keskmine ${state.miniChecks.average}%`}</small>
+        </a>
+        <a class="study-stat" href="#flashcards">
+          <strong>${state.flash.due}</strong>
+          <span>mõistekaarti täna</span>
+          <small>${state.flash.started}/${state.flash.total} kordamist alustatud</small>
+        </a>
+        <a class="study-stat" href="#sonastik">
+          <strong>${state.learned.size}</strong>
+          <span>mõistet selgeks märgitud</span>
+          <small>${learnedPct}% Alfred Saidlo sõnastikust</small>
+        </a>
+        <a class="study-stat" href="#avaleht">
+          <strong>${state.progressPct}%</strong>
+          <span>peatükkide ringist</span>
+          <small>${state.visitedTopics}/${state.topicProgress.length} teemat tehtud</small>
+        </a>
+        <a class="study-stat" href="#kviis">
+          <strong>${state.quiz ? `${state.quiz.pct}%` : '-'}</strong>
+          <span>viimane kviis</span>
+          <small>${state.quiz ? `${state.quiz.topicLabel}, ${formatDate(state.quiz.date)}` : 'tee esimene kviis'}</small>
+        </a>
+      </section>
+
+      <div class="study-dashboard-grid">
+        <section class="card">
+          <div class="study-section-head">
+            <div>
+              <h2>Tänane õppimisring</h2>
+              <p>Väike järjestus, mis annab umbes 20 minutiga kõige rohkem kasu.</p>
+            </div>
+            <span class="tag good">${streakText}</span>
+          </div>
+          <ol class="study-plan">
+            ${plan.map(item => `
+              <li>
+                <div>
+                  <strong>${item.title}</strong>
+                  <span>${item.meta}</span>
+                </div>
+                <a class="btn small secondary" href="${item.href}">${item.time}</a>
+              </li>
+            `).join('')}
+          </ol>
+        </section>
+
+        <section class="card">
+          <div class="study-section-head">
+            <div>
+              <h2>Peatükkide edenemine</h2>
+              <p>Loogika ja graafiteooria teemad, mis lähevad tehtuks pärast mini-kontrolli lõpetamist.</p>
+            </div>
+            <strong>${state.visitedTopics}/${state.topicProgress.length}</strong>
+          </div>
+          <div class="progress-bar large"><div class="progress-fill" style="width:${state.progressPct}%"></div></div>
+          <div class="study-topic-list">
+            ${nextTopics.length ? nextTopics.map(topic => `
+              <a href="#${topic.route}">
+                <span>${topic.label}</span>
+                <small>${topic.needsMiniCheck && topic.visited ? 'mini-kontroll tegemata' : topic.group}</small>
+              </a>
+            `).join('') : '<p class="muted">Kõik põhiteemad on lõpetatud. Nüüd on kordamise ja harjutustöö aeg.</p>'}
+          </div>
+        </section>
+      </div>
+
+      <div class="study-dashboard-grid">
+        <section class="card">
+          <div class="study-section-head">
+            <div>
+              <h2>Märkmed, kuhu tagasi tulla</h2>
+              <p>Peatükid, mille alla oled midagi kirja pannud.</p>
+            </div>
+            <span class="tag warn">${state.noteTopics.length} tk</span>
+          </div>
+          <div class="study-note-list">
+            ${notesPreview.length ? notesPreview.map(topic => `
+              <a href="#${topic.route}">
+                <strong>${topic.label}</strong>
+                <span>${escapeHtml(String(state.notes[topic.route] || '').trim().slice(0, 120))}${String(state.notes[topic.route] || '').trim().length > 120 ? '...' : ''}</span>
+              </a>
+            `).join('') : '<p class="muted">Märkmeid veel ei ole. Ava mõni peatükk ja kirjuta lehe lõppu, mis vajab hiljem kordamist.</p>'}
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="study-section-head">
+            <div>
+              <h2>Kiirvalikud</h2>
+              <p>Otseteed kõige kasulikumatesse harjutusvaadetesse.</p>
+            </div>
+          </div>
+          <div class="study-action-grid">
+            <a href="#vead">Vigade päevik</a>
+            <a href="#normaalkujud">DNK/KNK</a>
+            <a href="#predikaadid">Mudeli ehitaja</a>
+            <a href="#sekvents">Sekventsid</a>
+            <a href="#tipuastmed">Havel-Hakimi</a>
+            <a href="#harjutustoo">Harjutustöö</a>
+            <a href="#hinnekalkulaator">Hinde kalkulaator</a>
+          </div>
+        </section>
+      </div>
+    `;
+    renderMath(view);
+  };
+
+  function weaknessStatusLabel(status) {
+    if (status === 'resolved') return 'Parandatud';
+    if (status === 'reviewing') return 'Kordamisel';
+    return 'Avatud';
+  }
+
+  function weaknessTypeLabel(type) {
+    if (type === 'quiz') return 'Kviis';
+    if (type === 'exercise') return 'Lahendusülesanne';
+    return 'Käsitsi';
+  }
+
+  window.initWeaknessJournal = function () {
+    const view = document.getElementById('view');
+    if (!view) return;
+    let filter = 'active';
+
+    function filteredItems(items) {
+      return items
+        .filter(item => {
+          if (filter === 'all') return true;
+          if (filter === 'resolved') return item.status === 'resolved';
+          return item.status !== 'resolved';
+        })
+        .sort((a, b) => new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt));
+    }
+
+    function render() {
+      const items = readWeaknesses();
+      const stats = weaknessStats(items);
+      const visible = filteredItems(items);
+      const active = items.filter(item => item.status !== 'resolved');
+      const topRoutes = stats.topRoutes.length ? stats.topRoutes : [];
+
+      view.innerHTML = `
+        <h1>Vigade päevik / nõrgad kohad</h1>
+        <p>Pane siia kirja korduvad vead, segased ülesandetüübid ja teemad, mida tahad hiljem sihilikult parandada.</p>
+
+        <section class="study-stat-grid weakness-stats">
+          <div class="study-stat">
+            <strong>${stats.open}</strong>
+            <span>avatud kirjet</span>
+            <small>vajavad veel kordamist</small>
+          </div>
+          <div class="study-stat">
+            <strong>${stats.resolved}</strong>
+            <span>parandatud</span>
+            <small>märgitud tehtuks</small>
+          </div>
+          <div class="study-stat">
+            <strong>${topRoutes[0]?.count || 0}</strong>
+            <span>${topRoutes[0]?.label || 'fookusteemat'}</span>
+            <small>${topRoutes.length ? 'kõige sagedasem nõrk koht' : 'lisa esimene kirje'}</small>
+          </div>
+        </section>
+
+        <section class="card weakness-form">
+          <h2>Lisa nõrk koht</h2>
+          <div class="topic-tool-grid">
+            <label class="grade-field">
+              <span>Pealkiri</span>
+              <input id="weakTitle" type="text" placeholder="Nt prefikskuju eitustega või Havel-Hakimi samm">
+            </label>
+            <label class="grade-field">
+              <span>Teema</span>
+              <select id="weakRoute">
+                <option value="">Kogu kursus</option>
+                ${STUDY_TOPICS.map(topic => `<option value="${topic.route}">${topic.group}: ${topic.label}</option>`).join('')}
+              </select>
+            </label>
+          </div>
+          <label class="grade-field">
+            <span>Märkus</span>
+            <textarea id="weakNote" rows="3" placeholder="Mis täpselt valesti läks? Millist näidet peaksid uuesti tegema?"></textarea>
+          </label>
+          <button class="btn small" id="addWeakness" type="button">Lisa päevikusse</button>
+          <span class="muted" id="weakFormStatus"></span>
+        </section>
+
+        <section class="card">
+          <div class="study-section-head">
+            <div>
+              <h2>Päeviku kirjed</h2>
+              <p>${active.length ? 'Alusta ühest avatud kirjest ja tee kohe kõrval üks sama tüüpi harjutus.' : 'Avatud nõrku kohti praegu ei ole.'}</p>
+            </div>
+            <select id="weakFilter" aria-label="Vigade päeviku filter">
+              <option value="active" ${filter === 'active' ? 'selected' : ''}>Avatud ja kordamisel</option>
+              <option value="resolved" ${filter === 'resolved' ? 'selected' : ''}>Parandatud</option>
+              <option value="all" ${filter === 'all' ? 'selected' : ''}>Kõik kirjed</option>
+            </select>
+          </div>
+          <div class="weakness-list">
+            ${visible.length ? visible.map(item => `
+              <article class="weakness-item ${item.status === 'resolved' ? 'resolved' : ''}" data-id="${item.id}">
+                <div class="weakness-item-head">
+                  <div>
+                    <span class="tag ${item.status === 'resolved' ? 'good' : item.status === 'reviewing' ? 'warn' : 'bad'}">${weaknessStatusLabel(item.status)}</span>
+                    <span class="tag accent">${weaknessTypeLabel(item.type)}</span>
+                    <h3>${escapeHtml(item.title)}</h3>
+                    <p>${escapeHtml(item.note || 'Märkus puudub.')}</p>
+                  </div>
+                  <div class="weakness-meta">
+                    <strong>${escapeHtml(item.topic || topicLabel(item.route))}</strong>
+                    <span>Kordunud ${item.count || 1}x</span>
+                    <small>${formatDate(item.updatedAt || item.createdAt)}</small>
+                  </div>
+                </div>
+                <div class="btn-row">
+                  ${item.route ? `<a class="btn small secondary" href="#${item.route}">Ava teema</a>` : ''}
+                  ${item.status !== 'reviewing' && item.status !== 'resolved' ? `<button class="btn small secondary" data-weak-status="reviewing" type="button">Märgi kordamisel</button>` : ''}
+                  ${item.status !== 'resolved' ? `<button class="btn small success" data-weak-status="resolved" type="button">Parandatud</button>` : `<button class="btn small secondary" data-weak-status="open" type="button">Ava uuesti</button>`}
+                  <button class="btn small danger" data-weak-delete type="button">Kustuta</button>
+                </div>
+              </article>
+            `).join('') : '<p class="muted">Selle filtriga kirjeid ei ole.</p>'}
+          </div>
+        </section>
+      `;
+
+      document.getElementById('addWeakness').addEventListener('click', () => {
+        const title = document.getElementById('weakTitle').value.trim();
+        const route = document.getElementById('weakRoute').value;
+        const note = document.getElementById('weakNote').value.trim();
+        const status = document.getElementById('weakFormStatus');
+        if (!title) {
+          status.textContent = 'Lisa pealkiri.';
+          return;
+        }
+        addWeakness({
+          type: 'manual',
+          title,
+          route,
+          topic: route ? topicLabel(route) : 'Kogu kursus',
+          note,
+          sourceKey: `manual:${route || 'general'}:${title.toLowerCase()}`,
+        });
+        render();
+      });
+
+      document.getElementById('weakFilter').addEventListener('change', event => {
+        filter = event.target.value;
+        render();
+      });
+
+      view.querySelectorAll('[data-weak-status]').forEach(button => {
+        button.addEventListener('click', () => {
+          const id = button.closest('.weakness-item')?.dataset.id;
+          if (id) updateWeakness(id, { status: button.dataset.weakStatus });
+          render();
+        });
+      });
+      view.querySelectorAll('[data-weak-delete]').forEach(button => {
+        button.addEventListener('click', () => {
+          const id = button.closest('.weakness-item')?.dataset.id;
+          if (id) removeWeakness(id);
+          render();
+        });
+      });
+    }
+
+    render();
+  };
 
   function contextFor(text, query) {
     const repaired = repairText(text).replace(/\s+/g, ' ').trim();
