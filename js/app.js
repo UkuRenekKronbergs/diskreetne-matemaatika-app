@@ -68,6 +68,8 @@
     if (route === 'flashcards') window.initFlashcards && window.initFlashcards();
     if (route === 'sonastik') window.initGlossary && window.initGlossary();
     if (route === 'hinnekalkulaator') window.initGradeCalculator && window.initGradeCalculator();
+    if (route === 'toesuspuu') window.initTruthTree && window.initTruthTree();
+    if (route === 'harjutustoo') window.initExamPractice && window.initExamPractice();
 
     markVisited(route);
 

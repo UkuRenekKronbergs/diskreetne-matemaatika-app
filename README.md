@@ -6,11 +6,13 @@ Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I**
 
 - **Loe teooriat** kõigi peatükkide kohta — lausearvutusest kuni Dijkstra algoritmini.
 - **Ehita tõeväärtustabeleid** sisestades suvalisi lausearvutuse valemeid (parser toetab `&`, `|`, `!`, `->`, `<->`).
+- **Ehita tõesuspuid** lausearvutuse valemitele ning kontrolli samaselt tõesust, samaselt väärust ja kehtestatavust.
 - **Joonista graafe** interaktiivsel lõuendil — lisa tippe, servi, määra kaale, vaata naabrusmaatriksit.
 - **Jooksuta algoritme** — Kruskali, Primi, Dijkstra ja Floydi–Warshalli — samm-sammult.
-- **Tee viktoriini** 20 juhusliku küsimusega kogu kursuse materjalist.
-- **Korda mõistekaartidega** kõik olulised mõisted.
+- **Tee teemaviktoriini** 5–15 juhusliku küsimusega kogu kursusest, kontrolltöö 1 teemadest või graafiteooriast.
+- **Korda mõistekaartidega** ja märgi sõnastikus selgeks kõik olulised mõisted.
 - **Vaata vanu kontrolltöid** (variandid A, C, D, E, F) eesti keeles.
+- **Koosta harjutustöö** juhusliku 32-punktise kontrolltöö struktuuriga.
 - **Arvuta hinnet** TBL punktide, kontrolltööde lävendite ja lisapunktide põhjal.
 
 ## 🚀 Käivitamine
@@ -36,12 +38,14 @@ app/
 │   ├── glossary.js        # Kursuse Moodle'i sõnastiku mõisted
 │   └── widgets/
 │       ├── truth-table.js # Lausearvutuse parser + tõeväärtustabel
-│       ├── truth-tree.js  # (placeholder)
+│       ├── truth-tree.js  # Interaktiivne lausearvutuse tõesuspuu ehitaja
 │       ├── prefix-form.js # Prefikskuju samm-sammult näited
 │       ├── graph-editor.js# Canvas-põhine graafiredaktor + algoritmid
 │       ├── algorithms.js  # (reserved)
 │       ├── quiz.js        # Viktoriin, mõistekaardid, sõnastik
+│       ├── exam-practice.js # 32-punktise harjutustöö generaator
 │       └── grade-calculator.js # Hinde ja miinimumi kalkulaator
+├── vendor/katex/          # KaTeX lokaalne fallback offline kasutuseks
 └── materjalid/            # PDF-id: konspekt, ülesanded, kontrolltööd
 ```
 

@@ -462,6 +462,38 @@ input:focus, textarea:focus, select:focus {
   font-size: 24px;
   font-weight: 700;
 }
+.quiz-topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+.quiz-topic {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+}
+.quiz-topic:has(input:checked) {
+  border-color: var(--accent);
+  background: rgba(92,184,255,0.08);
+}
+.quiz-topic input {
+  margin-top: 3px;
+  accent-color: var(--accent);
+}
+.quiz-topic span,
+.quiz-topic small {
+  display: block;
+}
+.quiz-topic small {
+  color: var(--fg-3);
+  font-size: 12px;
+  margin-top: 3px;
+}
 
 /* ===== Flashcards ===== */
 .flashcard {
@@ -487,6 +519,39 @@ input:focus, textarea:focus, select:focus {
 .flashcard .term { font-size: 24px; color: var(--accent); }
 .flashcard .def-text { font-size: 16px; }
 .flashcard-hint { position: absolute; bottom: 10px; right: 14px; font-size: 11px; color: var(--fg-3); }
+
+/* ===== Glossary learning state ===== */
+.glossary-controls {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(170px, 220px) auto;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 16px;
+}
+.glossary-progress {
+  color: var(--fg-2);
+  font-size: 13px;
+}
+.glossary-progress .progress-bar {
+  margin-top: 5px;
+}
+.glossary-entry {
+  margin: 8px 0;
+}
+.glossary-entry.learned {
+  border-left-color: var(--good);
+  background: rgba(74,222,128,0.05);
+}
+.glossary-entry-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.glossary-entry-head strong {
+  color: var(--accent);
+}
 
 /* ===== Graph editor ===== */
 .graph-canvas {
@@ -554,6 +619,84 @@ input:focus, textarea:focus, select:focus {
   margin-right: 8px;
 }
 
+/* ===== Truth tree builder ===== */
+.truth-tree-builder {
+  margin-top: 20px;
+}
+.truth-tree-builder .input-row select {
+  flex: 0 0 240px;
+}
+.truth-tree-verdict {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.truth-tree-verdict h3 {
+  margin-top: 0;
+}
+.truth-tree-verdict.good {
+  border-color: rgba(74,222,128,0.5);
+  background: rgba(74,222,128,0.07);
+}
+.truth-tree-verdict.warn {
+  border-color: rgba(251,191,36,0.5);
+  background: rgba(251,191,36,0.07);
+}
+.truth-tree-verdict.bad {
+  border-color: rgba(248,113,113,0.5);
+  background: rgba(248,113,113,0.07);
+}
+.truth-tree-branches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.truth-tree-branch {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+.truth-tree-branch.open {
+  border-color: rgba(74,222,128,0.42);
+}
+.truth-tree-branch.closed {
+  border-color: rgba(248,113,113,0.42);
+}
+.truth-tree-branch-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+.truth-tree-branch ol {
+  padding-left: 22px;
+}
+.truth-tree-branch li {
+  margin: 6px 0;
+}
+.truth-tree-branch li.expanded code {
+  color: var(--fg-3);
+}
+.truth-tree-branch small {
+  display: block;
+  color: var(--fg-3);
+  margin-top: 2px;
+}
+.truth-tree-steps {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.truth-tree-steps summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* ===== Step-by-step ===== */
 .steps {
   counter-reset: step;
@@ -585,6 +728,67 @@ input:focus, textarea:focus, select:focus {
   justify-content: center;
   font-weight: 700;
   font-size: 13px;
+}
+
+/* ===== Exam practice ===== */
+.exam-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.exam-total strong {
+  color: var(--accent);
+  font-size: 24px;
+}
+.exam-total span {
+  color: var(--fg-2);
+}
+.exam-task-list {
+  list-style: none;
+  padding: 0;
+  counter-reset: exam-task;
+}
+.exam-task {
+  counter-increment: exam-task;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+.exam-task-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--fg-2);
+  font-size: 13px;
+}
+.exam-task-head strong {
+  color: var(--warn);
+}
+.exam-task h3 {
+  margin-top: 8px;
+}
+.exam-task details {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.exam-task summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 600;
+}
+.exam-checklist {
+  color: var(--fg-2);
+  font-size: 14px;
 }
 
 /* ===== Comparison table ===== */
@@ -854,6 +1058,20 @@ input:focus, textarea:focus, select:focus {
   .main { padding: 60px 20px 40px; }
   .compare, .eq-list { grid-template-columns: 1fr; }
   .dashboard { grid-template-columns: 1fr; }
+  .input-row {
+    flex-direction: column;
+  }
+  .truth-tree-builder .input-row select {
+    flex-basis: auto;
+  }
+  .glossary-controls {
+    grid-template-columns: 1fr;
+  }
+  .glossary-entry-head,
+  .exam-total {
+    align-items: flex-start;
+    flex-direction: column;
+  }
   .grade-layout,
   .grade-summary-grid,
   .grade-field-grid,

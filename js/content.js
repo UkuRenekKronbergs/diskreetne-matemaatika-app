@@ -56,6 +56,11 @@ avaleht: `
     <h3>Kiirviktoriin</h3>
     <p>Kontrolli, kas oled materjali selgeks saanud.</p>
   </a>
+  <a href="#harjutustoo" class="dash-card">
+    <span class="icon">32</span>
+    <h3>Harjutustöö</h3>
+    <p>Koosta juhuslik 32-punktine kontrolltöö vanade ülesandetüüpide põhjal.</p>
+  </a>
 </div>
 
 <div class="card">
@@ -1628,6 +1633,9 @@ kontrolltood: `
 </div>
 `,
 
+/* ============= HARJUTUSTÖÖ GENERAATOR (laeb widget) ============= */
+harjutustoo: `<h1>Harjutustöö generaator</h1><p>Laadimine...</p>`,
+
 /* ============= ÜLESANDED ============= */
 ulesanded: `
 <h1>Praktikumiülesanded</h1>
@@ -1723,7 +1731,7 @@ flashcards: `<h1>Mõistekaardid</h1><p>Laadimine...</p>`,
 
 };
 
-/* ===== Glossary terms ===== */
+/* ===== Legacy glossary terms; active course glossary lives in js/glossary.js =====
 window.GLOSSARY = [
   {term: "Lausearvutus", def: "Loogikaharu, mis uurib lauseid ja nende kompositsioonseid omadusi tõeväärtuste põhjal."},
   {term: "Lausemuutuja", def: "Sümbol (A, B, C, ...), mis võib omandada väärtuse 1 (tõene) või 0 (väär)."},
@@ -1784,3 +1792,4 @@ window.GLOSSARY = [
   {term: "Dijkstra algoritm", def: "Lühima tee leidmine ühest tipust kõigisse teistesse (mittenegatiivsed kaalud)."},
   {term: "Floydi–Warshalli algoritm", def: "Lühimad teed kõigi tipupaaride vahel; O(n³) keerukus."},
 ];
+*/
