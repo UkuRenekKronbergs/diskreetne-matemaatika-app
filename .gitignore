@@ -1,0 +1,20 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Python (used for extraction scripts and dev server)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Build & temp
+*.log
+extracted.json

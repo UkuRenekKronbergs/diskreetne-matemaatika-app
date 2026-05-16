@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diskreetne matemaatika I — interaktiivne õppimine</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1>Diskreetne matemaatika I</h1>
+      <p class="subtitle">Interaktiivne õppekeskkond</p>
+      <div class="progress">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <span id="progressText">0% läbitud</span>
+      </div>
+    </div>
+    <nav>
+      <div class="nav-group">
+        <h3>Üldist</h3>
+        <a href="#avaleht" data-route="avaleht">Avaleht</a>
+        <a href="#kursus" data-route="kursus">Kursuse info</a>
+      </div>
+      <div class="nav-group">
+        <h3>1. osa — Matemaatiline loogika</h3>
+        <a href="#lausearvutus" data-route="lausearvutus">Lausearvutus</a>
+        <a href="#truthtable" data-route="truthtable">Tõeväärtustabeli ehitaja</a>
+        <a href="#toesuspuu" data-route="toesuspuu">Tõesuspuu meetod</a>
+        <a href="#predikaadid" data-route="predikaadid">Predikaadid ja kvantorid</a>
+        <a href="#signatuur" data-route="signatuur">Signatuur ja interpretatsioonid</a>
+        <a href="#samavaarsus" data-route="samavaarsus">Samaväärsus</a>
+        <a href="#prefikskuju" data-route="prefikskuju">Prefikskuju</a>
+        <a href="#aksiomaatika" data-route="aksiomaatika">Aksiomaatilised teooriad</a>
+        <a href="#sekvents" data-route="sekvents">Sekventsiaalne lausearvutus</a>
+        <a href="#peano" data-route="peano">Peano aritmeetika</a>
+      </div>
+      <div class="nav-group">
+        <h3>2. osa — Graafiteooria</h3>
+        <a href="#graafid" data-route="graafid">Graafi mõiste</a>
+        <a href="#grapheditor" data-route="grapheditor">Graafiredaktor</a>
+        <a href="#tipuastmed" data-route="tipuastmed">Tipuastmed</a>
+        <a href="#ahelad" data-route="ahelad">Ahelad ja tsüklid</a>
+        <a href="#sidusus" data-route="sidusus">Sidusus</a>
+        <a href="#isomorfism" data-route="isomorfism">Isomorfism</a>
+        <a href="#eulerhamilton" data-route="eulerhamilton">Euler & Hamilton</a>
+        <a href="#puud" data-route="puud">Puud</a>
+        <a href="#toespuud" data-route="toespuud">Toespuud (Kruskal/Prim)</a>
+        <a href="#suunatud" data-route="suunatud">Suunatud graafid</a>
+        <a href="#luhimtee" data-route="luhimtee">Lühim tee (Dijkstra/Floyd)</a>
+      </div>
+      <div class="nav-group">
+        <h3>Harjutamine</h3>
+        <a href="#kviis" data-route="kviis">Kiirviktoriin</a>
+        <a href="#flashcards" data-route="flashcards">Mõistekaardid</a>
+        <a href="#kontrolltood" data-route="kontrolltood">Vanad kontrolltööd</a>
+        <a href="#ulesanded" data-route="ulesanded">Praktikumiülesanded</a>
+        <a href="#sonastik" data-route="sonastik">Mõistete sõnastik</a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button id="resetProgress" class="btn-link">Lähtesta edenemine</button>
+      <span class="version">v1.0</span>
+    </div>
+  </aside>
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Menüü">☰</button>
+
+  <main id="main" class="main">
+    <div id="view" class="view"></div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="js/content.js"></script>
+<script src="js/widgets/truth-table.js"></script>
+<script src="js/widgets/truth-tree.js"></script>
+<script src="js/widgets/prefix-form.js"></script>
+<script src="js/widgets/graph-editor.js"></script>
+<script src="js/widgets/algorithms.js"></script>
+<script src="js/widgets/quiz.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
