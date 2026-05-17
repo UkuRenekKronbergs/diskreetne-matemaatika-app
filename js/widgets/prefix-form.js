@@ -7,16 +7,14 @@
 
   const EXAMPLES = [
     {
-      formula: '¬∃y(∃xP(x) ⇒ (Q(y) ⇒ ∀xR(x)))',
-      title: 'Kontrolltöö Variant A, ülesanne 4',
+      formula: '¬∃x(∀yP(y,x) ⇒ (R(x) ∨ ∃zS(z)))',
+      title: 'Üldine prefikskuju näide',
       steps: [
-        'Asendame implikatsioonid (A ⇒ B ≡ ¬A ∨ B): ¬∃y(¬∃xP(x) ∨ (¬Q(y) ∨ ∀xR(x)))',
-        'Viime eituse sisse — ¬∃y → ∀y¬: ∀y¬(¬∃xP(x) ∨ (¬Q(y) ∨ ∀xR(x)))',
-        'De Morgan ¬(A ∨ B) ≡ ¬A & ¬B: ∀y(∃xP(x) & ¬(¬Q(y) ∨ ∀xR(x)))',
-        'Veel De Morgan ja topelt-eitus: ∀y(∃xP(x) & (Q(y) & ¬∀xR(x)))',
-        'Kvantori eitus ¬∀xR → ∃x¬R: ∀y(∃xP(x) & (Q(y) & ∃x¬R(x)))',
-        'Nimetame seotud muutuja x ümber, et vältida kollisioone: ∀y(∃x₁P(x₁) & (Q(y) & ∃x₂¬R(x₂)))',
-        'Toome kvantorid välja (PS3, PS5, PS9): ∀y∃x₁∃x₂(P(x₁) & Q(y) & ¬R(x₂))',
+        'Viime eituse sisse — ¬∃x → ∀x¬: ∀x¬(∀yP(y,x) ⇒ (R(x) ∨ ∃zS(z)))',
+        'Eitame implikatsiooni — ¬(A ⇒ B) ≡ A & ¬B: ∀x(∀yP(y,x) & ¬(R(x) ∨ ∃zS(z)))',
+        'De Morgan: ∀x(∀yP(y,x) & (¬R(x) & ¬∃zS(z)))',
+        'Kvantori eitus ¬∃zS(z) ≡ ∀z¬S(z): ∀x(∀yP(y,x) & (¬R(x) & ∀z¬S(z)))',
+        'Toome kvantorid ette: ∀x∀y∀z(P(y,x) & ¬R(x) & ¬S(z))',
       ],
     },
     {

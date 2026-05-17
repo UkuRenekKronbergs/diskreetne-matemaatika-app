@@ -1546,62 +1546,7 @@ luhimtee: `
 kontrolltood: `
 <h1>Vanad kontrolltööd</h1>
 
-<p>Kontrolltöö nr 1 katab kursuse esimese poole (matemaatiline loogika). Iga variant koosneb tüüpiliselt 5 ülesandest, mille kogupunktidearv on 32. Allpool on toodud kõigi senise kevadsemestri variantide ülesanded.</p>
-
-<div class="card">
-  <h3>📝 Variant A (07.04.2026)</h3>
-
-  <div class="def">
-    <strong>Ülesanne 1 (6 p)</strong>
-    <ol type="a">
-      <li>Esitage Peano aritmeetika signatuur ja 3 aksioomi.</li>
-      <li>Tõestage lähtudes ainult Peano aritmeetika aksioomidest ja võrduspredikaadi omadustest, et naturaalarvudel on omadus $\\forall x(0' + x = x')$.</li>
-      <li>Väljendage Peano aritmeetika signatuuris väide $2 \\cdot 3 + 1 = 7$.</li>
-    </ol>
-  </div>
-
-  <div class="def">
-    <strong>Ülesanne 2 (7 p)</strong>
-    <ol type="a">
-      <li>Defineerige predikaatarvutuse valemite järeldumine.</li>
-      <li>Tõestage, et predikaatarvutuse valemite $F$ ja $G$ korral kehtib järeldumine
-      $$\\exists x \\forall y (F(x) \\lor G(y)) \\models \\forall y \\exists x (F(x) \\lor G(y)),$$
-      kuid vastupidine järeldumine üldjuhul ei kehti.</li>
-    </ol>
-  </div>
-
-  <div class="def">
-    <strong>Ülesanne 3 (6 p)</strong>
-    <ol type="a">
-      <li>Sõnastage sekventsiaalse lausearvutuse täielikkuse teoreem.</li>
-      <li>Tuletage sekvents $\\neg(P \\Rightarrow Q) \\vdash P\\&\\neg Q$.</li>
-    </ol>
-  </div>
-
-  <div class="def">
-    <strong>Ülesanne 4 (6 p)</strong>
-    <ol type="a">
-      <li>Defineerige predikaatarvutuse valem.</li>
-      <li>Teisendage valem $\\neg \\exists y(\\exists x P(x) \\Rightarrow (Q(y) \\Rightarrow \\forall x R(x)))$ prefikskujule, kus eitused on atomaarsete valemite ees ja valem ei sisalda implikatsiooni.</li>
-    </ol>
-  </div>
-
-  <div class="def">
-    <strong>Ülesanne 5 (7 p)</strong>
-    <ol type="a">
-      <li>Defineerige signatuuri interpretatsioon.</li>
-      <li>Leidke võimalikult väheste elementidega sobiv signatuur ja selle interpretatsioon, et väljendada laused maatriksi $A \\in \\text{Mat}_{m,n}(\\mathbb{N})$ kohta.</li>
-      <li>Väljendage selle signatuuri silmas pidades:
-        <ol type="i">
-          <li>Maatriksi $A$ viimase rea elemendid on kasvavas järjestuses.</li>
-          <li>Maatriksis $A$ on täpselt üks nullidest koosnev veerg.</li>
-        </ol>
-      </li>
-    </ol>
-  </div>
-
-  <p><a href="materjalid/Kontrolltoo_1_07.04.2026_Variant_A.pdf" target="_blank" class="btn small">Vaata PDF-i</a></p>
-</div>
+<p>Kontrolltöö nr 1 katab kursuse esimese poole (matemaatiline loogika). Siia jätame ainult need harjutusvariandid ja materjalid, mida tohib rakenduses jagada.</p>
 
 <div class="card">
   <h3>📝 Variant D</h3>
@@ -1676,22 +1621,70 @@ kontrolltood: `
 </div>
 
 <div class="card">
-  <h3>📝 Järeltöö, Variant C (21.04.2026)</h3>
+  <h3>📝 Variant J</h3>
   <ul>
-    <li><strong>Ül 1.</strong> Signatuur; põhihulk $\\mathcal{P}(\\mathbb{N})$, $\\langle;\\cup,\\cap;=\\rangle$: $x = \\emptyset$, $x = \\mathbb{N}$, $x \\subseteq y$, $x' = y$.</li>
-    <li><strong>Ül 2.</strong> Täielikkus; $A \\Rightarrow B, \\neg A \\Rightarrow B \\vdash B$.</li>
-    <li><strong>Ül 3.</strong> Peano: $\\forall x \\forall y(x' + y = x + y')$; tõestada $1 \\cdot 2 = 2$.</li>
-    <li><strong>Ül 4.</strong> Kehtestatavus; näita, et $\\forall x \\exists y((R(x,y)\\&P(y)) \\lor (\\neg Q(x) \\& \\neg R(y, x)))$ on kehtestatav, kuid mitte samaselt tõene.</li>
-    <li><strong>Ül 5.</strong> Järeldumine: $F(x) \\Rightarrow \\exists x \\neg G(x) \\models \\exists x(G(x) \\Rightarrow \\neg F(x))$.</li>
+    <li><strong>Ül 1.</strong> Signatuur $\\langle0;+,\\cdot;=,\\leq\\rangle$ üle $\\mathbb{N}$: $x\\neq0$, $x<y$, ruutarv, jaguvus.</li>
+    <li><strong>Ül 2.</strong> Korrektsus; tuletada $(P\\&Q)\\Rightarrow R, P, Q \\vdash R$.</li>
+    <li><strong>Ül 3.</strong> Peano: $\\forall x(x\\cdot0'=x)$; väljendada ja tõestada $2+2=4$.</li>
+    <li><strong>Ül 4.</strong> Prefikskuju: $\\neg\\forall x(\\exists yP(x,y)\\lor\\forall zQ(z))$.</li>
+    <li><strong>Ül 5.</strong> Järeldumine: $\\forall x(F(x)\\Rightarrow G(x)) \\models \\exists xF(x)\\Rightarrow\\exists xG(x)$, pööre üldjuhul ei kehti.</li>
   </ul>
-  <p><a href="materjalid/Kontrolltoo_1_jareltoo_21.04.2026_Variant_C.pdf" target="_blank" class="btn small">Vaata PDF-i</a></p>
+  <p><a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank" class="btn small">Vaata J-N PDF-i</a></p>
+</div>
+
+<div class="card">
+  <h3>📝 Variant K</h3>
+  <ul>
+    <li><strong>Ül 1.</strong> Prefikskuju: $\\exists xP(x)\\Rightarrow\\forall y(Q(y)\\lor\\neg R(x,y))$.</li>
+    <li><strong>Ül 2.</strong> Peano: $\\forall x(x+0'=x')$; väljendada ja tõestada $1+3=4$.</li>
+    <li><strong>Ül 3.</strong> Täielikkus; tuletada $P\\Rightarrow Q, Q\\Rightarrow R \\vdash P\\Rightarrow R$.</li>
+    <li><strong>Ül 4.</strong> Kehtestatavus: $\\exists x\\forall y(R(x,y)\\lor P(y))$ on kehtestatav, kuid mitte samaselt tõene.</li>
+    <li><strong>Ül 5.</strong> Suunatud graafi signatuur: väljuv naaber, sümmeetrilisus, isoleeritud tipp.</li>
+  </ul>
+  <p><a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank" class="btn small">Vaata J-N PDF-i</a></p>
+</div>
+
+<div class="card">
+  <h3>📝 Variant L</h3>
+  <ul>
+    <li><strong>Ül 1.</strong> Hulgad signatuuris $\\langle\\,;\\cup,\\cap;=\\rangle$: ühisosata, ühend on $\\mathbb{N}$, pärisalamhulk, lahutus kaheks osaks.</li>
+    <li><strong>Ül 2.</strong> Korrektsus; tuletada $\\neg P\\lor Q \\vdash P\\Rightarrow Q$.</li>
+    <li><strong>Ül 3.</strong> Peano: $\\forall x(x\\cdot0''=x+x)$; väljendada ja tõestada $2\\cdot2=4$.</li>
+    <li><strong>Ül 4.</strong> Prefikskuju: $\\neg\\exists x((P(x)\\&\\forall yQ(y))\\Rightarrow\\exists zR(x,z))$.</li>
+    <li><strong>Ül 5.</strong> Järeldumine: $\\exists x\\forall yH(x,y) \\models \\forall y\\exists xH(x,y)$, pööre üldjuhul ei kehti.</li>
+  </ul>
+  <p><a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank" class="btn small">Vaata J-N PDF-i</a></p>
+</div>
+
+<div class="card">
+  <h3>📝 Variant M</h3>
+  <ul>
+    <li><strong>Ül 1.</strong> Peano: $\\forall x(0'\\cdot x=x)$; väljendada ja tõestada $3+1=4$.</li>
+    <li><strong>Ül 2.</strong> Järeldumine: $\\forall xF(x) \\models \\exists xF(x)$, pööre üldjuhul ei kehti.</li>
+    <li><strong>Ül 3.</strong> Täielikkus; tuletada $P\\&Q \\vdash Q\\&P$.</li>
+    <li><strong>Ül 4.</strong> Prefikskuju: $\\neg(\\exists xP(x)\\&\\forall y(Q(y)\\Rightarrow R(y)))$.</li>
+    <li><strong>Ül 5.</strong> Funktsioon $f:\\mathbb{N}\\to\\mathbb{N}$: injektiivne, rangelt kasvav, perioodiga 2 punkt.</li>
+  </ul>
+  <p><a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank" class="btn small">Vaata J-N PDF-i</a></p>
+</div>
+
+<div class="card">
+  <h3>📝 Variant N</h3>
+  <ul>
+    <li><strong>Ül 1.</strong> Kehtestatavus: $\\exists x(P(x)\\&\\forall yR(x,y))$ on kehtestatav, kuid mitte samaselt tõene.</li>
+    <li><strong>Ül 2.</strong> Prefikskuju: $\\forall x(\\exists yP(x,y)\\&Q(x))\\Rightarrow\\forall zR(z)$.</li>
+    <li><strong>Ül 3.</strong> Peano: $\\forall x(x+0''=x'')$; väljendada ja tõestada $2\\cdot1=2$.</li>
+    <li><strong>Ül 4.</strong> Korrektsus; tuletada $P\\Rightarrow(Q\\Rightarrow R) \\vdash Q\\Rightarrow(P\\Rightarrow R)$.</li>
+    <li><strong>Ül 5.</strong> Järeldumine: $\\forall x(F(x)\\Rightarrow G(x)) \\models \\neg\\exists xG(x)\\Rightarrow\\neg\\exists xF(x)$, pööre üldjuhul ei kehti.</li>
+  </ul>
+  <p><a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank" class="btn small">Vaata J-N PDF-i</a></p>
 </div>
 
 <div class="tip">
   💡 Lahendused:
-  <a href="materjalid/Kontrolltoo_1_lahendused_A-F.pdf" target="_blank">Kontrolltöö 1 lahendused A-F (PDF)</a>
-  ·
   <a href="materjalid/Kontrolltoo_1_variant_G-I_ja_lahendused.pdf" target="_blank">Variandid G-I koos lahendustega (PDF)</a>
+  ·
+  <a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank">Variandid J-N koos lahendustega (PDF)</a>
 </div>
 `,
 

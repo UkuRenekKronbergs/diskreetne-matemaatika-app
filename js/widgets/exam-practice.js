@@ -83,6 +83,55 @@
           <p>$2\\cdot3=6$ on $0\\prime\\prime\\cdot0\\prime\\prime\\prime=0\\prime\\prime\\prime\\prime\\prime\\prime$. Üks arvutuskäik: $0\\prime\\prime\\cdot0\\prime\\prime\\prime=(0\\prime\\prime\\cdot0\\prime\\prime)+0\\prime\\prime=((0\\prime\\prime\\cdot0\\prime)+0\\prime\\prime)+0\\prime\\prime=(0\\prime\\prime+0\\prime\\prime)+0\\prime\\prime=0\\prime\\prime\\prime\\prime+0\\prime\\prime=0\\prime\\prime\\prime\\prime\\prime\\prime$.</p>
         `,
       },
+      {
+        title: 'Peano: variant J',
+        body: 'Esitage Peano aritmeetika signatuur ja neli aksioomi. Kasutades tulemust $\\forall x(0+x=x)$, tõestage $\\forall x(x\\cdot0\\prime=x)$. Väljendage ja tõestage $2+2=4$.',
+        hint: 'Korrutamise osas kasuta P6 ja P5; liitmisel rakenda P4 kaks korda.',
+        solution: `
+          <p>Signatuur on $\\langle0;\\prime,+,\\cdot;=\\rangle$. Sobivad aksioomid: $x+0=x$, $x+y\\prime=(x+y)\\prime$, $x\\cdot0=0$, $x\\cdot y\\prime=x\\cdot y+x$.</p>
+          <p>$a\\cdot0\\prime=a\\cdot0+a=0+a=a$, seega $\\forall x(x\\cdot0\\prime=x)$.</p>
+          <p>$2+2=4$: $0\\prime\\prime+0\\prime\\prime=(0\\prime\\prime+0\\prime)\\prime=((0\\prime\\prime+0)\\prime)\\prime=((0\\prime\\prime)\\prime)\\prime=0\\prime\\prime\\prime\\prime$.</p>
+        `,
+      },
+      {
+        title: 'Peano: variant K',
+        body: 'Esitage Peano aritmeetika signatuur ja neli aksioomi. Tõestage $\\forall x(x+0\\prime=x\\prime)$. Väljendage ja tõestage $1+3=4$.',
+        hint: '$x+0\\prime=(x+0)\\prime$ ja $x+0=x$.',
+        solution: `
+          <p>Signatuur: $\\langle0;\\prime,+,\\cdot;=\\rangle$. Vaja on näiteks P1, P2, P3 ja P4.</p>
+          <p>Suvalise $a$ korral $a+0\\prime=(a+0)\\prime=a\\prime$. Seega $\\forall x(x+0\\prime=x\\prime)$.</p>
+          <p>$1+3=4$: $0\\prime+0\\prime\\prime\\prime=(0\\prime+0\\prime\\prime)\\prime=((0\\prime+0\\prime)\\prime)\\prime=(((0\\prime+0)\\prime)\\prime)\\prime=0\\prime\\prime\\prime\\prime$.</p>
+        `,
+      },
+      {
+        title: 'Peano: variant L',
+        body: 'Esitage Peano aritmeetika signatuur ja neli aksioomi. Tõestage $\\forall x(x\\cdot0\\prime\\prime=x+x)$. Väljendage ja tõestage $2\\cdot2=4$.',
+        hint: 'Ava $0\\prime\\prime$ korrutamise rekursiooniga kaks korda.',
+        solution: `
+          <p>Kasuta aksioome $x+0=x$, $x+y\\prime=(x+y)\\prime$, $x\\cdot0=0$ ja $x\\cdot y\\prime=x\\cdot y+x$.</p>
+          <p>$a\\cdot0\\prime\\prime=a\\cdot0\\prime+a=(a\\cdot0+a)+a=(0+a)+a=a+a$.</p>
+          <p>$2\\cdot2=4$: $0\\prime\\prime\\cdot0\\prime\\prime=(0\\prime\\prime\\cdot0\\prime)+0\\prime\\prime=(0+0\\prime\\prime)+0\\prime\\prime=0\\prime\\prime+0\\prime\\prime=0\\prime\\prime\\prime\\prime$.</p>
+        `,
+      },
+      {
+        title: 'Peano: variant M',
+        body: 'Esitage Peano aritmeetika signatuur ja neli aksioomi. Tõestage induktsiooniga $\\forall x(0\\prime\\cdot x=x)$. Väljendage ja tõestage $3+1=4$.',
+        hint: 'Induktsiooni sammus kasuta $0\\prime\\cdot a\\prime=0\\prime\\cdot a+0\\prime$.',
+        solution: `
+          <p>Signatuur on $\\langle0;\\prime,+,\\cdot;=\\rangle$; sobivad P3, P4, P5, P6 ja induktsiooniskeem.</p>
+          <p>Baas: $0\\prime\\cdot0=0$. Samm: kui $0\\prime\\cdot a=a$, siis $0\\prime\\cdot a\\prime=0\\prime\\cdot a+0\\prime=a+0\\prime=a\\prime$. Seega $\\forall x(0\\prime\\cdot x=x)$.</p>
+          <p>$3+1=4$: $0\\prime\\prime\\prime+0\\prime=(0\\prime\\prime\\prime+0)\\prime=(0\\prime\\prime\\prime)\\prime=0\\prime\\prime\\prime\\prime$.</p>
+        `,
+      },
+      {
+        title: 'Peano: variant N',
+        body: 'Esitage Peano aritmeetika signatuur ja neli aksioomi. Tõestage $\\forall x(x+0\\prime\\prime=x\\prime\\prime)$. Väljendage ja tõestage $2\\cdot1=2$.',
+        hint: 'Liitmisel kasuta P4 kaks korda; korrutamisel $x\\cdot0\\prime=x\\cdot0+x$.',
+        solution: `
+          <p>Suvalise $a$ korral $a+0\\prime\\prime=(a+0\\prime)\\prime=((a+0)\\prime)\\prime=(a\\prime)\\prime=a\\prime\\prime$.</p>
+          <p>$2\\cdot1=2$: $0\\prime\\prime\\cdot0\\prime=0\\prime\\prime\\cdot0+0\\prime\\prime=0+0\\prime\\prime=0\\prime\\prime$, kasutades P6, P5 ja tulemust $0+x=x$.</p>
+        `,
+      },
     ],
     inference: [
       {
@@ -148,6 +197,60 @@
         solution: `
           <p>Eeldame, et $\\forall x(F(x)\\Rightarrow G(x))$ on tõene. Kui $\\exists xF(x)$ on väär, on implikatsioon tõene. Kui $\\exists xF(x)$ on tõene, leidub $a$, mille korral $F(a)$. Universaalsest eeldusest saame $F(a)\\Rightarrow G(a)$, järelikult $G(a)$ ja seega $\\exists xG(x)$.</p>
           <p>Vastupidise vastumudel: kandja $\\{a,b\\}$, $F(a)=1$, $G(a)=0$, $F(b)=0$, $G(b)=1$. Siis $\\exists xF(x)\\Rightarrow\\exists xG(x)$ on tõene, aga $\\forall x(F(x)\\Rightarrow G(x))$ on väär, sest $a$ rikub implikatsiooni.</p>
+        `,
+      },
+      {
+        title: 'Järeldumine: variant J',
+        body: 'Defineerige predikaatarvutuse valemite järeldumine. Tõestage $\\forall x(F(x)\\Rightarrow G(x)) \\models \\exists xF(x)\\Rightarrow\\exists xG(x)$ ning näidake, et vastupidine järeldumine ei kehti.',
+        hint: 'Kui $\\exists xF(x)$ on tõene, vali tunnistaja $a$ ja kasuta universaalset eeldust.',
+        solution: `
+          <p>Kui $\\exists xF(x)$ on väär, on implikatsioon tõene. Kui leidub $a$, mille korral $F(a)$, siis eeldusest $\\forall x(F(x)\\Rightarrow G(x))$ saame $G(a)$, seega $\\exists xG(x)$.</p>
+          <p>Vastumudel pöördsuunale: $M=\\{a,b\\}$, $F(a)=1$, $G(a)=0$, $F(b)=0$, $G(b)=1$.</p>
+        `,
+      },
+      {
+        title: 'Kehtestatavus: variant K',
+        body: 'Defineerige predikaatarvutuse valemi kehtestatavus. Näidake, et $\\exists x\\forall y(R(x,y)\\lor P(y))$ on kehtestatav, kuid ei ole samaselt tõene.',
+        hint: 'Üheelemendiline mudel piisab nii positiivseks näiteks kui vastunäiteks.',
+        solution: `
+          <p>Valem on kehtestatav, kui leidub interpretatsioon ja vabade muutujate väärtustus, millel valem on tõene.</p>
+          <p>Kehtestatav: $M=\\{a\\}$, $R(a,a)=1$, $P(a)=0$. Mitte samaselt tõene: $M=\\{a\\}$, $R(a,a)=0$, $P(a)=0$, siis iga võimalik tunnistaja kukub läbi.</p>
+        `,
+      },
+      {
+        title: 'Järeldumine: variant L',
+        body: 'Tõestage, et $\\exists x\\forall yH(x,y) \\models \\forall y\\exists xH(x,y)$, kuid vastupidine järeldumine üldjuhul ei kehti.',
+        hint: 'Esisuunas kasuta sama tunnistajat iga $y$ jaoks; vastupidiseks sobib seos $x>y$ naturaalarvudel.',
+        solution: `
+          <p>Kui leidub $a$, mille korral iga $b$ jaoks $H(a,b)$, siis iga konkreetse $y=b$ jaoks saab eksistentsikvantori tunnistajaks võtta sama $a$.</p>
+          <p>Pöördsuuna vastunäide: $M=\\mathbb{N}$ ja $H(x,y)$ tähendab $x>y$. Iga $y$ jaoks leidub $x=y+1$, aga ühte kõigist suuremat naturaalarvu ei leidu.</p>
+        `,
+      },
+      {
+        title: 'Järeldumine: variant M',
+        body: 'Defineerige järeldumine. Tõestage $\\forall xF(x) \\models \\exists xF(x)$ ning näidake, et vastupidine järeldumine üldjuhul ei kehti.',
+        hint: 'Predikaatarvutuse interpretatsiooni põhihulk on mittetühi.',
+        solution: `
+          <p>Kui $\\forall xF(x)$ kehtib, siis iga põhihulga elemendi korral kehtib $F$. Kuna põhihulk on mittetühi, leidub vähemalt üks element, mis on $\\exists xF(x)$ tunnistaja.</p>
+          <p>Vastumudel pöördsuunale: $M=\\{a,b\\}$, $F(a)=1$, $F(b)=0$. Siis $\\exists xF(x)$ on tõene, kuid $\\forall xF(x)$ väär.</p>
+        `,
+      },
+      {
+        title: 'Kehtestatavus: variant N',
+        body: 'Defineerige kehtestatavus. Näidake, et $\\exists x(P(x)\\&\\forall yR(x,y))$ on kehtestatav, kuid ei ole samaselt tõene.',
+        hint: 'Muuda üheelemendilises mudelis ainult $P(a)$ väärtust.',
+        solution: `
+          <p>Kehtestatav mudel: $M=\\{a\\}$, $P(a)=1$ ja $R(a,a)=1$. Siis $x=a$ sobib tunnistajaks.</p>
+          <p>Mitte samaselt tõene: $M=\\{a\\}$, $P(a)=0$ ja $R(a,a)=1$. Siis konjunktsioon $P(a)\\&\\forall yR(a,y)$ on väär.</p>
+        `,
+      },
+      {
+        title: 'Järeldumine: variant N',
+        body: 'Tõestage $\\forall x(F(x)\\Rightarrow G(x)) \\models \\neg\\exists xG(x)\\Rightarrow\\neg\\exists xF(x)$ ning näidake, et vastupidine järeldumine üldjuhul ei kehti.',
+        hint: 'Kasuta vastuväitelist mõtlemist: kui leiduks $F$-element, siis leiduks ka $G$-element.',
+        solution: `
+          <p>Eelda $\\neg\\exists xG(x)$. Kui leiduks $a$, mille korral $F(a)$, siis universaalsest eeldusest saaks $G(a)$, vastuolu. Seega $\\neg\\exists xF(x)$.</p>
+          <p>Pöördsuuna vastumudel: $M=\\{a,b\\}$, $G(a)=1$, $G(b)=0$, $F(a)=0$, $F(b)=1$. Implikatsioon $\\neg\\exists xG(x)\\Rightarrow\\neg\\exists xF(x)$ on tõene, kuid $F(b)\\Rightarrow G(b)$ on väär.</p>
         `,
       },
     ],
@@ -218,16 +321,61 @@
           <p>Vasakpoolse konjunktsiooni reegel pakib eeldused kokku ning annab $P\\&Q\\vdash Q\\&P$.</p>
         `,
       },
+      {
+        title: 'Sekvents: variant J',
+        body: 'Sõnastage korrektsuse teoreem. Tuletage $(P\\&Q)\\Rightarrow R, P, Q \\vdash R$.',
+        hint: 'Pane $P$ ja $Q$ paremal konjunktsiooniks kokku ning kasuta implikatsiooni vasakul.',
+        solution: `
+          <p>Olgu $\\Gamma=\\{(P\\&Q)\\Rightarrow R,P,Q\\}$. Aksioomidest $\\Gamma\\vdash P$ ja $\\Gamma\\vdash Q$, seega $\\Gamma\\vdash P\\&Q$.</p>
+          <p>Aksioomist $\\Gamma\\vdash(P\\&Q)\\Rightarrow R$ ning reeglist $\\Rightarrow\\vdash$ saame $\\Gamma\\vdash R$.</p>
+        `,
+      },
+      {
+        title: 'Sekvents: variant K',
+        body: 'Sõnastage täielikkuse teoreem. Tuletage $P\\Rightarrow Q, Q\\Rightarrow R \\vdash P\\Rightarrow R$.',
+        hint: 'Tee sama ahel: eelda $P$, saa $Q$, siis $R$, lõpuks vii implikatsioon paremale.',
+        solution: `
+          <p>Olgu $\\Gamma=\\{P\\Rightarrow Q,Q\\Rightarrow R\\}$. Tuletame $\\Gamma,P\\vdash Q$ ja sellest $\\Gamma,P\\vdash R$.</p>
+          <p>Reegliga $\\vdash\\Rightarrow$ saame $\\Gamma\\vdash P\\Rightarrow R$.</p>
+        `,
+      },
+      {
+        title: 'Sekvents: variant L',
+        body: 'Sõnastage korrektsuse teoreem. Tuletage $\\neg P\\lor Q \\vdash P\\Rightarrow Q$.',
+        hint: 'Kasuta vasakul disjunktsiooni kahte haru: $\\neg P$ ja $Q$.',
+        solution: `
+          <p>Haru $Q$: eeldustest $Q,P$ saame aksioomiga $Q$, seega $Q\\vdash P\\Rightarrow Q$.</p>
+          <p>Haru $\\neg P$: eeldustest $\\neg P,P$ saab vastuolu kaudu $Q$, seega $\\neg P\\vdash P\\Rightarrow Q$. Disjunktsiooni vasakreegel annab $\\neg P\\lor Q\\vdash P\\Rightarrow Q$.</p>
+        `,
+      },
+      {
+        title: 'Sekvents: variant M',
+        body: 'Sõnastage täielikkuse teoreem. Tuletage $P\\&Q \\vdash Q\\&P$.',
+        hint: 'Ava vasakul konjunktsioon ja kasuta parempoolset konjunktsiooni.',
+        solution: `
+          <p>Aksioomid annavad $P,Q\\vdash Q$ ja $P,Q\\vdash P$. Reegliga $\\vdash\\&$ saame $P,Q\\vdash Q\\&P$.</p>
+          <p>Reegliga $\\&\\vdash$ saame $P\\&Q\\vdash Q\\&P$.</p>
+        `,
+      },
+      {
+        title: 'Sekvents: variant N',
+        body: 'Sõnastage korrektsuse teoreem. Tuletage $P\\Rightarrow(Q\\Rightarrow R) \\vdash Q\\Rightarrow(P\\Rightarrow R)$.',
+        hint: 'Parempoolsete implikatsioonide jaoks eelda järjest $Q$ ja $P$.',
+        solution: `
+          <p>Olgu $\\Gamma=\\{P\\Rightarrow(Q\\Rightarrow R)\\}$. Eeldustest $\\Gamma,Q,P$ saame $P$ ja $P\\Rightarrow(Q\\Rightarrow R)$, seega $Q\\Rightarrow R$.</p>
+          <p>Koos eeldusega $Q$ saame $R$. Seejärel kaks korda reegel $\\vdash\\Rightarrow$: esmalt $\\Gamma,Q\\vdash P\\Rightarrow R$, siis $\\Gamma\\vdash Q\\Rightarrow(P\\Rightarrow R)$.</p>
+        `,
+      },
     ],
     prefix: [
       {
-        title: 'Prefikskuju: variant A tüüp',
-        body: 'Teisendage valem $\\neg\\exists y(\\exists xP(x)\\Rightarrow(Q(y)\\Rightarrow\\forall xR(x)))$ prefikskujule, kus eitused on atomaarsete valemite ees ja implikatsiooni ei esine.',
-        hint: 'Eemalda implikatsioonid, vii eitus sisse, nimeta korduvad seotud muutujad ümber.',
+        title: 'Prefikskuju: implikatsiooni eitus',
+        body: 'Teisendage valem $\\neg\\exists x(\\forall yP(y,x)\\Rightarrow(R(x)\\lor\\exists zS(z)))$ prefikskujule, kus eitused on atomaarsete valemite ees ja implikatsiooni ei esine.',
+        hint: 'Kasuta samaväärsust $\\neg(A\\Rightarrow B)\\equiv A\\&\\neg B$ ning seejärel kvantorite eitamise reegleid.',
         solution: `
-          <p>Nimeta sisemine $\\forall xR(x)$ ümber näiteks kujule $\\forall zR(z)$.</p>
-          <p>$\\neg\\exists y(\\exists xP(x)\\Rightarrow(Q(y)\\Rightarrow\\forall zR(z)))$ teisendub kujule $\\forall y\\neg(\\neg\\exists xP(x)\\lor\\neg Q(y)\\lor\\forall zR(z))$.</p>
-          <p>Pärast eituse sisseviimist saad prefikskuju $\\forall y\\exists x\\exists z(P(x)\\&Q(y)\\&\\neg R(z))$.</p>
+          <p>$\\neg\\exists x(\\forall yP(y,x)\\Rightarrow(R(x)\\lor\\exists zS(z)))\\equiv\\forall x\\neg(\\forall yP(y,x)\\Rightarrow(R(x)\\lor\\exists zS(z)))$.</p>
+          <p>Implikatsiooni eituse järel: $\\forall x(\\forall yP(y,x)\\&\\neg(R(x)\\lor\\exists zS(z)))$.</p>
+          <p>De Morgani ja kvantorieituste abil saame $\\forall x(\\forall yP(y,x)\\&\\neg R(x)\\&\\forall z\\neg S(z))$, prefikskujul $\\forall x\\forall y\\forall z(P(y,x)\\&\\neg R(x)\\&\\neg S(z))$.</p>
         `,
       },
       {
@@ -288,6 +436,51 @@
           <p>Predikaatarvutuse valemid moodustatakse atomaarsetest valemitest eituse, konjunktsiooni, disjunktsiooni, implikatsiooni, ekvivalentsi ning üldisus- ja olemasolukvantori abil.</p>
           <p>$\\neg\\exists x\\forall y(P(x,y)\\Rightarrow Q(y))\\equiv\\forall x\\neg\\forall y(P(x,y)\\Rightarrow Q(y))\\equiv\\forall x\\exists y\\neg(P(x,y)\\Rightarrow Q(y))$.</p>
           <p>Implikatsiooni eituse järel on prefikskuju $\\forall x\\exists y(P(x,y)\\&\\neg Q(y))$.</p>
+        `,
+      },
+      {
+        title: 'Prefikskuju: variant J',
+        body: 'Defineerige prefikskuju. Teisendage $\\neg\\forall x(\\exists yP(x,y)\\lor\\forall zQ(z))$ prefikskujule.',
+        hint: 'Eita üldisuskvantor ja seejärel disjunktsioon.',
+        solution: `
+          <p>$\\neg\\forall x(\\exists yP(x,y)\\lor\\forall zQ(z))\\equiv\\exists x\\neg(\\exists yP(x,y)\\lor\\forall zQ(z))$.</p>
+          <p>Edasi $\\exists x(\\forall y\\neg P(x,y)\\&\\exists z\\neg Q(z))$, prefikskujul $\\exists x\\forall y\\exists z(\\neg P(x,y)\\&\\neg Q(z))$.</p>
+        `,
+      },
+      {
+        title: 'Prefikskuju: variant K',
+        body: 'Defineerige predikaatarvutuse valem. Teisendage $\\exists xP(x)\\Rightarrow\\forall y(Q(y)\\lor\\neg R(x,y))$ prefikskujule.',
+        hint: 'Asenda implikatsioon disjunktsiooniga; $x$ jääb teises pooles vabaks nagu algvalemis.',
+        solution: `
+          <p>Implikatsiooni eemaldamisel saame $\\neg\\exists xP(x)\\lor\\forall y(Q(y)\\lor\\neg R(x,y))$.</p>
+          <p>Kvantorieituse ja prefiksisse toomise järel üks sobiv kuju on $\\forall u\\forall y(\\neg P(u)\\lor Q(y)\\lor\\neg R(x,y))$, kus seotuks nimetatud $u$ väldib kokkupõrget vaba $x$-iga.</p>
+        `,
+      },
+      {
+        title: 'Prefikskuju: variant L',
+        body: 'Defineerige prefikskuju. Teisendage $\\neg\\exists x((P(x)\\&\\forall yQ(y))\\Rightarrow\\exists zR(x,z))$ prefikskujule.',
+        hint: 'Kõigepealt $\\neg\\exists x$ ja siis implikatsiooni eitus.',
+        solution: `
+          <p>$\\neg\\exists x(A\\Rightarrow B)\\equiv\\forall x\\neg(A\\Rightarrow B)\\equiv\\forall x(A\\&\\neg B)$.</p>
+          <p>Siin saame $\\forall x(P(x)\\&\\forall yQ(y)\\&\\forall z\\neg R(x,z))$, prefikskujul $\\forall x\\forall y\\forall z(P(x)\\&Q(y)\\&\\neg R(x,z))$.</p>
+        `,
+      },
+      {
+        title: 'Prefikskuju: variant M',
+        body: 'Defineerige predikaatarvutuse valem. Teisendage $\\neg(\\exists xP(x)\\&\\forall y(Q(y)\\Rightarrow R(y)))$ prefikskujule.',
+        hint: 'Kasuta De Morgani seadust ja implikatsiooni eitust.',
+        solution: `
+          <p>$\\neg(\\exists xP(x)\\&\\forall y(Q(y)\\Rightarrow R(y)))\\equiv\\forall x\\neg P(x)\\lor\\exists y\\neg(Q(y)\\Rightarrow R(y))$.</p>
+          <p>Implikatsiooni eitus annab $\\forall x\\neg P(x)\\lor\\exists y(Q(y)\\&\\neg R(y))$, prefikskujul $\\forall x\\exists y(\\neg P(x)\\lor(Q(y)\\&\\neg R(y)))$.</p>
+        `,
+      },
+      {
+        title: 'Prefikskuju: variant N',
+        body: 'Defineerige prefikskuju. Teisendage $\\forall x(\\exists yP(x,y)\\&Q(x))\\Rightarrow\\forall zR(z)$ prefikskujule.',
+        hint: 'Implikatsioonist saab disjunktsioon ning vasaku poole eitus läheb konjunktsiooni sisse.',
+        solution: `
+          <p>$A\\Rightarrow B\\equiv\\neg A\\lor B$, seega $\\neg\\forall x(\\exists yP(x,y)\\&Q(x))\\lor\\forall zR(z)$.</p>
+          <p>See on $\\exists x(\\forall y\\neg P(x,y)\\lor\\neg Q(x))\\lor\\forall zR(z)$, prefikskujul $\\exists x\\forall y\\forall z(\\neg P(x,y)\\lor\\neg Q(x)\\lor R(z))$.</p>
         `,
       },
     ],
@@ -362,6 +555,42 @@
           <p>Olgu $E(t):\\equiv\\forall z(t\\cup z=z)$ ehk $t=\\emptyset$ ja $N(t):\\equiv\\forall z(t\\cup z=t)$ ehk $t=\\mathbb{N}$.</p>
           <p>Ühisosata: $E(x\\cap y)$. Ühend on kogu $\\mathbb{N}$: $N(x\\cup y)$. Pärisalamhulk: $x\\cap y=x\\&\\neg(x=y)$.</p>
           <p>Kaheks osaks jaotus: $E(x\\cap y)\\&N(x\\cup y)\\&\\neg E(x)\\&\\neg E(y)$.</p>
+        `,
+      },
+      {
+        title: 'Signatuur: variant J naturaalarvudel',
+        body: 'Defineerige signatuur. Põhihulgal $\\mathbb{N}$ ja signatuuris $\\langle0;+,\\cdot;=,\\leq\\rangle$ väljendage: $x\\neq0$, $x<y$, $x$ on ruutarv, $x$ jagab $y$-d.',
+        hint: 'Ruutarvu ja jaguvuse jaoks kasuta eksistentsikvantorit.',
+        solution: `
+          <p>Signatuur on $\\sigma=\\langle C;F;P\\rangle$, kus $C$ on konstantsümbolid, $F$ funktsionaalsümbolid ja $P$ predikaatsümbolid.</p>
+          <p>$x\\neq0$: $\\neg(x=0)$. $x<y$: $x\\leq y\\&\\neg(x=y)$. Ruutarv: $\\exists z(z\\cdot z=x)$. Jaguvus: $\\exists z(x\\cdot z=y)$.</p>
+        `,
+      },
+      {
+        title: 'Signatuur: variant K suunatud graafil',
+        body: 'Defineerige signatuuri interpretatsioon. Valige signatuur suunatud graafi jaoks ja väljendage: igal tipul on väljuv naaber; graaf on sümmeetriline; tipp $x$ on isoleeritud.',
+        hint: 'Kasuta kahekohalist predikaati $E(u,v)$ kaare jaoks.',
+        solution: `
+          <p>Sobib $\\sigma=\\langle\\,;\\,;=,E\\rangle$, kandja on tippude hulk ja $E(u,v)$ tähendab kaart $u$-st $v$-sse.</p>
+          <p>Igal tipul väljuv naaber: $\\forall x\\exists yE(x,y)$. Sümmeetriline: $\\forall x\\forall y(E(x,y)\\Rightarrow E(y,x))$. $x$ isoleeritud: $\\forall y(\\neg E(x,y)\\&\\neg E(y,x))$.</p>
+        `,
+      },
+      {
+        title: 'Signatuur: variant L hulkadel',
+        body: 'Defineerige signatuur. Põhihulgal $\\mathcal{P}(\\mathbb{N})$ ja signatuuris $\\langle\\,;\\cup,\\cap;=\\rangle$ väljendage: $x\\cap y=\\emptyset$, $x\\cup y=\\mathbb{N}$, $x\\subsetneq y$, $x$ ja $y$ moodustavad $\\mathbb{N}$ lahutuse kaheks osaks.',
+        hint: 'Kasuta abivalemeid tühihulga ja universaalhulga jaoks.',
+        solution: `
+          <p>Olgu $E(t):\\equiv\\forall u(t\\cup u=u)$ ja $N(t):\\equiv\\forall u(t\\cup u=t)$.</p>
+          <p>$x\\cap y=\\emptyset$: $E(x\\cap y)$. $x\\cup y=\\mathbb{N}$: $N(x\\cup y)$. $x\\subsetneq y$: $x\\cap y=x\\&\\neg(x=y)$. Lahutus kaheks osaks: $E(x\\cap y)\\&N(x\\cup y)$.</p>
+        `,
+      },
+      {
+        title: 'Signatuur: variant M funktsioonil',
+        body: 'Defineerige signatuuri interpretatsioon. Valige signatuur funktsiooni $f:\\mathbb{N}\\to\\mathbb{N}$ jaoks ja väljendage: $f$ on injektiivne; $f$ on rangelt kasvav; leidub perioodiga 2 punkt.',
+        hint: 'Kasuta funktsionaalsümbolit $f$ ja predikaati $\\leq$.',
+        solution: `
+          <p>Sobib $\\sigma=\\langle\\,;f;=,\\leq\\rangle$ üle $\\mathbb{N}$. Tähista $u<v$ valemiga $u\\leq v\\&\\neg(u=v)$.</p>
+          <p>Injektiivne: $\\forall x\\forall y(f(x)=f(y)\\Rightarrow x=y)$. Rangelt kasvav: $\\forall x\\forall y(x<y\\Rightarrow f(x)<f(y))$. Periood 2: $\\exists x(f(f(x))=x)$.</p>
         `,
       },
     ],
