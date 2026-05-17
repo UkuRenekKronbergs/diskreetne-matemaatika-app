@@ -15,6 +15,7 @@ Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I**
 - **Otsi konspektidest** mõisteid ja teoreeme kõigi ekstraktitud PDF-lehtede seest koos kontekstiga.
 - **Kasuta teemasiseseid tööriistu** samaväärsuse, kvantorite, predikaadimudelite, Havel-Hakimi astmejärjendite, sekventside, Euleri/Hamiltoni tingimuste ja puude omaduste kontrollimiseks.
 - **Lahenda teemasiseseid lahendusülesandeid** iga suurema teoorialehe lõpus, koos avatava lahenduskäiguga.
+- **Genereeri lõputult parameetrilisi ülesandeid** prefikskuju, Havel-Hakimi, kaalutud graafide ja sekventside harjutamiseks; tulemused salvestuvad ja valed vastused liiguvad vigade päevikusse.
 - **Lisa peatüki märkmeid** iga teoorialehe alla; märkmed salvestuvad brauseri kohalikku salvestusruumi.
 - **Joonista graafe** interaktiivsel lõuendil — lisa tippe, servi, määra kaale, vaata naabrusmaatriksit.
 - **Jooksuta algoritme** — Kruskali, Primi, Dijkstra ja Floydi–Warshalli — samm-sammult.
@@ -68,6 +69,7 @@ app/
 │       ├── exam-practice.js # 32-punktise harjutustöö generaator
 │       ├── grade-calculator.js # Hinde ja miinimumi kalkulaator
 │       ├── normal-forms.js # Täieliku DNK/KNK generaator
+│       ├── problem-generator.js # Lõputu parameetriline ülesannete generaator + tulemuste statistika
 │       ├── study-tools.js # Õppimise töölaud, vigade päevik, konspektiotsing, spikker, õpijada
 │       └── topic-tools.js # Väikesed tööriistad ja lahendusülesanded teoorialehtede sees
 ├── vendor/katex/          # KaTeX-i kohalik varu võrguühenduseta kasutuseks

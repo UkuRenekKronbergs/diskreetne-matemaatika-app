@@ -95,6 +95,7 @@
     if (route === 'hinnekalkulaator') window.initGradeCalculator && window.initGradeCalculator();
     if (route === 'toesuspuu') window.initTruthTree && window.initTruthTree();
     if (route === 'harjutustoo') window.initExamPractice && window.initExamPractice();
+    if (route === 'ulesandegeneraator') window.initProblemGenerator && window.initProblemGenerator();
     if (route === 'oppimine') window.initStudyDashboard && window.initStudyDashboard();
     if (route === 'otsing') window.initStudySearch && window.initStudySearch();
     if (route === 'spikker') window.initCheatSheet && window.initCheatSheet();

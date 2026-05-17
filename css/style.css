@@ -1407,6 +1407,83 @@ input:focus, textarea:focus, select:focus {
   font-weight: 700;
 }
 
+/* ===== Parametrized problem generator ===== */
+.pg-controls {
+  align-items: end;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(170px, 1fr) minmax(150px, 0.75fr) minmax(170px, 1fr) auto;
+}
+.pg-card h2 {
+  border-bottom: 0;
+  color: var(--fg);
+  margin: 6px 0 0;
+  padding-bottom: 0;
+}
+.pg-head {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+.pg-prompt {
+  margin-top: 12px;
+}
+.pg-answer-row {
+  align-items: end;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(220px, 1fr) auto;
+  margin: 16px 0 10px;
+}
+.pg-solution {
+  border-color: rgba(74,222,128,0.28);
+}
+.pg-steps {
+  margin-top: 12px;
+}
+.pg-edge-list {
+  margin-top: 12px;
+  max-width: 360px;
+}
+.pg-graph {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: block;
+  height: auto;
+  margin: 14px 0;
+  max-width: 620px;
+  width: 100%;
+}
+.pg-graph line {
+  stroke: var(--fg-3);
+  stroke-width: 2;
+}
+.pg-graph g.active line {
+  stroke: var(--good);
+  stroke-width: 4;
+}
+.pg-graph text {
+  fill: var(--fg);
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 14px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--bg-2);
+  stroke-width: 4px;
+  text-anchor: middle;
+}
+.pg-graph .vertex circle {
+  fill: var(--bg-3);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+.pg-graph .vertex text {
+  fill: var(--fg);
+  stroke-width: 0;
+}
+
 /* ===== Study dashboard ===== */
 .study-hero {
   align-items: center;
@@ -1906,6 +1983,8 @@ input:focus, textarea:focus, select:focus {
   .grade-status-list,
   .flashcard-srs,
   .normal-form-grid,
+  .pg-answer-row,
+  .pg-controls,
   .study-hero,
   .study-stat-grid,
   .study-dashboard-grid,

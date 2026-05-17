@@ -11,6 +11,7 @@
   const QUIZ_RESULT_KEY = 'dm_quiz_last_v1';
   const WEAKNESS_KEY = 'dm_weakness_log_v1';
   const TOPIC_CHECK_KEY = 'dm_topic_checks_v1';
+  const PROBLEM_STATS_KEY = 'dm_problem_generator_stats_v1';
 
   const STUDY_TOPICS = [
     { route: 'lausearvutus', label: 'Lausearvutus', group: 'Loogika' },
@@ -304,6 +305,81 @@
     };
   }
 
+  function normalizeProblemStats(data = {}) {
+    return {
+      total: Number(data.total) || 0,
+      correct: Number(data.correct) || 0,
+      wrong: Number(data.wrong) || 0,
+      byType: data.byType && typeof data.byType === 'object' ? data.byType : {},
+      bySkill: data.bySkill && typeof data.bySkill === 'object' ? data.bySkill : {},
+      recent: Array.isArray(data.recent) ? data.recent : [],
+      updatedAt: data.updatedAt || null,
+    };
+  }
+
+  function problemAccuracy(bucket) {
+    const attempts = bucket?.attempts ?? bucket?.total ?? 0;
+    return attempts ? Math.round(100 * (bucket.correct || 0) / attempts) : null;
+  }
+
+  function problemSkillLabel(key) {
+    return {
+      prefix: 'Prefikskuju',
+      havel: 'Havel-Hakimi',
+      sequent: 'Sekventsid',
+      graph: 'Graafialgoritmid',
+      kruskal: 'Kruskal',
+      prim: 'Prim',
+      dijkstra: 'Dijkstra',
+    }[key] || key;
+  }
+
+  function getProblemStats() {
+    return normalizeProblemStats(readJson(PROBLEM_STATS_KEY, {}));
+  }
+
+  function problemFocus(stats) {
+    const candidates = Object.entries(stats.bySkill || {})
+      .filter(([, bucket]) => bucket.attempts >= 2 && bucket.wrong > 0)
+      .map(([key, bucket]) => ({ key, bucket, accuracy: problemAccuracy(bucket) }))
+      .sort((a, b) => a.accuracy - b.accuracy || b.bucket.wrong - a.bucket.wrong);
+    if (candidates.length) {
+      const weak = candidates[0];
+      return {
+        key: weak.key,
+        label: problemSkillLabel(weak.key),
+        accuracy: weak.accuracy,
+        attempts: weak.bucket.attempts,
+        wrong: weak.bucket.wrong,
+        title: `Tee 2 ülesannet: ${problemSkillLabel(weak.key)}`,
+        meta: `Generaatori täpsus ${weak.accuracy}% (${weak.bucket.correct || 0}/${weak.bucket.attempts})`,
+      };
+    }
+    if (stats.total === 0) {
+      return {
+        key: 'mixed',
+        label: 'Segaring',
+        accuracy: null,
+        attempts: 0,
+        wrong: 0,
+        title: 'Tee üks segaring ülesannete generaatoris',
+        meta: 'Esimesed vastused aitavad töölaual nõrku kohti leida',
+      };
+    }
+    if (stats.total < 6) {
+      return {
+        key: 'mixed',
+        label: 'Segaring',
+        accuracy: problemAccuracy(stats),
+        attempts: stats.total,
+        wrong: stats.wrong,
+        title: 'Tee veel üks segaring ülesannete generaatoris',
+        meta: `Praegune täpsus ${problemAccuracy(stats)}%, andmeid on veel vähe`,
+      };
+    }
+    return null;
+  }
+
   function readWeaknesses() {
     const items = readJson(WEAKNESS_KEY, []);
     return Array.isArray(items) ? items : [];
@@ -388,6 +464,8 @@
     const streak = readJson(STREAK_KEY, { streak: 0, best: 0, last: null });
     const flash = getFlashStats();
     const miniChecks = getMiniCheckStats(miniResults);
+    const problemStats = getProblemStats();
+    const generatorFocus = problemFocus(problemStats);
     const weaknesses = readWeaknesses();
     const weakStats = weaknessStats(weaknesses);
     const topicProgress = STUDY_TOPICS.map(topic => {
@@ -412,6 +490,8 @@
       streak,
       flash,
       miniChecks,
+      problemStats,
+      generatorFocus,
       weaknesses,
       weakStats,
       topicProgress,
@@ -440,6 +520,14 @@
           : 'Ava vigade päevik ja vali kordamiseks üks kirje',
         href: '#vead',
         time: '8 min',
+      });
+    }
+    if (state.generatorFocus) {
+      plan.push({
+        title: state.generatorFocus.title,
+        meta: state.generatorFocus.meta,
+        href: '#ulesandegeneraator',
+        time: state.generatorFocus.wrong > 0 ? '9 min' : '6 min',
       });
     }
     if (state.miniChecks.completed < state.miniChecks.total) {
@@ -554,6 +642,7 @@
     const streakText = `${state.streak.streak || 0} ${(state.streak.streak || 0) === 1 ? 'päev' : 'päeva'}`;
     const glossaryTotal = (window.GLOSSARY || []).length;
     const learnedPct = Math.round(100 * state.learned.size / Math.max(1, glossaryTotal));
+    const generatorAccuracy = problemAccuracy(state.problemStats);
 
     view.innerHTML = `
       <h1>Õppimise töölaud</h1>
@@ -599,14 +688,19 @@
           <span>viimane viktoriin</span>
           <small>${state.quiz ? `${state.quiz.topicLabel}, ${formatDate(state.quiz.date)}` : 'tee esimene viktoriin'}</small>
         </a>
+        <a class="study-stat" href="#ulesandegeneraator">
+          <strong>${generatorAccuracy === null ? '-' : `${generatorAccuracy}%`}</strong>
+          <span>generaatori täpsus</span>
+          <small>${state.problemStats.total ? `${state.problemStats.correct}/${state.problemStats.total} õige` : 'tee esimene ülesanne'}</small>
+        </a>
       </section>
 
       <div class="study-dashboard-grid">
         <section class="card">
           <div class="study-section-head">
             <div>
-              <h2>Tänane õppimisring</h2>
-              <p>Väike järjestus, mis annab umbes 20 minutiga kõige rohkem kasu.</p>
+              <h2>Tark päevaplaan</h2>
+              <p>Koostatud mõistekaartide, vigade, mini-kontrollide ja generaatori tulemuste järgi.</p>
             </div>
             <span class="tag good">${streakText}</span>
           </div>
@@ -675,6 +769,7 @@
             <a href="#predikaadid">Mudeli ehitaja</a>
             <a href="#sekvents">Sekventsid</a>
             <a href="#tipuastmed">Havel-Hakimi</a>
+            <a href="#ulesandegeneraator">Ülesannete generaator</a>
             <a href="#harjutustoo">Harjutustöö</a>
             <a href="#hinnekalkulaator">Hinde kalkulaator</a>
           </div>
@@ -693,6 +788,7 @@
   function weaknessTypeLabel(type) {
     if (type === 'quiz') return 'Viktoriin';
     if (type === 'exercise') return 'Lahendusülesanne';
+    if (type === 'generator') return 'Ülesannete generaator';
     return 'Käsitsi';
   }
 

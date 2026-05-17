@@ -76,6 +76,11 @@ avaleht: `
     <h3>Kiirviktoriin</h3>
     <p>Kontrolli, kas oled materjali selgeks saanud.</p>
   </a>
+  <a href="#ulesandegeneraator" class="dash-card">
+    <span class="icon">∞</span>
+    <h3>Ülesannete generaator</h3>
+    <p>Loo lõputult prefikskuju, Havel-Hakimi, graafialgoritmide ja sekventside harjutusi.</p>
+  </a>
   <a href="#harjutustoo" class="dash-card">
     <span class="icon">32</span>
     <h3>Harjutustöö</h3>
@@ -1653,6 +1658,9 @@ kontrolltood: `
 
 /* ============= HARJUTUSTÖÖ GENERAATOR (laeb widget) ============= */
 harjutustoo: `<h1>Harjutustöö generaator</h1><p>Laadin...</p>`,
+
+/* ============= ÜLESANNETE GENERAATOR (laeb widget) ============= */
+ulesandegeneraator: `<h1>Ülesannete generaator</h1><p>Laadin...</p>`,
 
 /* ============= ÜLESANDED ============= */
 ulesanded: `

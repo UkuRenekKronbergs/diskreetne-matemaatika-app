@@ -1,4 +1,4 @@
-const CACHE_NAME = 'diskreetne-matemaatika-v20260517-3';
+const CACHE_NAME = 'diskreetne-matemaatika-v20260517-5';
 
 const PRECACHE_URLS = [
   './',
@@ -19,6 +19,7 @@ const PRECACHE_URLS = [
   'js/widgets/grade-calculator.js',
   'js/widgets/graph-editor.js',
   'js/widgets/normal-forms.js',
+  'js/widgets/problem-generator.js',
   'js/widgets/prefix-form.js',
   'js/widgets/quiz.js',
   'js/widgets/study-tools.js',
