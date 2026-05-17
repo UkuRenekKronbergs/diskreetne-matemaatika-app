@@ -1,4 +1,4 @@
-const CACHE_NAME = 'diskreetne-matemaatika-v20260517-10';
+const CACHE_NAME = 'diskreetne-matemaatika-v20260517-11';
 
 const PRECACHE_URLS = [
   './',
@@ -9,7 +9,6 @@ const PRECACHE_URLS = [
   'icons/icon-512.png',
   'icons/icon-maskable-512.png',
   'css/style.css',
-  'data/extracted.json',
   'js/content.js',
   'js/glossary.js',
   'js/app.js',
@@ -89,20 +88,11 @@ const PRECACHE_URLS = [
   'vendor/katex/fonts/KaTeX_Typewriter-Regular.ttf',
   'vendor/katex/fonts/KaTeX_Typewriter-Regular.woff',
   'vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2',
-  'materjalid/DM_1_ülesannete_kogu_2026K.pdf',
-  'materjalid/DMI_konspekt_2026_28.01.pdf',
-  'materjalid/Kontrolltoo_1_variant_G-I_ja_lahendused.pdf',
-  'materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf',
-  'materjalid/Kontrolltoo_1_Variant_D.pdf',
-  'materjalid/Kontrolltoo_1_Variant_E.pdf',
-  'materjalid/Kontrolltoo_1_Variant_F.pdf',
-  'materjalid/kursuse_korraldus_lühidalt.md',
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(PRECACHE_URLS.map(url => new Request(new URL(url, self.registration.scope), { cache: 'reload' }))))
+    precacheAppShell()
       .then(() => self.skipWaiting())
   );
 });
@@ -158,4 +148,18 @@ async function networkFirst(request, fallbackUrl) {
     return caches.match(request, { ignoreSearch: true })
       .then(response => response || caches.match(new URL(fallbackUrl, self.registration.scope)));
   }
+}
+
+async function precacheAppShell() {
+  const cache = await caches.open(CACHE_NAME);
+  await Promise.all(PRECACHE_URLS.map(async url => {
+    const request = new Request(new URL(url, self.registration.scope), { cache: 'reload' });
+    try {
+      const response = await fetch(request);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      await cache.put(request, response);
+    } catch (error) {
+      console.warn('Precache skipped:', url, error);
+    }
+  }));
 }

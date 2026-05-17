@@ -354,6 +354,7 @@
     view.innerHTML = `
       <h1>Hinde kalkulaator</h1>
       <p>Sisesta oma TBL sessioonide, kontrolltööde ja lisapunktide seis. Kalkulaator arvestab, et positiivseks hindeks peab mõlemast kontrolltööst saama vähemalt 12,8 punkti ning ilma lisapunktideta peab koos olema vähemalt 50 punkti.</p>
+      <p class="muted">Lävendid on sisestatud kursuse korralduse lõpetamise nõuete põhjal. Enne otsustamist kontrolli ametlikku seisu Moodle'ist või õppejõu juhistest.</p>
 
       <div id="gradeCalculator" class="grade-calculator">
         <div class="grade-summary-grid" id="gradeSummary"></div>

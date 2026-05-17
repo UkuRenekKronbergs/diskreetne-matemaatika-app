@@ -10,6 +10,10 @@ avaleht: `
 <h1>Tere tulemast! 🎓</h1>
 <p>See on interaktiivne õppekeskkond Tartu Ülikooli kursusele <strong>Diskreetne matemaatika I</strong> (LTMS.00.019). Kõik materjalid põhinevad Kati Aini loengukonspektil (Valdis Laan, 2020; täiendanud Kati Ain, 28.01.2026) ja praktikumiülesannete kogul (Reimo Palm, Valdis Laan, Kati Ain).</p>
 
+<div class="tip">
+  <strong>Mitteametlik õppevahend.</strong> See rakendus ei ole Tartu Ülikooli ametlik kursusekeskkond. Ametlik info, tähtajad, hindamisreeglid ja lubatud abivahendid kehtivad Moodle'is, ÕIS-is ja õppejõu juhistes. Hinnatavas töös kasuta seda ainult siis, kui õppejõud on selle sõnaselgelt lubanud.
+</div>
+
 <div class="dashboard">
   <a href="#oppimine" class="dash-card">
     <span class="icon">◎</span>
@@ -93,7 +97,7 @@ avaleht: `
   <ol>
     <li><strong>Loe teooriat</strong> järjest läbi vasakult menüüst — alustades lausearvutusest.</li>
     <li><strong>Tee interaktiivseid harjutusi</strong> iga teema juures (tõeväärtustabel, prefikskuju, graafialgoritmid).</li>
-    <li><strong>Testi end</strong> kiirviktoriiniga ja vaata vanu kontrolltöid.</li>
+    <li><strong>Testi end</strong> kiirviktoriiniga ja vaata lubatud harjutusvariante.</li>
     <li>Edenemine salvestub automaatselt sinu brauserisse.</li>
   </ol>
 </div>
@@ -662,7 +666,7 @@ prefikskuju: `
 </div>
 
 <div class="tip">
-  💡 Tüüpiline kontrolltöö ülesanne: teisenda valem prefikskujule, kus eitused on ainult atomaarsete valemite ees ja valem ei sisalda implikatsiooni. Vaata <a href="#kontrolltood">vanu kontrolltöid</a>.
+  💡 Tüüpiline kontrolltöö ülesanne: teisenda valem prefikskujule, kus eitused on ainult atomaarsete valemite ees ja valem ei sisalda implikatsiooni. Vaata <a href="#kontrolltood">harjutusvariante</a>.
 </div>
 
 <h2>Interaktiivne harjutus</h2>
@@ -805,7 +809,7 @@ sekvents: `
 </div>
 
 <div class="tip">
-  📝 Vanades kontrolltöödes on tüüpilised tuletused: $P \\Rightarrow Q \\vdash \\neg Q \\Rightarrow \\neg P$, $(P \\lor Q) \\& R \\vdash (P\\&R) \\lor (Q\\&R)$, $A \\Rightarrow B, \\neg A \\Rightarrow B \\vdash B$.
+  📝 Harjutusvariantides on tüüpilised tuletused: $P \\Rightarrow Q \\vdash \\neg Q \\Rightarrow \\neg P$, $(P \\lor Q) \\& R \\vdash (P\\&R) \\lor (Q\\&R)$, $A \\Rightarrow B, \\neg A \\Rightarrow B \\vdash B$.
 </div>
 
 <h2>Sekventsiaalne predikaatarvutus</h2>
@@ -1544,9 +1548,13 @@ luhimtee: `
 
 /* ============= KONTROLLTÖÖD ============= */
 kontrolltood: `
-<h1>Vanad kontrolltööd</h1>
+<h1>Harjutusvariandid kontrolltööks</h1>
 
 <p>Kontrolltöö nr 1 katab kursuse esimese poole (matemaatiline loogika). Siia jätame ainult need harjutusvariandid ja materjalid, mida tohib rakenduses jagada.</p>
+
+<div class="tip">
+  Need failid on mõeldud ainult isiklikuks/lubatud kursusesiseseks harjutamiseks. Avalikus versioonis jäta PDF-id ja lahendused välja, kui sul ei ole nende jagamiseks selget luba.
+</div>
 
 <div class="card">
   <h3>📝 Variant D</h3>

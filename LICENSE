@@ -1,25 +1,19 @@
-MIT License
+License overview
+================
 
-Copyright (c) 2026 Diskreetne matemaatika I — interaktiivne õppekeskkond
+Source code
+-----------
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+The application source code is licensed under the MIT License. See
+LICENSE-CODE for the full code license.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Excluded materials
+------------------
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+The MIT License does not apply to course PDFs, Moodle exports, old tests,
+solutions, extracted PDF text, or other third-party learning materials. Those
+materials belong to their respective authors and/or the University of Tartu and
+must not be redistributed unless you have permission.
 
-NB: The PDF course materials in the `materjalid/` directory belong to their
-respective authors and the University of Tartu. They are included for
-educational use by enrolled students only.
+See MATERIALS-LICENSE.md and NOTICE.md for the practical sharing rules used in
+this repository.

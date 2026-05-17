@@ -961,7 +961,7 @@
     if (!view) return;
     view.innerHTML = `
       <h1>Konspekti otsing</h1>
-      <p>Otsi kõigi ekstraktitud PDF-ide tekstist. Tulemused näitavad PDF-i nime, lehekülge ja lähikonteksti.</p>
+      <p>Otsi kõigi ekstraktitud PDF-ide tekstist. Tulemused näitavad PDF-i nime, lehekülge ja lähikonteksti. Avalikus versioonis võib otsinguandmestik puududa, sest PDF-ide täisteksti ei jagata koos koodiga.</p>
       <div class="card">
         <div class="input-row">
           <input id="studySearchInput" type="text" placeholder="Nt: Havel-Hakimi, prefikskuju, Euleri graaf" autocomplete="off">
@@ -1010,7 +1010,7 @@
         <article class="search-hit">
           <div class="search-hit-head">
             <strong>${escapeHtml(repairText(hit.file))}</strong>
-            <a class="btn small secondary" href="materjalid/${encodeURIComponent(hit.file)}#page=${hit.page}" target="_blank">lk ${hit.page}</a>
+            <a class="btn small secondary" href="materjalid/${encodeURIComponent(hit.file)}#page=${hit.page}" target="_blank" rel="noopener noreferrer">lk ${hit.page}</a>
           </div>
           <p>${contextFor(hit.text, query)}</p>
         </article>

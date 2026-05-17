@@ -18,4 +18,8 @@ venv/
 # Build & temp
 *.log
 extracted.json
-!data/extracted.json
+
+# Course materials and extracted course text stay local.
+# Do not publish these without explicit permission from the rights holders.
+materjalid/
+data/extracted.json

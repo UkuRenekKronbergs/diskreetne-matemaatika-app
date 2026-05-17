@@ -337,6 +337,10 @@
   }
   function dijkstra(startId, endId) {
     if (!startId || !endId) { stepInfo = 'Vali algustipp ja lõpptipp!'; return []; }
+    if (graph.edges.some(e => e.w != null && e.w < 0)) {
+      stepInfo = '⚠ Dijkstra algoritm ei tööta negatiivsete kaaludega. Kasuta mittenegatiivseid kaale või vali Floydi-Warshalli algoritm.';
+      return [];
+    }
     const adj = {};
     graph.vertices.forEach(v => adj[v.id] = []);
     graph.edges.forEach(e => {
@@ -497,7 +501,7 @@
           <button class="btn small secondary" data-mode="move">↔ Liiguta</button>
           <button class="btn small danger" data-mode="delete">🗑 Kustuta</button>
           <label style="display:flex; align-items:center; gap:6px; font-size:13px;">
-            Kaal: <input type="number" id="edgeWeight" placeholder="nt 3" style="width:80px;">
+            Kaal: <input type="number" id="edgeWeight" min="0" step="1" placeholder="nt 3" style="width:80px;">
           </label>
           <label style="display:flex; align-items:center; gap:6px; font-size:13px;">
             <input type="checkbox" id="directedCheckbox"> Suunatud

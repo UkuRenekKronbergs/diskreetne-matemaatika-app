@@ -2,6 +2,10 @@
 
 Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I** (LTMS.00.019) materjali õppimiseks. Kogu sisu on eesti keeles ja põhineb Kati Aini loengukonspektil ja praktikumiülesannete kogul (Reimo Palm, Valdis Laan, Kati Ain).
 
+> **Mitteametlik õppevahend.** See rakendus ei ole Tartu Ülikooli ametlik kursusekeskkond ega asenda Moodle'it, ÕIS-i või õppejõu juhiseid. Hinnatavas töös, kontrolltööl või eksamil kasuta seda ainult siis, kui õppejõud on sellise abivahendi sõnaselgelt lubanud.
+
+> **Avalikult jagatav versioon ei tohiks sisaldada kursuse PDF-e ega PDF-idest ekstraktitud otsinguandmeid.** Kood võib olla avalik, aga `materjalid/` kaust ja `data/extracted.json` on mõeldud ainult lokaalseks/isiklikuks kasutuseks juhul, kui sul on materjalide kasutamiseks õigus.
+
 ## ✨ Mida saab teha
 
 - **Loe teooriat** kõigi peatükkide kohta — lausearvutusest kuni Dijkstra algoritmini.
@@ -38,9 +42,20 @@ python -m http.server 8000
 
 Või lihtsalt ava `index.html` brauseris (mõned brauserid blokeerivad kohaliku PDF-i avamist, nii et HTTP-server on soovitatav).
 
+## Kontroll
+
+```powershell
+cd app
+.\scripts\check.ps1
+```
+
+Kontrollskript vaatab üle JavaScripti süntaksi, JSON-failid ja Git diff'i whitespace-probleemid. `data/extracted.json` on valikuline lokaalne fail; avalikus versioonis võib see puududa.
+
 ## 📲 PWA / võrguühenduseta kasutus
 
-Rakendus sisaldab `manifest.webmanifest` faili ja `service-worker.js` võrguühenduseta kasutuse vahemälu. Ava rakendus HTTP-serveri kaudu ja lae see korra täielikult ära; seejärel pakub brauser võimalust rakendus paigaldada. Pärast esmast vahemällu salvestamist töötavad teoorialehed, tööriistad, KaTeX, konspektiotsing, PDF-materjalid ja kohalik edenemine ka ilma internetita.
+Rakendus sisaldab `manifest.webmanifest` faili ja `service-worker.js` võrguühenduseta kasutuse vahemälu. Ava rakendus HTTP-serveri kaudu ja lae see korra täielikult ära; seejärel pakub brauser võimalust rakendus paigaldada. Pärast esmast vahemällu salvestamist töötavad rakenduse kest, teoorialehed, tööriistad, KaTeX ja kohalik edenemine ka ilma internetita.
+
+PDF-materjale ja `data/extracted.json` otsinguandmestikku ei panda enam automaatselt PWA precache'i. Lokaalses versioonis laaditakse need vajadusel ja brauser võib need tavapärase runtime-cache'i kaudu salvestada; avalikus versioonis jäta need failid välja.
 
 Kui arenduse ajal staatilisi faile muudad, suurenda `service-worker.js` failis `CACHE_NAME` väärtust, et brauser võtaks uue võrguühenduseta versiooni kasutusele.
 
@@ -53,7 +68,7 @@ app/
 ├── service-worker.js      # Võrguühenduseta vahemälu ja navigatsiooni varuvariant
 ├── icons/                 # PWA ikoonid
 ├── css/style.css          # Kujundus (tume teema)
-├── data/extracted.json    # PDF-idest ekstraktitud tekst konspektiotsingu jaoks
+├── data/extracted.json    # Lokaalne otsinguandmestik; avalikku reposse mitte lisada
 ├── js/
 │   ├── app.js             # Marsruutimine, edenemise jälgimine
 │   ├── content.js         # Kogu teooriasisu
@@ -73,7 +88,7 @@ app/
 │       ├── study-tools.js # Õppimise töölaud, vigade päevik, konspektiotsing, spikker, õpijada
 │       └── topic-tools.js # Väikesed tööriistad ja lahendusülesanded teoorialehtede sees
 ├── vendor/katex/          # KaTeX-i kohalik varu võrguühenduseta kasutuseks
-└── materjalid/            # PDF-id: konspekt, ülesanded, kontrolltööd
+└── materjalid/            # Lokaalsed PDF-id; avalikku reposse mitte lisada
 ```
 
 ## 🎯 Peatükid
@@ -111,11 +126,25 @@ app/
 - *DM I praktikumiülesannete kogu* — Reimo Palm, Valdis Laan, Kati Ain (2026K)
 - Kontrolltööde harjutusvariandid D, E, F, G, H, I, J, K, L, M, N (kevadsemester 2026)
 
+## Tehisintellekti kasutus
+
+Rakenduse arenduses on kasutatud tehisintellekti programmeerimise, ideede struktureerimise ja teksti sõnastamise abivahendina. Väljundit on käsitsi üle vaadatud; tehisintellekti ei käsitleta autorina. Õppetöös tuleb tehisintellekti kasutamisel järgida kursuse õppejõu juhiseid, akadeemilise aususe põhimõtteid, privaatsust ja andmekaitset.
+
 ## 📄 Litsents
 
-MIT — vaata [LICENSE](LICENSE).
+Rakenduse lähtekood on MIT-litsentsiga — vaata [LICENSE-CODE](LICENSE-CODE).
 
-Õppematerjalid (PDF-id `materjalid/` kaustas) kuuluvad oma autoritele ja Tartu Ülikoolile; need on lisatud rakendusele üliõpilaste isiklikuks kasutamiseks.
+Õppematerjalid, PDF-id, kontrolltööd, lahendused ja nendest ekstraktitud tekst ei kuulu MIT-litsentsi alla — vaata [MATERIALS-LICENSE.md](MATERIALS-LICENSE.md) ja [NOTICE.md](NOTICE.md).
+
+## Avaliku jagamise kontrollnimekiri
+
+Enne GitHubi, Netlifysse, Vercelisse või ZIP-failina jagamist kontrolli:
+
+- `materjalid/` kaust ei ole repos ega arhiivis;
+- `data/extracted.json` ei ole repos ega arhiivis;
+- `.git/` kataloogi ei panda jagatavasse arhiivi;
+- README-s on alles mitteametliku õppevahendi ja materjalide õiguste märkus;
+- kui kasutad kursuse materjale või lahendusi, on selleks õppejõu või õiguste omaja luba.
 
 ---
 

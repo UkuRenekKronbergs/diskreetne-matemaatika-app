@@ -41,6 +41,25 @@
     localStorage.setItem(VISITED_KEY, JSON.stringify([...v]));
     updateProgress();
   }
+
+  function resetAllLocalProgress() {
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key?.startsWith('dm_')) keys.push(key);
+    }
+    keys.forEach(key => localStorage.removeItem(key));
+  }
+
+  function ensureSafeBlankLinks(root = document) {
+    root.querySelectorAll('a[target="_blank"]').forEach(link => {
+      const rel = new Set((link.getAttribute('rel') || '').split(/\s+/).filter(Boolean));
+      rel.add('noopener');
+      rel.add('noreferrer');
+      link.setAttribute('rel', [...rel].join(' '));
+    });
+  }
+
   function updateProgress() {
     const completed = ROUTES.filter(isRouteCompleted);
     const total = ROUTES.length;
@@ -48,7 +67,7 @@
     const fill = document.getElementById('progressFill');
     const text = document.getElementById('progressText');
     if (fill) fill.style.width = pct + '%';
-    if (text) text.textContent = `${completed.length}/${total} läbitud (${pct}%)`;
+    if (text) text.textContent = `${completed.length}/${total} tehtud/külastatud (${pct}%)`;
     document.querySelectorAll('.nav-group a').forEach(a => {
       const r = a.dataset.route;
       a.classList.toggle('done', isRouteCompleted(r));
@@ -102,6 +121,7 @@
     if (route === 'vead') window.initWeaknessJournal && window.initWeaknessJournal();
     if (route === 'normaalkujud') window.initNormalForms && window.initNormalForms();
     window.initTopicTools && window.initTopicTools(route);
+    ensureSafeBlankLinks(view);
 
     markVisited(route);
     window.initStreak && window.initStreak();
@@ -128,11 +148,11 @@
 
     // Reset progress
     document.getElementById('resetProgress')?.addEventListener('click', () => {
-      if (confirm('Lähtesta edenemine? Kõik märkmed kaovad.')) {
-        localStorage.removeItem(VISITED_KEY);
-        localStorage.removeItem('dm_chapter_notes_v1');
-        localStorage.removeItem('dm_topic_checks_v1');
+      if (confirm('Lähtesta kogu kohalik edenemine? See kustutab selle äpi märkmed, hinde kalkulaatori seisu, kviisitulemused, mõistekaardid, vigade päeviku, õpijada ja ülesannete statistika.')) {
+        resetAllLocalProgress();
         updateProgress();
+        const streakBox = document.getElementById('streakBox');
+        if (streakBox) streakBox.textContent = 'Õpijada: 0 päeva';
       }
     });
 
@@ -142,5 +162,5 @@
   });
 
   // Expose helpers
-  window.DM = { markVisited, updateProgress, render, isRouteCompleted };
+  window.DM = { markVisited, updateProgress, render, isRouteCompleted, ensureSafeBlankLinks };
 })();
