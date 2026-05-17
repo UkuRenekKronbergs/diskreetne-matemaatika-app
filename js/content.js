@@ -1549,11 +1549,15 @@ kontrolltood: `
 <p>Kontrolltöö nr 1 katab kursuse esimese poole (matemaatiline loogika). Siia jätame ainult need harjutusvariandid ja materjalid, mida tohib rakenduses jagada.</p>
 
 <div class="tip">
+  <strong>AI-genereeritud harjutusmaterjal.</strong> Kõik allolevad variandid on loodud harjutamiseks ja ei ole ametlikud kontrolltööd.
+</div>
+
+<div class="tip">
   Need failid on mõeldud ainult isiklikuks/lubatud kursusesiseseks harjutamiseks. Avalikus versioonis jäta PDF-id ja lahendused välja, kui sul ei ole nende jagamiseks selget luba.
 </div>
 
 <div class="card">
-  <h3>📝 Variant D</h3>
+  <h3>📝 Variant A</h3>
   <ul>
     <li><strong>Ül 1.</strong> Peano: $\\forall x(0 + x = x)$ tõestamine, väljendada $3 \\cdot 2 + 1 = 7$.</li>
     <li><strong>Ül 2.</strong> Tõestada $\\forall x F(x) \\lor \\forall x G(x) \\models \\forall x(F(x) \\lor G(x))$.</li>
@@ -1561,11 +1565,14 @@ kontrolltood: `
     <li><strong>Ül 4.</strong> Prefikskuju: $\\neg \\exists x(\\forall y P(x,y) \\Rightarrow \\exists z Q(z))$.</li>
     <li><strong>Ül 5.</strong> Funktsioon $f: \\mathbb{N} \\to \\mathbb{N}$: $f$ on monotoonselt mittekahanev, $f$-l leidub püsipunkt.</li>
   </ul>
-  <p><a href="materjalid/Kontrolltoo_1_Variant_D.pdf" target="_blank" class="btn small">Vaata PDF-i</a></p>
+  <p class="btn-row">
+    <a href="materjalid/Kontrolltoo_1_Variant_A_ulesanded.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/Kontrolltoo_1_Variant_A_lahendused.pdf" target="_blank" class="btn small secondary">Lahendused (PDF)</a>
+  </p>
 </div>
 
 <div class="card">
-  <h3>📝 Variant E</h3>
+  <h3>📝 Variant B</h3>
   <ul>
     <li><strong>Ül 1.</strong> Täielikkuse teoreem; tuletada $(P \\lor Q)\\&R \\vdash (P\\&R) \\lor (Q\\&R)$.</li>
     <li><strong>Ül 2.</strong> Signatuur $\\langle\\,;+, \\cdot;=,|\\rangle$ üle $\\mathbb{N}$: väljenda $x=1$, $x$ paaris, $x$ algarv, $x, y$ ühistegurita.</li>
@@ -1573,11 +1580,14 @@ kontrolltood: `
     <li><strong>Ül 4.</strong> Prefikskuju: $\\neg \\forall x(\\exists y P(x,y) \\Rightarrow \\exists z \\neg Q(x,z))$.</li>
     <li><strong>Ül 5.</strong> Järeldumine: $\\exists x(F(x)\\&G(x)) \\models \\exists x F(x) \\& \\exists x G(x)$, pööratud ei kehti.</li>
   </ul>
-  <p><a href="materjalid/Kontrolltoo_1_Variant_E.pdf" target="_blank" class="btn small">Vaata PDF-i</a></p>
+  <p class="btn-row">
+    <a href="materjalid/Kontrolltoo_1_Variant_B_ulesanded.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/Kontrolltoo_1_Variant_B_lahendused.pdf" target="_blank" class="btn small secondary">Lahendused (PDF)</a>
+  </p>
 </div>
 
 <div class="card">
-  <h3>📝 Variant F</h3>
+  <h3>📝 Variant C</h3>
   <ul>
     <li><strong>Ül 1.</strong> Definieeri prefikskuju; teisenda $\\neg(\\forall x P(x) \\Rightarrow \\exists y \\forall z Q(y, z))$.</li>
     <li><strong>Ül 2.</strong> Peano: $\\forall x(x + 0' = 0' + x)$; väljendada ja tõestada $0'' + 0' = 0'''$.</li>
@@ -1585,11 +1595,14 @@ kontrolltood: `
     <li><strong>Ül 4.</strong> Signatuur $\\langle\\,;+,\\cdot;=\\rangle$ üle $\\mathbb{N}$: $x=0$, $x=1$, $x | y$, $x, y$ ühistegurita.</li>
     <li><strong>Ül 5.</strong> Järeldumine: $\\forall x(F(x) \\Rightarrow G(x)) \\models \\forall x F(x) \\Rightarrow \\forall x G(x)$.</li>
   </ul>
-  <p><a href="materjalid/Kontrolltoo_1_Variant_F.pdf" target="_blank" class="btn small">Vaata PDF-i</a></p>
+  <p class="btn-row">
+    <a href="materjalid/Kontrolltoo_1_Variant_C_ulesanded.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/Kontrolltoo_1_Variant_C_lahendused.pdf" target="_blank" class="btn small secondary">Lahendused (PDF)</a>
+  </p>
 </div>
 
 <div class="card">
-  <h3>📝 Variant G</h3>
+  <h3>📝 Variant D</h3>
   <ul>
     <li><strong>Ül 1.</strong> Signatuuri interpretatsioon; $\\langle\\,;+,\\cdot;=\\rangle$ üle $\\mathbb{N}$: $x=0$, $x=1$, ruutarv, jaguvus ja kordarv.</li>
     <li><strong>Ül 2.</strong> Peano: $\\forall x(0''+x=x'')$; väljendada ja tõestada $2+2=4$.</li>
@@ -1597,11 +1610,14 @@ kontrolltood: `
     <li><strong>Ül 4.</strong> Prefikskuju: $\\neg\\forall x(\\exists yP(x,y) \\lor \\forall zQ(z,x))$.</li>
     <li><strong>Ül 5.</strong> Järeldumine: $\\forall xF(x)\\&\\exists xG(x) \\models \\exists x(F(x)\\&G(x))$, pööre üldjuhul ei kehti.</li>
   </ul>
-  <p><a href="materjalid/Kontrolltoo_1_variant_G-I_ja_lahendused.pdf" target="_blank" class="btn small">Vaata G-I PDF-i</a></p>
+  <p class="btn-row">
+    <a href="materjalid/Kontrolltoo_1_Variant_D_ulesanded.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/Kontrolltoo_1_Variant_D_lahendused.pdf" target="_blank" class="btn small secondary">Lahendused (PDF)</a>
+  </p>
 </div>
 
 <div class="card">
-  <h3>📝 Variant H</h3>
+  <h3>📝 Variant E</h3>
   <ul>
     <li><strong>Ül 1.</strong> Prefikskuju: $\\forall x(P(x) \\Rightarrow \\exists y(Q(y)\\&\\neg R(x,y)))$.</li>
     <li><strong>Ül 2.</strong> Peano: $\\forall x(x+0'=x')$; väljendada ja tõestada $3+1=4$.</li>
@@ -1609,11 +1625,14 @@ kontrolltood: `
     <li><strong>Ül 4.</strong> Graafi signatuur: pole silmuseid, tipp $x$ isoleeritud, leidub kolmnurk, igal tipul leidub naaber.</li>
     <li><strong>Ül 5.</strong> Kehtestatavus: $\\exists xP(x)\\&\\exists x\\neg P(x)$ on kehtestatav, kuid mitte samaselt tõene.</li>
   </ul>
-  <p><a href="materjalid/Kontrolltoo_1_variant_G-I_ja_lahendused.pdf" target="_blank" class="btn small">Vaata G-I PDF-i</a></p>
+  <p class="btn-row">
+    <a href="materjalid/Kontrolltoo_1_Variant_E_ulesanded.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/Kontrolltoo_1_Variant_E_lahendused.pdf" target="_blank" class="btn small secondary">Lahendused (PDF)</a>
+  </p>
 </div>
 
 <div class="card">
-  <h3>📝 Variant I</h3>
+  <h3>📝 Variant F</h3>
   <ul>
     <li><strong>Ül 1.</strong> Korrektsus; tuletada $P\\&Q \\vdash Q\\&P$.</li>
     <li><strong>Ül 2.</strong> Hulgad signatuuris $\\langle\\,;\\cup,\\cap;=\\rangle$: ühisosata, ühend on $\\mathbb{N}$, pärisalamhulk, jaotus kaheks osaks.</li>
@@ -1621,11 +1640,14 @@ kontrolltood: `
     <li><strong>Ül 4.</strong> Järeldumine: $\\forall x(F(x)\\Rightarrow G(x)) \\models \\exists xF(x)\\Rightarrow\\exists xG(x)$, pööre üldjuhul ei kehti.</li>
     <li><strong>Ül 5.</strong> Prefikskuju: $\\neg\\exists x\\forall y(P(x,y)\\Rightarrow Q(y))$.</li>
   </ul>
-  <p><a href="materjalid/Kontrolltoo_1_variant_G-I_ja_lahendused.pdf" target="_blank" class="btn small">Vaata G-I PDF-i</a></p>
+  <p class="btn-row">
+    <a href="materjalid/Kontrolltoo_1_Variant_F_ulesanded.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/Kontrolltoo_1_Variant_F_lahendused.pdf" target="_blank" class="btn small secondary">Lahendused (PDF)</a>
+  </p>
 </div>
 
 <div class="card">
-  <h3>📝 Variant J</h3>
+  <h3>📝 Variant G</h3>
   <ul>
     <li><strong>Ül 1.</strong> Signatuur $\\langle0;+,\\cdot;=,\\leq\\rangle$ üle $\\mathbb{N}$: $x\\neq0$, $x<y$, ruutarv, jaguvus.</li>
     <li><strong>Ül 2.</strong> Korrektsus; tuletada $(P\\&Q)\\Rightarrow R, P, Q \\vdash R$.</li>
@@ -1633,11 +1655,14 @@ kontrolltood: `
     <li><strong>Ül 4.</strong> Prefikskuju: $\\neg\\forall x(\\exists yP(x,y)\\lor\\forall zQ(z))$.</li>
     <li><strong>Ül 5.</strong> Järeldumine: $\\forall x(F(x)\\Rightarrow G(x)) \\models \\exists xF(x)\\Rightarrow\\exists xG(x)$, pööre üldjuhul ei kehti.</li>
   </ul>
-  <p><a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank" class="btn small">Vaata J-N PDF-i</a></p>
+  <p class="btn-row">
+    <a href="materjalid/Kontrolltoo_1_Variant_G_ulesanded.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/Kontrolltoo_1_Variant_G_lahendused.pdf" target="_blank" class="btn small secondary">Lahendused (PDF)</a>
+  </p>
 </div>
 
 <div class="card">
-  <h3>📝 Variant K</h3>
+  <h3>📝 Variant H</h3>
   <ul>
     <li><strong>Ül 1.</strong> Prefikskuju: $\\exists xP(x)\\Rightarrow\\forall y(Q(y)\\lor\\neg R(x,y))$.</li>
     <li><strong>Ül 2.</strong> Peano: $\\forall x(x+0'=x')$; väljendada ja tõestada $1+3=4$.</li>
@@ -1645,11 +1670,14 @@ kontrolltood: `
     <li><strong>Ül 4.</strong> Kehtestatavus: $\\exists x\\forall y(R(x,y)\\lor P(y))$ on kehtestatav, kuid mitte samaselt tõene.</li>
     <li><strong>Ül 5.</strong> Suunatud graafi signatuur: väljuv naaber, sümmeetrilisus, isoleeritud tipp.</li>
   </ul>
-  <p><a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank" class="btn small">Vaata J-N PDF-i</a></p>
+  <p class="btn-row">
+    <a href="materjalid/Kontrolltoo_1_Variant_H_ulesanded.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/Kontrolltoo_1_Variant_H_lahendused.pdf" target="_blank" class="btn small secondary">Lahendused (PDF)</a>
+  </p>
 </div>
 
 <div class="card">
-  <h3>📝 Variant L</h3>
+  <h3>📝 Variant I</h3>
   <ul>
     <li><strong>Ül 1.</strong> Hulgad signatuuris $\\langle\\,;\\cup,\\cap;=\\rangle$: ühisosata, ühend on $\\mathbb{N}$, pärisalamhulk, lahutus kaheks osaks.</li>
     <li><strong>Ül 2.</strong> Korrektsus; tuletada $\\neg P\\lor Q \\vdash P\\Rightarrow Q$.</li>
@@ -1657,11 +1685,14 @@ kontrolltood: `
     <li><strong>Ül 4.</strong> Prefikskuju: $\\neg\\exists x((P(x)\\&\\forall yQ(y))\\Rightarrow\\exists zR(x,z))$.</li>
     <li><strong>Ül 5.</strong> Järeldumine: $\\exists x\\forall yH(x,y) \\models \\forall y\\exists xH(x,y)$, pööre üldjuhul ei kehti.</li>
   </ul>
-  <p><a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank" class="btn small">Vaata J-N PDF-i</a></p>
+  <p class="btn-row">
+    <a href="materjalid/Kontrolltoo_1_Variant_I_ulesanded.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/Kontrolltoo_1_Variant_I_lahendused.pdf" target="_blank" class="btn small secondary">Lahendused (PDF)</a>
+  </p>
 </div>
 
 <div class="card">
-  <h3>📝 Variant M</h3>
+  <h3>📝 Variant J</h3>
   <ul>
     <li><strong>Ül 1.</strong> Peano: $\\forall x(0'\\cdot x=x)$; väljendada ja tõestada $3+1=4$.</li>
     <li><strong>Ül 2.</strong> Järeldumine: $\\forall xF(x) \\models \\exists xF(x)$, pööre üldjuhul ei kehti.</li>
@@ -1669,11 +1700,14 @@ kontrolltood: `
     <li><strong>Ül 4.</strong> Prefikskuju: $\\neg(\\exists xP(x)\\&\\forall y(Q(y)\\Rightarrow R(y)))$.</li>
     <li><strong>Ül 5.</strong> Funktsioon $f:\\mathbb{N}\\to\\mathbb{N}$: injektiivne, rangelt kasvav, perioodiga 2 punkt.</li>
   </ul>
-  <p><a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank" class="btn small">Vaata J-N PDF-i</a></p>
+  <p class="btn-row">
+    <a href="materjalid/Kontrolltoo_1_Variant_J_ulesanded.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/Kontrolltoo_1_Variant_J_lahendused.pdf" target="_blank" class="btn small secondary">Lahendused (PDF)</a>
+  </p>
 </div>
 
 <div class="card">
-  <h3>📝 Variant N</h3>
+  <h3>📝 Variant K</h3>
   <ul>
     <li><strong>Ül 1.</strong> Kehtestatavus: $\\exists x(P(x)\\&\\forall yR(x,y))$ on kehtestatav, kuid mitte samaselt tõene.</li>
     <li><strong>Ül 2.</strong> Prefikskuju: $\\forall x(\\exists yP(x,y)\\&Q(x))\\Rightarrow\\forall zR(z)$.</li>
@@ -1681,14 +1715,14 @@ kontrolltood: `
     <li><strong>Ül 4.</strong> Korrektsus; tuletada $P\\Rightarrow(Q\\Rightarrow R) \\vdash Q\\Rightarrow(P\\Rightarrow R)$.</li>
     <li><strong>Ül 5.</strong> Järeldumine: $\\forall x(F(x)\\Rightarrow G(x)) \\models \\neg\\exists xG(x)\\Rightarrow\\neg\\exists xF(x)$, pööre üldjuhul ei kehti.</li>
   </ul>
-  <p><a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank" class="btn small">Vaata J-N PDF-i</a></p>
+  <p class="btn-row">
+    <a href="materjalid/Kontrolltoo_1_Variant_K_ulesanded.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/Kontrolltoo_1_Variant_K_lahendused.pdf" target="_blank" class="btn small secondary">Lahendused (PDF)</a>
+  </p>
 </div>
 
 <div class="tip">
-  💡 Lahendused:
-  <a href="materjalid/Kontrolltoo_1_variant_G-I_ja_lahendused.pdf" target="_blank">Variandid G-I koos lahendustega (PDF)</a>
-  ·
-  <a href="materjalid/lisavariandid_kontrolltoo1_J-N_ja_lahendused.pdf" target="_blank">Variandid J-N koos lahendustega (PDF)</a>
+  Iga variandi juures on nüüd eraldi ülesannete PDF ja lahenduste PDF.
 </div>
 `,
 
