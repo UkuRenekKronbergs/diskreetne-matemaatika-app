@@ -643,85 +643,113 @@
     const glossaryTotal = (window.GLOSSARY || []).length;
     const learnedPct = Math.round(100 * state.learned.size / Math.max(1, glossaryTotal));
     const generatorAccuracy = problemAccuracy(state.problemStats);
+    const noteCountText = `${state.noteTopics.length} ${state.noteTopics.length === 1 ? 'märkus' : 'märkust'}`;
+    const pulseItems = [
+      {
+        href: '#vead',
+        value: state.weakStats.open,
+        label: 'nõrka kohta',
+        meta: `${state.weakStats.resolved} kirjet parandatud`,
+      },
+      {
+        href: `#${state.miniChecks.nextRoute || 'oppimine'}`,
+        value: `${state.miniChecks.completed}/${state.miniChecks.total}`,
+        label: 'mini-kontrolli',
+        meta: state.miniChecks.average === null ? 'keskmine puudub' : `keskmine ${state.miniChecks.average}%`,
+      },
+      {
+        href: '#flashcards',
+        value: state.flash.due,
+        label: 'mõistekaarti täna',
+        meta: `${state.flash.started}/${state.flash.total} kordamist alustatud`,
+      },
+      {
+        href: '#ulesandegeneraator',
+        value: generatorAccuracy === null ? '-' : `${generatorAccuracy}%`,
+        label: 'generaatori täpsus',
+        meta: state.problemStats.total ? `${state.problemStats.correct}/${state.problemStats.total} õige` : 'tee esimene ülesanne',
+      },
+    ];
+    const actionGroups = [
+      {
+        title: 'Loogika tööriistad',
+        links: [
+          { href: '#truthtable', label: 'Tõeväärtustabel' },
+          { href: '#normaalkujud', label: 'DNK/KNK' },
+          { href: '#predikaadid', label: 'Mudeli ehitaja' },
+        ],
+      },
+      {
+        title: 'Graafide harjutus',
+        links: [
+          { href: '#grapheditor', label: 'Graafiredaktor' },
+          { href: '#tipuastmed', label: 'Havel-Hakimi' },
+          { href: '#luhimtee', label: 'Lühim tee' },
+        ],
+      },
+      {
+        title: 'Valmisoleku kontroll',
+        links: [
+          { href: '#kviis', label: 'Kiirviktoriin' },
+          { href: '#harjutustoo', label: 'Harjutustöö' },
+          { href: '#hinnekalkulaator', label: 'Hinde kalkulaator' },
+        ],
+      },
+    ];
 
     view.innerHTML = `
       <h1>Õppimise töölaud</h1>
-      <p>Üks vaade, mis seob kokku kordamise, peatükkide edenemise, märkmed ja viimase enesekontrolli.</p>
+      <p class="home-lede">Üks õppevoog, mis alustab tänasest fookusest, näitab edenemise seisu ja suunab edasi peatükkide, tööriistade ning kontrollharjutuste vahel.</p>
 
-      <section class="card study-hero">
-        <div>
-          <span class="tag accent">${primary.eyebrow}</span>
-          <h2>${primary.title}</h2>
-          <p>${primary.text}</p>
-        </div>
-        <a class="btn" href="${primary.href}">${primary.cta}</a>
-      </section>
-
-      <section class="study-stat-grid">
-        <a class="study-stat" href="#vead">
-          <strong>${state.weakStats.open}</strong>
-          <span>nõrka kohta</span>
-          <small>${state.weakStats.resolved} kirjet parandatud</small>
-        </a>
-        <a class="study-stat" href="#${state.miniChecks.nextRoute || 'oppimine'}">
-          <strong>${state.miniChecks.completed}/${state.miniChecks.total}</strong>
-          <span>mini-kontrolli tehtud</span>
-          <small>${state.miniChecks.average === null ? 'keskmine puudub' : `keskmine ${state.miniChecks.average}%`}</small>
-        </a>
-        <a class="study-stat" href="#flashcards">
-          <strong>${state.flash.due}</strong>
-          <span>mõistekaarti täna</span>
-          <small>${state.flash.started}/${state.flash.total} kordamist alustatud</small>
-        </a>
-        <a class="study-stat" href="#sonastik">
-          <strong>${state.learned.size}</strong>
-          <span>mõistet selgeks märgitud</span>
-          <small>${learnedPct}% Alfred Saidlo sõnastikust</small>
-        </a>
-        <a class="study-stat" href="#avaleht">
-          <strong>${state.progressPct}%</strong>
-          <span>peatükkidest lõpetatud</span>
-          <small>${state.visitedTopics}/${state.topicProgress.length} teemat lõpetatud</small>
-        </a>
-        <a class="study-stat" href="#kviis">
-          <strong>${state.quiz ? `${state.quiz.pct}%` : '-'}</strong>
-          <span>viimane viktoriin</span>
-          <small>${state.quiz ? `${state.quiz.topicLabel}, ${formatDate(state.quiz.date)}` : 'tee esimene viktoriin'}</small>
-        </a>
-        <a class="study-stat" href="#ulesandegeneraator">
-          <strong>${generatorAccuracy === null ? '-' : `${generatorAccuracy}%`}</strong>
-          <span>generaatori täpsus</span>
-          <small>${state.problemStats.total ? `${state.problemStats.correct}/${state.problemStats.total} õige` : 'tee esimene ülesanne'}</small>
-        </a>
-      </section>
-
-      <div class="study-dashboard-grid">
-        <section class="card">
-          <div class="study-section-head">
-            <div>
-              <h2>Tark päevaplaan</h2>
-              <p>Koostatud mõistekaartide, vigade, mini-kontrollide ja generaatori tulemuste järgi.</p>
-            </div>
-            <span class="tag good">${streakText}</span>
+      <section class="study-flow-top">
+        <div class="card study-hero study-hero-flow">
+          <div>
+            <span class="tag accent">${primary.eyebrow}</span>
+            <h2>${primary.title}</h2>
+            <p>${primary.text}</p>
           </div>
-          <ol class="study-plan">
-            ${plan.map(item => `
-              <li>
-                <div>
-                  <strong>${item.title}</strong>
-                  <span>${item.meta}</span>
-                </div>
-                <a class="btn small secondary" href="${item.href}">${item.time}</a>
-              </li>
-            `).join('')}
-          </ol>
-        </section>
+          <a class="btn" href="${primary.href}">${primary.cta}</a>
+        </div>
 
-        <section class="card">
+        <aside class="study-pulse" aria-label="Õppimise seis">
+          ${pulseItems.map(item => `
+            <a href="${item.href}">
+              <strong>${item.value}</strong>
+              <span>${item.label}</span>
+              <small>${item.meta}</small>
+            </a>
+          `).join('')}
+        </aside>
+      </section>
+
+      <section class="card study-flow-card">
+        <div class="study-section-head">
+          <div>
+            <h2>Tänane õppimisvoog</h2>
+            <p>Koostatud mõistekaartide, vigade, mini-kontrollide ja generaatori tulemuste järgi.</p>
+          </div>
+          <span class="tag good">${streakText}</span>
+        </div>
+        <ol class="study-plan study-plan-flow">
+          ${plan.map((item, index) => `
+            <li>
+              <span class="flow-num">${index + 1}</span>
+              <div>
+                <strong>${item.title}</strong>
+                <span>${item.meta}</span>
+              </div>
+              <a class="btn small secondary" href="${item.href}">${item.time}</a>
+            </li>
+          `).join('')}
+        </ol>
+      </section>
+
+      <div class="study-dashboard-grid study-path-grid">
+        <section class="card study-progress-card">
           <div class="study-section-head">
             <div>
               <h2>Peatükkide edenemine</h2>
-              <p>Loogika ja graafiteooria teemad, mis märgitakse lõpetatuks pärast mini-kontrolli.</p>
+              <p>Järgmised loogika ja graafiteooria teemad; peatükk saab tehtud pärast mini-kontrolli.</p>
             </div>
             <strong>${state.visitedTopics}/${state.topicProgress.length}</strong>
           </div>
@@ -735,46 +763,50 @@
             `).join('') : '<p class="muted">Kõik põhiteemad on lõpetatud. Nüüd on kordamise ja harjutustöö aeg.</p>'}
           </div>
         </section>
-      </div>
 
-      <div class="study-dashboard-grid">
-        <section class="card">
+        <section class="card study-actions-card">
           <div class="study-section-head">
             <div>
-              <h2>Märkmed, kuhu tagasi tulla</h2>
-              <p>Peatükid, mille alla oled midagi kirja pannud.</p>
-            </div>
-            <span class="tag warn">${state.noteTopics.length} tk</span>
-          </div>
-          <div class="study-note-list">
-            ${notesPreview.length ? notesPreview.map(topic => `
-              <a href="#${topic.route}">
-                <strong>${topic.label}</strong>
-                <span>${escapeHtml(String(state.notes[topic.route] || '').trim().slice(0, 120))}${String(state.notes[topic.route] || '').trim().length > 120 ? '...' : ''}</span>
-              </a>
-            `).join('') : '<p class="muted">Märkmeid veel ei ole. Ava mõni peatükk ja kirjuta lehe lõppu, mis vajab hiljem kordamist.</p>'}
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="study-section-head">
-            <div>
-              <h2>Kiirvalikud</h2>
-              <p>Otseteed kõige kasulikumatesse harjutusvaadetesse.</p>
+              <h2>Harjutamise rada</h2>
+              <p>Vali tööriist selle järgi, kas tahad aru saada, läbi proovida või valmisolekut kontrollida.</p>
             </div>
           </div>
-          <div class="study-action-grid">
-            <a href="#vead">Vigade päevik</a>
-            <a href="#normaalkujud">DNK/KNK</a>
-            <a href="#predikaadid">Mudeli ehitaja</a>
-            <a href="#sekvents">Sekventsid</a>
-            <a href="#tipuastmed">Havel-Hakimi</a>
-            <a href="#ulesandegeneraator">Ülesannete generaator</a>
-            <a href="#harjutustoo">Harjutustöö</a>
-            <a href="#hinnekalkulaator">Hinde kalkulaator</a>
+          <div class="study-action-groups">
+            ${actionGroups.map(group => `
+              <div class="study-action-group">
+                <strong>${group.title}</strong>
+                ${group.links.map(link => `<a href="${link.href}">${link.label}</a>`).join('')}
+              </div>
+            `).join('')}
           </div>
         </section>
       </div>
+
+      <section class="card study-notes-card">
+        <div class="study-section-head">
+          <div>
+            <h2>Märkmed ja kontrollpunktid</h2>
+            <p>Mida oled märkinud, kui palju sõnastikust selgeks saanud ja milline oli viimane viktoriin.</p>
+          </div>
+          <span class="tag warn">${noteCountText}</span>
+        </div>
+        <div class="study-note-flow">
+          ${notesPreview.length ? notesPreview.map(topic => `
+            <a href="#${topic.route}">
+              <strong>${topic.label}</strong>
+              <span>${escapeHtml(String(state.notes[topic.route] || '').trim().slice(0, 120))}${String(state.notes[topic.route] || '').trim().length > 120 ? '...' : ''}</span>
+            </a>
+          `).join('') : '<p class="muted">Märkmeid veel ei ole. Ava mõni peatükk ja kirjuta lehe lõppu, mis vajab hiljem kordamist.</p>'}
+          <a href="#sonastik">
+            <strong>${state.learned.size} mõistet selgeks märgitud</strong>
+            <span>${learnedPct}% Alfred Saidlo sõnastikust</span>
+          </a>
+          <a href="#kviis">
+            <strong>${state.quiz ? `${state.quiz.pct}% viimane viktoriin` : 'Viktoriin tegemata'}</strong>
+            <span>${state.quiz ? `${state.quiz.topicLabel}, ${formatDate(state.quiz.date)}` : 'Tee esimene viktoriin, et töölaud saaks võrdluspunkti.'}</span>
+          </a>
+        </div>
+      </section>
     `;
     renderMath(view);
   };

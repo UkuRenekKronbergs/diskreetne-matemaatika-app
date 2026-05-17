@@ -7,103 +7,99 @@ window.CONTENT = {
 
 /* ============= AVALEHT ============= */
 avaleht: `
-<h1>Tere tulemast! 🎓</h1>
-<p>See on interaktiivne õppekeskkond Tartu Ülikooli kursusele <strong>Diskreetne matemaatika I</strong> (LTMS.00.019). Kõik materjalid põhinevad Kati Aini loengukonspektil (Valdis Laan, 2020; täiendanud Kati Ain, 28.01.2026) ja praktikumiülesannete kogul (Reimo Palm, Valdis Laan, Kati Ain).</p>
+<h1>Diskreetne matemaatika I</h1>
+<p class="home-lede">Õppevoog kursuse kordamiseks: alusta töölaualt, liigu peatükkide kaupa, harjuta tööriistades ja kontrolli lõpuks segaharjutustega.</p>
 
-<div class="tip">
-  <strong>Mitteametlik õppevahend.</strong> See rakendus ei ole Tartu Ülikooli ametlik kursusekeskkond. Ametlik info, tähtajad, hindamisreeglid ja lubatud abivahendid kehtivad Moodle'is, ÕIS-is ja õppejõu juhistes. Hinnatavas töös kasuta seda ainult siis, kui õppejõud on selle sõnaselgelt lubanud.
-</div>
+<section class="home-focus">
+  <div>
+    <span class="tag accent">Soovitatud algus</span>
+    <h2>Alusta päevaplaanist, mitte kogu menüüst.</h2>
+    <p>Töölaud valib järgmise sammu sinu edenemise, mõistekaartide, mini-kontrollide ja vigade päeviku järgi.</p>
+  </div>
+  <div class="home-focus-actions">
+    <a class="btn" href="#oppimine">Ava õppimise töölaud</a>
+    <a class="btn secondary" href="#lausearvutus">Alusta lausearvutusest</a>
+  </div>
+</section>
 
-<div class="dashboard">
-  <a href="#oppimine" class="dash-card">
-    <span class="icon">◎</span>
-    <h3>Õppimise töölaud</h3>
-    <p>Tänased kordamised, märkmed, edenemine ja järgmised soovitatud sammud ühes vaates.</p>
+<section class="home-flow" aria-label="Õppimise põhivoog">
+  <a href="#oppimine" class="home-flow-step primary">
+    <span class="flow-num">1</span>
+    <span class="flow-body">
+      <strong>Vali tänane fookus</strong>
+      <small>Töölaud näitab, kas enne tasub korrata mõistekaarte, lõpetada mini-kontroll või jätkata uue peatükiga.</small>
+    </span>
   </a>
-  <a href="#hinnekalkulaator" class="dash-card">
-    <span class="icon">∑</span>
-    <h3>Hinde kalkulaator</h3>
-    <p>Sisesta TBL, kontrolltööde ja lisapunktide seis ning vaata, mis miinimum on veel vaja.</p>
+  <a href="#lausearvutus" class="home-flow-step">
+    <span class="flow-num">2</span>
+    <span class="flow-body">
+      <strong>Loe ja tee teema juures harjutused</strong>
+      <small>Liigu loogikast graafideni ning märgi peatükid lõpetatuks mini-kontrollidega.</small>
+    </span>
   </a>
-  <a href="#otsing" class="dash-card">
-    <span class="icon">⌕</span>
-    <h3>Konspekti otsing</h3>
-    <p>Leia mõiste või teoreem kõigist PDF-idest koos lehekülje ja kontekstiga.</p>
+  <a href="#ulesandegeneraator" class="home-flow-step">
+    <span class="flow-num">3</span>
+    <span class="flow-body">
+      <strong>Kinnista segaharjutustega</strong>
+      <small>Kasuta generaatorit, graafiredaktorit ja harjutustööd, et näha, kas oskus püsib ka uues olukorras.</small>
+    </span>
   </a>
-  <a href="#spikker" class="dash-card">
-    <span class="icon">1p</span>
-    <h3>Spikker</h3>
-    <p>Kõigi peatükkide kompaktsed definitsioonid ja valemid printimiseks.</p>
-  </a>
-  <a href="#vead" class="dash-card">
-    <span class="icon">!</span>
-    <h3>Vigade päevik</h3>
-    <p>Kogu nõrgad kohad ühte kohta ja märgi need kordamisel või parandatuks.</p>
-  </a>
-  <a href="#lausearvutus" class="dash-card">
-    <span class="icon">∧</span>
-    <h3>Lausearvutus</h3>
-    <p>Lihtlaused, valemid, tõeväärtustabelid, samaselt tõesus.</p>
-  </a>
-  <a href="#toesuspuu" class="dash-card">
-    <span class="icon">🌲</span>
-    <h3>Tõesuspuu meetod</h3>
-    <p>Süstemaatiline viis valemi omaduste kontrollimiseks.</p>
-  </a>
-  <a href="#predikaadid" class="dash-card">
-    <span class="icon">∀∃</span>
-    <h3>Predikaatloogika</h3>
-    <p>Predikaadid, kvantorid, signatuur ja interpretatsioonid.</p>
-  </a>
-  <a href="#peano" class="dash-card">
-    <span class="icon">ℕ</span>
-    <h3>Peano aritmeetika</h3>
-    <p>7 aksioomi, induktsioon, naturaalarvude omadused.</p>
-  </a>
-  <a href="#grapheditor" class="dash-card">
-    <span class="icon">📈</span>
-    <h3>Graafiredaktor</h3>
-    <p>Joonista graafe, vaata naabrusmaatriksit, leia astmeid.</p>
-  </a>
-  <a href="#toespuud" class="dash-card">
-    <span class="icon">🌳</span>
-    <h3>Toespuud</h3>
-    <p>Kruskali ja Primi algoritmid samm-sammult.</p>
-  </a>
-  <a href="#luhimtee" class="dash-card">
-    <span class="icon">🛣️</span>
-    <h3>Lühim tee</h3>
-    <p>Dijkstra ja Floydi–Warshalli algoritmid.</p>
-  </a>
-  <a href="#kviis" class="dash-card">
-    <span class="icon">❓</span>
-    <h3>Kiirviktoriin</h3>
-    <p>Kontrolli, kas oled materjali selgeks saanud.</p>
-  </a>
-  <a href="#ulesandegeneraator" class="dash-card">
-    <span class="icon">∞</span>
-    <h3>Ülesannete generaator</h3>
-    <p>Loo lõputult prefikskuju, Havel-Hakimi, graafialgoritmide ja sekventside harjutusi.</p>
-  </a>
-  <a href="#harjutustoo" class="dash-card">
-    <span class="icon">32</span>
-    <h3>Harjutustöö</h3>
-    <p>Koosta juhuslik 32-punktine kontrolltöö vanade ülesandetüüpide põhjal.</p>
-  </a>
-</div>
+</section>
 
-<div class="card">
-  <h3>📚 Kuidas seda keskkonda kasutada?</h3>
-  <ol>
-    <li><strong>Loe teooriat</strong> järjest läbi vasakult menüüst — alustades lausearvutusest.</li>
-    <li><strong>Tee interaktiivseid harjutusi</strong> iga teema juures (tõeväärtustabel, prefikskuju, graafialgoritmid).</li>
-    <li><strong>Testi end</strong> kiirviktoriiniga ja vaata lubatud harjutusvariante.</li>
-    <li>Edenemine salvestub automaatselt sinu brauserisse.</li>
-  </ol>
-</div>
+<section class="home-pathways">
+  <div class="home-pathway">
+    <div class="study-section-head">
+      <div>
+        <h2>Õpi järjekorras</h2>
+        <p>Loogika põhirada enne graafiteooriat.</p>
+      </div>
+    </div>
+    <div class="home-link-list">
+      <a href="#lausearvutus"><strong>Lausearvutus</strong><span>valemid, tehted, tõeväärtused</span></a>
+      <a href="#toesuspuu"><strong>Tõesuspuu meetod</strong><span>kehtestatavus ja samaselt tõesus</span></a>
+      <a href="#predikaadid"><strong>Predikaatloogika</strong><span>kvantorid, mudelid, signatuur</span></a>
+      <a href="#graafid"><strong>Graafiteooria algus</strong><span>graafid, astmed, sidusus</span></a>
+    </div>
+  </div>
 
-<div class="tip">
-  💡 <strong>Vihje:</strong> Iga lehekülg avab valdkonna lühidalt, aga sügavate tõestuste jaoks vaata loengukonspekti (<a href="materjalid/DMI_konspekt_2026_28.01.pdf" target="_blank">PDF</a>).
+  <div class="home-pathway">
+    <div class="study-section-head">
+      <div>
+        <h2>Harjuta tööriistades</h2>
+        <p>Interaktiivsed kohad, kus asi käega läbi teha.</p>
+      </div>
+    </div>
+    <div class="home-link-list">
+      <a href="#truthtable"><strong>Tõeväärtustabel</strong><span>ehita tabel ja kontrolli valemit</span></a>
+      <a href="#normaalkujud"><strong>DNK/KNK</strong><span>teisenda tõeväärtustabelist normaalkujudeks</span></a>
+      <a href="#grapheditor"><strong>Graafiredaktor</strong><span>joonista graaf ja käivita algoritme</span></a>
+      <a href="#ulesandegeneraator"><strong>Ülesannete generaator</strong><span>loo uusi harjutusi ja jälgi täpsust</span></a>
+    </div>
+  </div>
+
+  <div class="home-pathway">
+    <div class="study-section-head">
+      <div>
+        <h2>Kontrolli valmisolekut</h2>
+        <p>Leia nõrgad kohad enne kontrolltööd.</p>
+      </div>
+    </div>
+    <div class="home-link-list">
+      <a href="#kviis"><strong>Kiirviktoriin</strong><span>lühike enesekontroll mõistetele</span></a>
+      <a href="#vead"><strong>Vigade päevik</strong><span>kogu korduvad eksimused ühte kohta</span></a>
+      <a href="#harjutustoo"><strong>Harjutustöö</strong><span>32-punktine segavariant</span></a>
+      <a href="#hinnekalkulaator"><strong>Hinde kalkulaator</strong><span>vaata, mida miinimumiks veel vaja on</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="home-support">
+  <div class="tip">
+    <strong>Mitteametlik õppevahend.</strong> Ametlik info, tähtajad, hindamisreeglid ja lubatud abivahendid kehtivad Moodle'is, ÕIS-is ja õppejõu juhistes.
+  </div>
+  <div class="tip">
+    <strong>Sügavam lugemine:</strong> iga teema avaneb lühidalt siin, tõestuste jaoks vaata loengukonspekti (<a href="materjalid/DMI_konspekt_2026_28.01.pdf" target="_blank">PDF</a>).
+  </div>
 </div>
 `,
 
