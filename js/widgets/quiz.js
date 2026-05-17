@@ -464,6 +464,125 @@
       correct: 1,
       exp: 'Nõrk sidusus ignoreerib kaarte suunda: suunatud graafi alusgraaf peab olema sidus.',
     },
+    {
+      tags: ['loogika', 'kt1'],
+      q: 'Millal on ekvivalents $F\\Leftrightarrow G$ väär?',
+      options: ['Kui $F$ ja $G$ on mõlemad tõesed', 'Kui $F$ ja $G$ on mõlemad väärad', 'Kui $F$ ja $G$ väärtused erinevad', 'Ainult siis, kui $F$ on väär'],
+      correct: 2,
+      exp: 'Ekvivalents on tõene täpselt siis, kui pooltel on sama tõeväärtus; erinevate väärtuste korral on ta väär.',
+    },
+    {
+      tags: ['loogika', 'kt1'],
+      q: 'Valemi $A\\Rightarrow B$ täielikus DNK-s puudub rida:',
+      options: ['$A=0,B=0$', '$A=0,B=1$', '$A=1,B=0$', '$A=1,B=1$'],
+      correct: 2,
+      exp: '$A\\Rightarrow B$ on väär ainult väärtustusel $A=1,B=0$, seega seda rida DNK tõeste ridade hulgas ei ole.',
+    },
+    {
+      tags: ['loogika'],
+      q: 'Kui valem on samaselt tõene, siis ta on kindlasti:',
+      options: ['kehtestatav', 'samaselt väär', 'ainult ühe muutujaga', 'prefikskujul'],
+      correct: 0,
+      exp: 'Samaselt tõene valem on tõene igal väärtustusel, seega ka vähemalt ühel väärtustusel ehk kehtestatav.',
+    },
+    {
+      tags: ['loogika'],
+      q: 'Mitu tõest rida on valemil $A\\Leftrightarrow B$ kahe muutuja tõeväärtustabelis?',
+      options: ['1', '2', '3', '4'],
+      correct: 1,
+      exp: '$A\\Leftrightarrow B$ on tõene ridadel $00$ ja $11$, kokku kahel real.',
+    },
+    {
+      tags: ['predikaadid', 'kt1'],
+      q: 'Milline järeldumine kehtib mittetühjal põhihulgal?',
+      options: ['$\\forall xP(x) \\models \\exists xP(x)$', '$\\exists xP(x) \\models \\forall xP(x)$', '$\\exists xP(x) \\models \\exists x\\neg P(x)$', '$\\forall xP(x) \\models \\forall x\\neg P(x)$'],
+      correct: 0,
+      exp: 'Predikaatloogika interpretatsiooni põhihulk on mittetühi. Kui $P$ kehtib kõigil elementidel, leidub ka $P$-tunnistaja.',
+    },
+    {
+      tags: ['predikaadid', 'kt1'],
+      q: 'Valemis $\\exists x(P(x)\\&Q(y))$ on vaba muutuja:',
+      options: ['$x$', '$y$', '$x$ ja $y$', 'vabu muutujaid ei ole'],
+      correct: 1,
+      exp: '$x$ on seotud olemasolukvantoriga, kuid $y$ jääb vabaks.',
+    },
+    {
+      tags: ['predikaadid', 'kt1'],
+      q: 'Milline teisendus on õige?',
+      options: ['$\\neg\\exists xP(x)\\equiv\\exists x\\neg P(x)$', '$\\neg\\forall xP(x)\\equiv\\exists x\\neg P(x)$', '$\\forall xP(x)\\equiv\\exists xP(x)$', '$\\exists xP(x)\\equiv\\forall x\\neg P(x)$'],
+      correct: 1,
+      exp: 'Üldisuskvantori eitus muutub olemasolukvantoriks: $\\neg\\forall xP(x)\\equiv\\exists x\\neg P(x)$.',
+    },
+    {
+      tags: ['predikaadid', 'kt1'],
+      q: 'Järeldumine $\\exists x\\forall yH(x,y) \\models \\forall y\\exists xH(x,y)$ kehtib, sest:',
+      options: ['iga $y$ jaoks saab kasutada sama tunnistajat $x$', 'kvantorid võib alati vabalt ümber tõsta', '$H$ peab olema sümmeetriline', 'põhihulk peab olema üheelemendiline'],
+      correct: 0,
+      exp: 'Kui leidub üks $x$, mis töötab kõigi $y$ jaoks, siis iga konkreetse $y$ jaoks sobib seesama $x$.',
+    },
+    {
+      tags: ['peano', 'kt1'],
+      q: 'Peano aksioom $x\\prime=y\\prime\\Rightarrow x=y$ väljendab:',
+      options: ['järeltulijafunktsiooni injektiivsust', 'liitmise kommutatiivsust', 'korrutamise distributiivsust', 'induktsiooni lõppemist'],
+      correct: 0,
+      exp: 'Kui kahel arvul on sama järeltulija, siis arvud ise on võrdsed: järeltulija on injektiivne.',
+    },
+    {
+      tags: ['peano', 'kt1'],
+      q: 'Mida ütleb aksioom $\\neg(x\\prime=0)$?',
+      options: ['Null ei ole ühegi naturaalarvu järeltulija', 'Iga arv on null', 'Iga arv on mingi arvu järeltulija', 'Liitmine nulliga muudab arvu'],
+      correct: 0,
+      exp: 'Peano aritmeetikas ei ole null ühegi elemendi järeltulija.',
+    },
+    {
+      tags: ['peano', 'kt1'],
+      q: 'Induktsiooniskeemi sammus tuleb näidata:',
+      options: ['$F(0)$', '$F(x)\\Rightarrow F(x\\prime)$', '$F(x)\\Rightarrow F(0)$', '$F(x\\prime)\\Rightarrow F(x)$'],
+      correct: 1,
+      exp: 'Induktsiooni samm näitab, et omadus kandub suvaliselt arvult tema järeltulijale.',
+    },
+    {
+      tags: ['sekvents', 'kt1'],
+      q: 'Reegel $(\\lor\\vdash)$ kasutab tavaliselt kahte haru:',
+      options: ['$\\Gamma,F\\vdash H$ ja $\\Gamma,G\\vdash H$', '$\\Gamma\\vdash F$ ja $\\Gamma\\vdash G$', '$F\\vdash G$ ja $G\\vdash F$', '$\\Gamma\\vdash F\\lor G$ ja $\\Gamma\\vdash H$'],
+      correct: 0,
+      exp: 'Kui $F$-eeldusest saab $H$ ja $G$-eeldusest saab $H$, siis $F\\lor G$ eeldusest saab samuti $H$.',
+    },
+    {
+      tags: ['sekvents', 'kt1'],
+      q: 'Sekventsi $P\\vdash Q\\Rightarrow P$ tõestamisel kasutatakse lõpus reeglit:',
+      options: ['$(\\vdash\\Rightarrow)$', '$(\\lor\\vdash)$', '$(\\vdash\\lor)$', 'lõikereeglit ainult'],
+      correct: 0,
+      exp: 'Kui ajutise eeldusega $Q$ on tuletatud $P$, saab paremale tuua implikatsiooni $Q\\Rightarrow P$.',
+    },
+    {
+      tags: ['graafid'],
+      q: 'Täiendgraafi kohta kehtib $\\overline{K_n}=$',
+      options: ['$K_n$', '$O_n$', '$P_n$', '$C_n$'],
+      correct: 1,
+      exp: 'Täisgraafil $K_n$ on kõik võimalikud servad olemas, seega täiendgraafis pole ühtegi serva: $O_n$.',
+    },
+    {
+      tags: ['graafid'],
+      q: 'Kui graaf on $k$-regulaarne ja tal on $n$ tippu, siis peab $nk$ olema:',
+      options: ['paarisarv', 'paaritu arv', 'alati algarv', 'võrdne $n-1$-ga'],
+      correct: 0,
+      exp: 'Astmete summa on $nk$ ja see võrdub $2|E|$, seega peab $nk$ olema paarisarv.',
+    },
+    {
+      tags: ['graafid'],
+      q: 'Puu on alati:',
+      options: ['sidus ja tsükliteta', 'regulaarne', 'täisgraaf', 'Hamiltoni graaf'],
+      correct: 0,
+      exp: 'Puu definitsioonis on keskne, et graaf on sidus ja ei sisalda tsükleid.',
+    },
+    {
+      tags: ['graafid'],
+      q: 'Suunatud graafi väljundaste $d^+(v)$ loendab:',
+      options: ['tipust $v$ väljuvaid kaari', 'tippu $v$ sisenevaid kaari', 'kõiki graafi servi', 'ainult silmuseid'],
+      correct: 0,
+      exp: 'Väljundaste on kaarte arv, mille algtipuks on $v$. Sisendaste loendab tippu sisenevaid kaari.',
+    },
   ];
 
   const QUIZ_TOPICS = [
@@ -555,6 +674,8 @@
               <option value="5">5</option>
               <option value="10" selected>10</option>
               <option value="15">15</option>
+              <option value="20">20</option>
+              <option value="25">25</option>
             </select>
           </label>
           <button class="btn" id="startQuiz">Alusta</button>

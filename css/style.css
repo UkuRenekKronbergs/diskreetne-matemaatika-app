@@ -598,6 +598,11 @@ select:focus-visible {
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 2px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.katex-display::-webkit-scrollbar {
+  display: none;
 }
 .katex {
   max-width: 100%;
@@ -609,12 +614,18 @@ select:focus-visible {
 .view :not(.katex-display) > .katex {
   display: inline-block;
   max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: visible;
   vertical-align: middle;
 }
 .katex .katex-mathml {
   contain: strict;
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
 }
 .formula {
   background: var(--code-bg);
@@ -627,6 +638,11 @@ select:focus-visible {
   min-width: 0;
   max-width: 100%;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.formula::-webkit-scrollbar {
+  display: none;
 }
 
 /* ===== Symbol toolbar ===== */
@@ -1173,6 +1189,13 @@ select:focus-visible {
   border-radius: 8px;
   overflow: hidden;
 }
+.topic-exercise-task {
+  padding: 12px 14px;
+}
+.topic-exercise-task h3 {
+  font-size: 16px;
+  margin: 0 0 8px;
+}
 .topic-exercise summary {
   align-items: center;
   cursor: pointer;
@@ -1181,23 +1204,20 @@ select:focus-visible {
   justify-content: space-between;
   padding: 12px 14px;
 }
-.topic-exercise summary span {
-  color: var(--fg);
-  font-weight: 700;
+.topic-exercise-solution-wrap {
+  border-top: 1px solid var(--border);
 }
-.topic-exercise summary small {
+.topic-exercise-solution-wrap summary {
   color: var(--good);
-  font-size: 12px;
   font-weight: 700;
-  white-space: nowrap;
 }
 .topic-exercise-prompt,
 .topic-exercise-solution {
-  border-top: 1px solid var(--border);
   padding: 12px 14px;
 }
 .topic-exercise-prompt {
   color: var(--fg);
+  padding: 0;
 }
 .topic-exercise-solution {
   background: rgba(74,222,128,0.06);

@@ -5,8 +5,14 @@
 
   const VISITED_KEY = 'dm_visited_v1';
   const TOPIC_CHECK_KEY = 'dm_topic_checks_v1';
-  const ROUTES = Object.keys(window.CONTENT);
   const MOBILE_NAV_QUERY = '(max-width: 900px)';
+
+  function getProgressRoutes() {
+    const navRoutes = [...document.querySelectorAll('.nav-group a[data-route]')]
+      .map(link => link.dataset.route)
+      .filter(route => window.CONTENT[route]);
+    return navRoutes.length ? navRoutes : Object.keys(window.CONTENT);
+  }
 
   // ---------- Progress tracking ----------
   function getVisited() {
@@ -116,8 +122,9 @@
   }
 
   function updateProgress() {
-    const completed = ROUTES.filter(isRouteCompleted);
-    const total = ROUTES.length;
+    const routes = getProgressRoutes();
+    const completed = routes.filter(isRouteCompleted);
+    const total = routes.length;
     const pct = Math.round((completed.length / total) * 100);
     const fill = document.getElementById('progressFill');
     const text = document.getElementById('progressText');

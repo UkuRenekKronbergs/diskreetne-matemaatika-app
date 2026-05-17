@@ -143,6 +143,12 @@
           <button class="btn small secondary" data-nf-example="!(A & B)">De Morgan</button>
           <button class="btn small secondary" data-nf-example="A | !A">Tautoloogia</button>
           <button class="btn small secondary" data-nf-example="A & !A">Vastuolu</button>
+          <button class="btn small secondary" data-nf-example="A -> B">Implikatsioon</button>
+          <button class="btn small secondary" data-nf-example="A <-> B">Ekvivalents</button>
+          <button class="btn small secondary" data-nf-example="A & (B | C)">Distributiivsus</button>
+          <button class="btn small secondary" data-nf-example="(A -> B) & (B -> C)">Ahela reegel</button>
+          <button class="btn small secondary" data-nf-example="(A | B) & (!A | C)">3 muutujat</button>
+          <button class="btn small secondary" data-nf-example="!(A -> (B | C))">Eita implikatsioon</button>
         </div>
         <div id="nfError" class="form-error"></div>
       </div>

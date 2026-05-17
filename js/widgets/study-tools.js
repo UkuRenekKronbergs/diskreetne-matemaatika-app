@@ -1062,7 +1062,6 @@
       <p>Kompaktne viimase hetke kordamisvaade. Printides jäävad alles ainult põhisisu ja valemid.</p>
       <div class="btn-row no-print">
         <button class="btn" id="printCheatSheet" type="button">Prindi / salvesta PDF-iks</button>
-        <a class="btn secondary" href="#otsing">Otsi konspektist</a>
       </div>
       <div class="cheat-sheet">
         ${groups.map(group => `

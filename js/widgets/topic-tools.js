@@ -1940,21 +1940,23 @@
       </div>
       <div class="topic-exercise-list">
         ${exercises.map((exercise, index) => `
-          <details class="topic-exercise">
-            <summary>
-              <span>Ülesanne ${index + 1}. ${exercise.title}</span>
-              <small>Lahendus</small>
-            </summary>
-            <div class="topic-exercise-prompt">${exercise.prompt}</div>
-            <div class="topic-exercise-solution">
-              <h4>Lahendus</h4>
-              ${exercise.solution}
-              <div class="btn-row">
-                <button class="btn small secondary" data-topic-weak="${index}" type="button">Märgi vigade päevikusse</button>
-                <span class="muted" data-topic-weak-status="${index}"></span>
-              </div>
+          <article class="topic-exercise">
+            <div class="topic-exercise-task">
+              <h3>Ülesanne ${index + 1}. ${exercise.title}</h3>
+              <div class="topic-exercise-prompt">${exercise.prompt}</div>
             </div>
-          </details>
+            <details class="topic-exercise-solution-wrap">
+              <summary>Näita lahendust</summary>
+              <div class="topic-exercise-solution">
+                <h4>Lahendus</h4>
+                ${exercise.solution}
+                <div class="btn-row">
+                  <button class="btn small secondary" data-topic-weak="${index}" type="button">Märgi vigade päevikusse</button>
+                  <span class="muted" data-topic-weak-status="${index}"></span>
+                </div>
+              </div>
+            </details>
+          </article>
         `).join('')}
       </div>
     `;

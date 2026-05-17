@@ -132,6 +132,26 @@
           <p>$2\\cdot1=2$: $0\\prime\\prime\\cdot0\\prime=0\\prime\\prime\\cdot0+0\\prime\\prime=0+0\\prime\\prime=0\\prime\\prime$, kasutades P6, P5 ja tulemust $0+x=x$.</p>
         `,
       },
+      {
+        title: 'Peano: kaks paremal liitmisel',
+        body: 'Esitage Peano aritmeetika signatuur ja liitmise kaks rekursiivset aksioomi. Tõestage $\\forall x(x+0\\prime\\prime=x\\prime\\prime)$. Väljendage ja tõestage $3+2=5$.',
+        hint: 'Ava $0\\prime\\prime$ kaks korda aksioomiga $x+y\\prime=(x+y)\\prime$.',
+        solution: `
+          <p>Liitmise aksioomid on $x+0=x$ ja $x+y\\prime=(x+y)\\prime$.</p>
+          <p>Suvalise $a$ korral $a+0\\prime\\prime=(a+0\\prime)\\prime=((a+0)\\prime)\\prime=(a\\prime)\\prime=a\\prime\\prime$.</p>
+          <p>$3+2=5$: $0\\prime\\prime\\prime+0\\prime\\prime=((0\\prime\\prime\\prime+0)\\prime)\\prime=(0\\prime\\prime\\prime\\prime)\\prime=0\\prime\\prime\\prime\\prime\\prime$.</p>
+        `,
+      },
+      {
+        title: 'Peano: korrutamine kahega',
+        body: 'Sõnastage korrutamise rekursiivsed aksioomid. Tõestage $\\forall x(x\\cdot0\\prime\\prime=x+x)$. Väljendage ja tõestage $3\\cdot2=6$.',
+        hint: 'Kasuta järjest $x\\cdot y\\prime=x\\cdot y+x$ ning $x\\cdot0=0$.',
+        solution: `
+          <p>Korrutamise aksioomid: $x\\cdot0=0$ ja $x\\cdot y\\prime=x\\cdot y+x$.</p>
+          <p>Suvalise $a$ korral $a\\cdot0\\prime\\prime=a\\cdot0\\prime+a=(a\\cdot0+a)+a=(0+a)+a=a+a$, kasutades tulemust $0+a=a$.</p>
+          <p>$3\\cdot2=6$: $0\\prime\\prime\\prime\\cdot0\\prime\\prime=(0\\prime\\prime\\prime\\cdot0\\prime)+0\\prime\\prime\\prime=(0+0\\prime\\prime\\prime)+0\\prime\\prime\\prime=0\\prime\\prime\\prime+0\\prime\\prime\\prime=0\\prime\\prime\\prime\\prime\\prime\\prime$.</p>
+        `,
+      },
     ],
     inference: [
       {
@@ -253,6 +273,24 @@
           <p>Pöördsuuna vastumudel: $M=\\{a,b\\}$, $G(a)=1$, $G(b)=0$, $F(a)=0$, $F(b)=1$. Implikatsioon $\\neg\\exists xG(x)\\Rightarrow\\neg\\exists xF(x)$ on tõene, kuid $F(b)\\Rightarrow G(b)$ on väär.</p>
         `,
       },
+      {
+        title: 'Järeldumine: universaalne konjunktsioon',
+        body: 'Tõestage, et $\\forall x(F(x)\\&G(x)) \\models \\forall xF(x)\\&\\forall xG(x)$, ning näidake ka vastupidine järeldumine.',
+        hint: 'Mõlemas suunas võta suvaline element ja kasuta konjunktsiooni tähendust.',
+        solution: `
+          <p>Kui iga $a$ korral kehtib $F(a)\\&G(a)$, siis iga $a$ korral kehtib $F(a)$ ja iga $a$ korral kehtib $G(a)$. Seega $\\forall xF(x)\\&\\forall xG(x)$.</p>
+          <p>Vastupidi: kui $\\forall xF(x)$ ja $\\forall xG(x)$, siis suvalise $a$ korral on mõlemad $F(a)$ ja $G(a)$ tõesed, järelikult $F(a)\\&G(a)$. Seega $\\forall x(F(x)\\&G(x))$.</p>
+        `,
+      },
+      {
+        title: 'Järeldumine: eksistents ja disjunktsioon',
+        body: 'Tõestage $\\exists x(F(x)\\lor G(x)) \\models \\exists xF(x)\\lor\\exists xG(x)$ ning vastupidine järeldumine.',
+        hint: 'Eksistentsi tunnistaja teeb tõeseks vähemalt ühe disjunktsiooni poole.',
+        solution: `
+          <p>Kui leidub $a$, mille korral $F(a)\\lor G(a)$, siis kas $F(a)$ või $G(a)$. Esimesel juhul kehtib $\\exists xF(x)$, teisel juhul $\\exists xG(x)$.</p>
+          <p>Kui $\\exists xF(x)$, siis sama tunnistaja teeb tõeseks $F(x)\\lor G(x)$. Kui $\\exists xG(x)$, töötab analoogne argument. Seega kehtib ka vastupidine suund.</p>
+        `,
+      },
     ],
     sequent: [
       {
@@ -364,6 +402,24 @@
         solution: `
           <p>Olgu $\\Gamma=\\{P\\Rightarrow(Q\\Rightarrow R)\\}$. Eeldustest $\\Gamma,Q,P$ saame $P$ ja $P\\Rightarrow(Q\\Rightarrow R)$, seega $Q\\Rightarrow R$.</p>
           <p>Koos eeldusega $Q$ saame $R$. Seejärel kaks korda reegel $\\vdash\\Rightarrow$: esmalt $\\Gamma,Q\\vdash P\\Rightarrow R$, siis $\\Gamma\\vdash Q\\Rightarrow(P\\Rightarrow R)$.</p>
+        `,
+      },
+      {
+        title: 'Sekvents: modus ponens',
+        body: 'Tuletage sekvents $P, P\\Rightarrow Q \\vdash Q$ ning selgitage, millist reeglit kasutatakse.',
+        hint: 'Vasakul on olemas nii implikatsioon kui selle eeldus.',
+        solution: `
+          <p>Aksioomid annavad $P,P\\Rightarrow Q\\vdash P$ ja $P,P\\Rightarrow Q\\vdash P\\Rightarrow Q$.</p>
+          <p>Implikatsiooni vasakpoolse reegli ehk modus ponens tüüpi sammu abil saame $P,P\\Rightarrow Q\\vdash Q$.</p>
+        `,
+      },
+      {
+        title: 'Sekvents: nõrgendamine ja implikatsioon',
+        body: 'Tuletage sekvents $P\\vdash Q\\Rightarrow P$.',
+        hint: 'Parempoolse implikatsiooni jaoks lisa $Q$ vasakule eelduseks.',
+        solution: `
+          <p>Aksioomist saame $P,Q\\vdash P$.</p>
+          <p>Rakendades reeglit $\\vdash\\Rightarrow$ eelduse $Q$ eemaldamiseks, järeldub $P\\vdash Q\\Rightarrow P$.</p>
         `,
       },
     ],
@@ -483,6 +539,26 @@
           <p>See on $\\exists x(\\forall y\\neg P(x,y)\\lor\\neg Q(x))\\lor\\forall zR(z)$, prefikskujul $\\exists x\\forall y\\forall z(\\neg P(x,y)\\lor\\neg Q(x)\\lor R(z))$.</p>
         `,
       },
+      {
+        title: 'Prefikskuju: kvantori eitus konjunktsioonis',
+        body: 'Teisendage $\\neg\\forall x(P(x)\\&\\exists yQ(x,y))$ prefikskujule, kus eitused on ainult atomaarsete valemite ees.',
+        hint: '$\\neg\\forall x$ muutub $\\exists x\\neg$ ja konjunktsiooni eitus disjunktsiooniks.',
+        solution: `
+          <p>$\\neg\\forall x(P(x)\\&\\exists yQ(x,y))\\equiv\\exists x\\neg(P(x)\\&\\exists yQ(x,y))$.</p>
+          <p>De Morgani ja kvantorieituse järel: $\\exists x(\\neg P(x)\\lor\\forall y\\neg Q(x,y))$.</p>
+          <p>Prefikskuju on $\\exists x\\forall y(\\neg P(x)\\lor\\neg Q(x,y))$.</p>
+        `,
+      },
+      {
+        title: 'Prefikskuju: implikatsioon ja olemasolu',
+        body: 'Teisendage $(\\exists xP(x)\\Rightarrow\\forall yQ(y))\\&\\exists zR(z)$ prefikskujule.',
+        hint: 'Eemalda implikatsioon ja nimeta kvantorite muutujad vajadusel ümber.',
+        solution: `
+          <p>Implikatsiooni eemaldamine annab $(\\neg\\exists xP(x)\\lor\\forall yQ(y))\\&\\exists zR(z)$.</p>
+          <p>See on $(\\forall x\\neg P(x)\\lor\\forall yQ(y))\\&\\exists zR(z)$.</p>
+          <p>Üks prefikskuju on $\\forall x\\forall y\\exists z((\\neg P(x)\\lor Q(y))\\&R(z))$.</p>
+        `,
+      },
     ],
     signature: [
       {
@@ -591,6 +667,26 @@
         solution: `
           <p>Sobib $\\sigma=\\langle\\,;f;=,\\leq\\rangle$ üle $\\mathbb{N}$. Tähista $u<v$ valemiga $u\\leq v\\&\\neg(u=v)$.</p>
           <p>Injektiivne: $\\forall x\\forall y(f(x)=f(y)\\Rightarrow x=y)$. Rangelt kasvav: $\\forall x\\forall y(x<y\\Rightarrow f(x)<f(y))$. Periood 2: $\\exists x(f(f(x))=x)$.</p>
+        `,
+      },
+      {
+        title: 'Signatuur: relatsiooni omadused',
+        body: 'Valige signatuur binaarse relatsiooni $R$ jaoks ning väljendage, et $R$ on refleksiivne, sümmeetriline ja transitiivne.',
+        hint: 'Piisab signatuurist, kus ainus mitte-loogiline predikaat on $R$.',
+        solution: `
+          <p>Sobib $\\sigma=\\langle\\,;\\,;=,R\\rangle$.</p>
+          <p>Refleksiivne: $\\forall xR(x,x)$. Sümmeetriline: $\\forall x\\forall y(R(x,y)\\Rightarrow R(y,x))$.</p>
+          <p>Transitiivne: $\\forall x\\forall y\\forall z((R(x,y)\\&R(y,z))\\Rightarrow R(x,z))$.</p>
+        `,
+      },
+      {
+        title: 'Signatuur: graafi lokaalsed omadused',
+        body: 'Valige signatuur suunamata lihtgraafi jaoks ja väljendage: graafil ei ole silmuseid; igal tipul on vähemalt kaks erinevat naabrit; leidub isoleeritud tipp.',
+        hint: 'Kasuta servapredikaati $E(x,y)$ ja võrdsust.',
+        solution: `
+          <p>Sobib $\\sigma=\\langle\\,;\\,;=,E\\rangle$, kus $E(x,y)$ tähendab serva tippude $x$ ja $y$ vahel.</p>
+          <p>Silmuseid pole: $\\forall x\\neg E(x,x)$.</p>
+          <p>Igal tipul vähemalt kaks naabrit: $\\forall x\\exists y\\exists z(y\\neq z\\&E(x,y)\\&E(x,z))$. Isoleeritud tipp: $\\exists x\\forall y\\neg E(x,y)$.</p>
         `,
       },
     ],

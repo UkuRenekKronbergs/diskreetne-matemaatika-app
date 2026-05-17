@@ -95,10 +95,7 @@ avaleht: `
 
 <div class="home-support">
   <div class="tip">
-    <strong>Mitteametlik õppevahend.</strong> Ametlik info, tähtajad, hindamisreeglid ja lubatud abivahendid kehtivad Moodle'is, ÕIS-is ja õppejõu juhistes.
-  </div>
-  <div class="tip">
-    <strong>Sügavam lugemine:</strong> iga teema avaneb lühidalt siin, tõestuste jaoks vaata loengukonspekti (<a href="materjalid/DMI_konspekt_2026_28.01.pdf" target="_blank">PDF</a>).
+    <strong>Mitteametlik õppevahend.</strong>
   </div>
 </div>
 `,
