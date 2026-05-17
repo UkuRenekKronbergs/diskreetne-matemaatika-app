@@ -1640,6 +1640,42 @@ kontrolltood: `
 </div>
 
 <div class="card">
+  <h3>📝 Variant G</h3>
+  <ul>
+    <li><strong>Ül 1.</strong> Signatuuri interpretatsioon; $\\langle\\,;+,\\cdot;=\\rangle$ üle $\\mathbb{N}$: $x=0$, $x=1$, ruutarv, jaguvus ja kordarv.</li>
+    <li><strong>Ül 2.</strong> Peano: $\\forall x(0''+x=x'')$; väljendada ja tõestada $2+2=4$.</li>
+    <li><strong>Ül 3.</strong> Korrektsus; tuletada $P\\Rightarrow Q, Q\\Rightarrow R \\vdash P\\Rightarrow R$.</li>
+    <li><strong>Ül 4.</strong> Prefikskuju: $\\neg\\forall x(\\exists yP(x,y) \\lor \\forall zQ(z,x))$.</li>
+    <li><strong>Ül 5.</strong> Järeldumine: $\\forall xF(x)\\&\\exists xG(x) \\models \\exists x(F(x)\\&G(x))$, pööre üldjuhul ei kehti.</li>
+  </ul>
+  <p><a href="materjalid/Kontrolltoo_1_variant_G-I_ja_lahendused.pdf" target="_blank" class="btn small">Vaata G-I PDF-i</a></p>
+</div>
+
+<div class="card">
+  <h3>📝 Variant H</h3>
+  <ul>
+    <li><strong>Ül 1.</strong> Prefikskuju: $\\forall x(P(x) \\Rightarrow \\exists y(Q(y)\\&\\neg R(x,y)))$.</li>
+    <li><strong>Ül 2.</strong> Peano: $\\forall x(x+0'=x')$; väljendada ja tõestada $3+1=4$.</li>
+    <li><strong>Ül 3.</strong> Täielikkus; tuletada $P\\Rightarrow R, Q\\Rightarrow R, P\\lor Q \\vdash R$.</li>
+    <li><strong>Ül 4.</strong> Graafi signatuur: pole silmuseid, tipp $x$ isoleeritud, leidub kolmnurk, igal tipul leidub naaber.</li>
+    <li><strong>Ül 5.</strong> Kehtestatavus: $\\exists xP(x)\\&\\exists x\\neg P(x)$ on kehtestatav, kuid mitte samaselt tõene.</li>
+  </ul>
+  <p><a href="materjalid/Kontrolltoo_1_variant_G-I_ja_lahendused.pdf" target="_blank" class="btn small">Vaata G-I PDF-i</a></p>
+</div>
+
+<div class="card">
+  <h3>📝 Variant I</h3>
+  <ul>
+    <li><strong>Ül 1.</strong> Korrektsus; tuletada $P\\&Q \\vdash Q\\&P$.</li>
+    <li><strong>Ül 2.</strong> Hulgad signatuuris $\\langle\\,;\\cup,\\cap;=\\rangle$: ühisosata, ühend on $\\mathbb{N}$, pärisalamhulk, jaotus kaheks osaks.</li>
+    <li><strong>Ül 3.</strong> Peano: kasutades $\\forall x(0+x=x)$ tõestada $\\forall x(x\\cdot0'=x)$; väljendada ja tõestada $2\\cdot3=6$.</li>
+    <li><strong>Ül 4.</strong> Järeldumine: $\\forall x(F(x)\\Rightarrow G(x)) \\models \\exists xF(x)\\Rightarrow\\exists xG(x)$, pööre üldjuhul ei kehti.</li>
+    <li><strong>Ül 5.</strong> Prefikskuju: $\\neg\\exists x\\forall y(P(x,y)\\Rightarrow Q(y))$.</li>
+  </ul>
+  <p><a href="materjalid/Kontrolltoo_1_variant_G-I_ja_lahendused.pdf" target="_blank" class="btn small">Vaata G-I PDF-i</a></p>
+</div>
+
+<div class="card">
   <h3>📝 Järeltöö, Variant C (21.04.2026)</h3>
   <ul>
     <li><strong>Ül 1.</strong> Signatuur; põhihulk $\\mathcal{P}(\\mathbb{N})$, $\\langle;\\cup,\\cap;=\\rangle$: $x = \\emptyset$, $x = \\mathbb{N}$, $x \\subseteq y$, $x' = y$.</li>
@@ -1652,7 +1688,10 @@ kontrolltood: `
 </div>
 
 <div class="tip">
-  💡 Lahendused: <a href="materjalid/Kontrolltoo_1_lahendused.pdf" target="_blank">Kontrolltöö 1 lahendused (PDF)</a>
+  💡 Lahendused:
+  <a href="materjalid/Kontrolltoo_1_lahendused_A-F.pdf" target="_blank">Kontrolltöö 1 lahendused A-F (PDF)</a>
+  ·
+  <a href="materjalid/Kontrolltoo_1_variant_G-I_ja_lahendused.pdf" target="_blank">Variandid G-I koos lahendustega (PDF)</a>
 </div>
 `,
 

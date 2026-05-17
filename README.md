@@ -22,7 +22,7 @@ Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I**
 - **Tee teemaviktoriini** 5–15 juhusliku küsimusega kogu kursusest, kontrolltöö 1 teemadest või graafiteooriast.
 - **Korda mõistekaartidega** spaced repetition põhimõttel ja märgi sõnastikus selgeks kõik olulised mõisted.
 - **Kasuta spikrit** viimase hetke kompaktseks kordamiseks või printimiseks.
-- **Vaata vanu kontrolltöid** (variandid A, C, D, E, F) eesti keeles.
+- **Vaata vanu kontrolltöid** (variandid A, C, D, E, F, G, H, I) eesti keeles koos lahenduste PDF-idega.
 - **Koosta harjutustöö** juhusliku 32-punktise kontrolltöö struktuuriga.
 - **Arvuta hinnet** TBL punktide, kontrolltööde lävendite ja lisapunktide põhjal.
 - **Paigalda rakendus PWA-na** ning kasuta seda pärast esmast laadimist ka võrguühenduseta.
@@ -109,7 +109,7 @@ app/
 
 - *Diskreetne matemaatika I konspekt* — Valdis Laan, täiendanud Kati Ain (28.01.2026)
 - *DM I praktikumiülesannete kogu* — Reimo Palm, Valdis Laan, Kati Ain (2026K)
-- Kontrolltööde variandid A, C, D, E, F (kevadsemester 2026)
+- Kontrolltööde variandid A, C, D, E, F, G, H, I (kevadsemester 2026)
 
 ## 📄 Litsents
 

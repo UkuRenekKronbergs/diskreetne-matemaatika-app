@@ -1,4 +1,4 @@
-const CACHE_NAME = 'diskreetne-matemaatika-v20260517-5';
+const CACHE_NAME = 'diskreetne-matemaatika-v20260517-6';
 
 const PRECACHE_URLS = [
   './',
@@ -93,7 +93,8 @@ const PRECACHE_URLS = [
   'materjalid/DMI_konspekt_2026_28.01.pdf',
   'materjalid/Kontrolltoo_1_07.04.2026_Variant_A.pdf',
   'materjalid/Kontrolltoo_1_jareltoo_21.04.2026_Variant_C.pdf',
-  'materjalid/Kontrolltoo_1_lahendused.pdf',
+  'materjalid/Kontrolltoo_1_lahendused_A-F.pdf',
+  'materjalid/Kontrolltoo_1_variant_G-I_ja_lahendused.pdf',
   'materjalid/Kontrolltoo_1_Variant_D.pdf',
   'materjalid/Kontrolltoo_1_Variant_E.pdf',
   'materjalid/Kontrolltoo_1_Variant_F.pdf',
