@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
-<link rel="stylesheet" href="css/style.css?v=20260516-2">
+<link rel="stylesheet" href="css/style.css?v=20260517-3">
 </head>
 <body>
 <div class="app">
@@ -88,7 +88,8 @@
     </div>
   </aside>
 
-  <button class="menu-toggle" id="menuToggle" aria-label="Menüü">☰</button>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menüü" aria-controls="sidebar" aria-expanded="false">☰</button>
+  <div class="sidebar-backdrop" id="sidebarBackdrop" hidden></div>
 
   <main id="main" class="main">
     <div id="view" class="view"></div>

@@ -6,6 +6,7 @@
   const VISITED_KEY = 'dm_visited_v1';
   const TOPIC_CHECK_KEY = 'dm_topic_checks_v1';
   const ROUTES = Object.keys(window.CONTENT);
+  const MOBILE_NAV_QUERY = '(max-width: 900px)';
 
   // ---------- Progress tracking ----------
   function getVisited() {
@@ -58,6 +59,60 @@
       rel.add('noreferrer');
       link.setAttribute('rel', [...rel].join(' '));
     });
+  }
+
+  function wrapScrollableTables(root = document) {
+    root.querySelectorAll('table').forEach(table => {
+      if (table.closest('.table-scroll, .topic-table-wrap, .grade-table-wrap')) return;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'table-scroll';
+      table.parentNode.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+    });
+  }
+
+  function isMobileNav() {
+    return window.matchMedia(MOBILE_NAV_QUERY).matches;
+  }
+
+  function setSidebarOpen(open) {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.getElementById('menuToggle');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    const main = document.getElementById('main');
+    if (!sidebar) return;
+
+    const active = Boolean(open && isMobileNav());
+    sidebar.classList.toggle('open', active);
+    document.body.classList.toggle('sidebar-open', active);
+    if (toggle) toggle.setAttribute('aria-expanded', String(active));
+    if (backdrop) backdrop.hidden = !active;
+
+    if (isMobileNav()) {
+      sidebar.setAttribute('aria-hidden', String(!active));
+      if ('inert' in sidebar) sidebar.inert = !active;
+      if (main) {
+        main.setAttribute('aria-hidden', String(active));
+        if ('inert' in main) main.inert = active;
+      }
+    } else {
+      sidebar.removeAttribute('aria-hidden');
+      if ('inert' in sidebar) sidebar.inert = false;
+      main?.removeAttribute('aria-hidden');
+      if (main && 'inert' in main) main.inert = false;
+      if (backdrop) backdrop.hidden = true;
+    }
+  }
+
+  function closeSidebar({ returnFocus = false } = {}) {
+    const wasOpen = document.getElementById('sidebar')?.classList.contains('open');
+    setSidebarOpen(false);
+    if (returnFocus && wasOpen) document.getElementById('menuToggle')?.focus();
+  }
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    setSidebarOpen(!sidebar?.classList.contains('open'));
   }
 
   function updateProgress() {
@@ -121,6 +176,7 @@
     if (route === 'vead') window.initWeaknessJournal && window.initWeaknessJournal();
     if (route === 'normaalkujud') window.initNormalForms && window.initNormalForms();
     window.initTopicTools && window.initTopicTools(route);
+    wrapScrollableTables(view);
     ensureSafeBlankLinks(view);
 
     markVisited(route);
@@ -128,7 +184,7 @@
 
     // Scroll to top + close sidebar on mobile
     window.scrollTo(0, 0);
-    document.getElementById('sidebar').classList.remove('open');
+    closeSidebar();
   }
 
   function navigate() {
@@ -142,9 +198,19 @@
     window.addEventListener('hashchange', navigate);
 
     // Mobile menu
-    document.getElementById('menuToggle')?.addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('menuToggle')?.addEventListener('click', toggleSidebar);
+    document.getElementById('sidebarBackdrop')?.addEventListener('click', () => closeSidebar({ returnFocus: true }));
+    document.getElementById('sidebar')?.addEventListener('click', e => {
+      if (e.target.closest?.('a')) closeSidebar();
     });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeSidebar({ returnFocus: true });
+    });
+    const mobileNav = window.matchMedia(MOBILE_NAV_QUERY);
+    const handleMobileNavChange = () => setSidebarOpen(false);
+    if (mobileNav.addEventListener) mobileNav.addEventListener('change', handleMobileNavChange);
+    else mobileNav.addListener(handleMobileNavChange);
+    setSidebarOpen(false);
 
     // Reset progress
     document.getElementById('resetProgress')?.addEventListener('click', () => {
@@ -162,5 +228,5 @@
   });
 
   // Expose helpers
-  window.DM = { markVisited, updateProgress, render, isRouteCompleted, ensureSafeBlankLinks };
+  window.DM = { markVisited, updateProgress, render, isRouteCompleted, ensureSafeBlankLinks, wrapScrollableTables };
 })();
