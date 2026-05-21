@@ -1,0 +1,401 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,margin=1.7cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\usepackage{amsmath,amssymb}
+\usepackage{array,booktabs,longtable}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\hypersetup{colorlinks=false,pdfborder={0 0 0}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlist[enumerate]{leftmargin=*,itemsep=3pt,topsep=3pt}
+\newcommand{\yl}[1]{\subsection*{Ülesanne #1}}
+\newcommand{\variant}[1]{\newpage\section*{Kontrolltöö nr 2 lahendused - variant #1}}
+\newcommand{\Edge}{\operatorname{E}}
+\begin{document}
+\begin{center}
+{\Large\bfseries Diskreetne matemaatika I}\par
+{\large Kontrolltöö nr 2 - variantide B, C ja D lahendused}\par
+\end{center}
+\vspace{2mm}\hrule\vspace{4mm}
+
+\section*{Kontrolltöö nr 2 lahendused - variant B}
+
+\yl{1}
+\begin{enumerate}[label=\alph*.]
+\item Graafi tipu $v$ aste $d(v)$ on tipuga $v$ intsidentsete servade arv. Kui graafis on silmused, siis loetakse silmust tipu astme arvutamisel kaks korda.
+\item Tipuastmete teoreem ütleb, et lõpliku graafi kõigi tippude astmete summa on kaks korda graafi servade arv:
+\[
+\sum_{v\in V(G)} d(v)=2|E(G)|.
+\]
+\item Olgu $X$ graafi paaritu astmega tippude hulk ja $Y$ ülejäänud tippude hulk. Tipuastmete teoreemi järgi
+\[
+\sum_{v\in X}d(v)+\sum_{v\in Y}d(v)=2|E(G)|,
+\]
+seega vasaku poole summa on paarisarv. Kuna kõik hulga $Y$ tippude astmed on paarisarvud, on ka $\sum_{v\in Y}d(v)$ paarisarv. Järelikult peab $\sum_{v\in X}d(v)$ olema paarisarv. See summa koosneb täpselt $|X|$ paaritust liidetavast. Paaritute liidetavate summa on paarisarv parajasti siis, kui liidetavaid on paarisarv. Seega on paaritu astmega tippe paarisarv.
+\end{enumerate}
+
+\yl{2}
+\begin{enumerate}[label=\alph*.]
+\item Graaf on sidus, kui iga kahe tipu vahel leidub ahel ehk sama komponendi suvalisest tipust saab ahela abil jõuda iga teise tippu.
+\item Kui $G=(V,E)$ ja $U\subseteq V$, siis hulga $U$ poolt indutseeritud alamgraaf $G[U]$ on graaf, mille tipuhulk on $U$ ja mille servadeks on kõik graafi $G$ servad, mille mõlemad otstipud kuuluvad hulka $U$.
+\item Tõestame, et igas vähemalt kahe tipuga puus leidub vähemalt kaks lehte. Võtame puus $T$ maksimaalse pikkusega lihtahela
+\[
+v_0,v_1,\ldots,v_k.
+\]
+Kuna puus on vähemalt kaks tippu, siis $k\ge 1$. Näitame, et $v_0$ on leht. Kui tipul $v_0$ oleks lisaks servale $v_0v_1$ veel mõni naaber $u$, siis on kaks võimalust. Kui $u$ ei asu ahelal, saaksime pikema lihtahela $u,v_0,v_1,\ldots,v_k$, mis on vastuolus maksimaalsusega. Kui $u$ asub ahelal, tekiks puus tsükkel. Mõlemad on võimatud. Järelikult $d(v_0)=1$. Sama arutlus näitab, et ka $v_k$ on leht. Kuna $v_0\ne v_k$, on puul vähemalt kaks lehte.
+\end{enumerate}
+
+\yl{3}
+\begin{enumerate}[label=\alph*.]
+\item Kaalutud graafi toespuu on graafi alamgraaf, mis on puu ja sisaldab kõiki algse graafi tippe. Toespuu kaal on tema servade kaalude summa.
+\item Üks sobiv servade kaalude määramine on järgmine.
+
+Graafil $H_1$ võtame
+\[
+ w(bc)=1,
+ w(cd)=1,
+ w(da)=2,
+ w(bd)=2,
+ w(ab)=3,
+ w(ac)=3.
+\]
+Kruskal lisab servad $bc$ ja $cd$. Serv $bd$ kaaluga $2$ moodustab juba valitud servadega tsükli, kuid serv $da$ kaaluga $2$ ühendab tipu $a$ ülejäänud komponentiga. Seega on ainus minimaalse kaaluga toespuu servadega $bc,cd,da$ ja kaaluga $4$.
+
+Graafil $H_2$ võtame
+\[
+ w(pq)=1,
+ w(pr)=1,
+ w(qr)=2,
+ w(tp)=2,
+ w(rs)=3,
+ w(st)=3.
+\]
+Servad $pq$, $pr$ ja $tp$ tuleb Kruskali algoritmis valida. Tipp $s$ saab seejärel sama hinnaga liituda kas serva $rs$ või serva $st$ kaudu. Seega on näiteks
+\[
+\{pq,pr,tp,rs\}\quad\text{ja}\quad \{pq,pr,tp,st\}
+\]
+kaks erinevat minimaalse kaaluga toespuud, mõlema kaal on $7$.
+\item Kruskali algoritm: järjestame graafi servad kaalude mittekahanevasse järjekorda. Seejärel vaatame servi selles järjekorras läbi ja lisame serva konstrueeritavasse alamgraafi täpselt siis, kui selle lisamine ei tekita tsüklit. Lõpetame, kui valitud servad moodustavad toespuu.
+\item Graafis $K$ vaatab Kruskali algoritm servi kaalude järjekorras:
+\[
+AB(1),\ BC(2),\ CD(3),\ AC(4),\ DE(5),\ldots
+\]
+Esimesena lisatakse $AB$, teisena $BC$ ja kolmandana $CD$. Serv $AC$ kaaluga $4$ jäetakse vahele, sest $A,B,C$ on juba samas komponendis ja selle serva lisamine tekitaks tsükli. Järgmisena lisatakse $DE$. Seega lisatakse konstrueeritavasse toespuusse neljandana serv $DE$.
+\end{enumerate}
+
+\yl{4}
+\begin{enumerate}[label=\alph*.]
+\item Graafide $G$ ja $H$ isomorfism on bijektsioon $f:V(G)\to V(H)$, mis säilitab naabruse: iga kahe tipu $u,v\in V(G)$ korral on $uv\in E(G)$ parajasti siis, kui $f(u)f(v)\in E(H)$.
+\item Näiteks kolmnurkade arv on graafi invariant. Kui $f$ on isomorfism, siis iga kolmnurk $u,v,w$ graafis $G$ läheb kolmnurgaks $f(u),f(v),f(w)$ graafis $H$, sest kõik kolm serva säilivad. Sama kehtib ka vastassuunas funktsiooni $f^{-1}$ abil. Seega on isomorfsetel graafidel sama arv kolmnurki.
+\item Graafid $F$ ja $G$ on isomorfsed. Isomorfismi annab näiteks
+\[
+a\mapsto g,
+\quad b\mapsto h,
+\quad c\mapsto i,
+\quad d\mapsto j,
+\quad e\mapsto k,
+\quad f\mapsto l.
+\]
+Mõlemad on kaks kolmnurka, mille vastavad tipud on omavahel ühendatud.
+
+Graaf $H$ ei ole isomorfne graafidega $F$ ega $G$. Graafis $H$ ei leidu kolmnurka, sest see on täielik kaheosaline graaf $K_{3,3}$; kõik servad lähevad ühest osast teise. Graafides $F$ ja $G$ leidub aga kolmnurki. Kuna kolmnurkade arv on invariant, ei saa $H$ olla nendega isomorfne.
+\end{enumerate}
+
+\yl{5}
+\begin{enumerate}[label=\alph*.]
+\item Hamiltoni tsükkel on tsükkel, mis läbib graafi iga tipu täpselt ühe korra ja jõuab lõpuks algustippu tagasi.
+\item Diraci teoreem: kui lihtgraafis on $n\ge 3$ tippu ja iga tipu aste on vähemalt $n/2$, siis see graaf on Hamiltoni graaf.
+\item $G_1$ on Hamiltoni graaf, sest see on $K_{3,3}$ ja seal leidub Hamiltoni tsükkel, mis vaheldumisi läbib kahe osahulga tippe. Näiteks saab võtta tsükli, mis käib läbi kõik kolm vasakpoolset ja kolm parempoolset tippu vaheldumisi.
+
+$G_2$ ei ole Hamiltoni graaf, sest tal on leht ehk aste $1$ tipp. Hamiltoni tsüklis peab igal tsüklil oleval tipul olema tsüklis kaks naabrit, seega ei saa leht kuuluda Hamiltoni tsüklisse.
+
+$G_3$ on Hamiltoni graaf, sest joonisel olev välimine kuusnurk on Hamiltoni tsükkel.
+
+$G_4$ on Hamiltoni graaf. Kui tähistada joonisel kolmnurga tipud vasakult paremale ja ülalt $a,b,c$ ning alumised kaks tippu $d,e$, siis üks Hamiltoni tsükkel on
+\[
+d,a,c,e,b,d.
+\]
+Kõik selles järjestuses kasutatud servad on joonisel olemas ja kõik viis tippu läbitakse täpselt ühe korra.
+\end{enumerate}
+
+\yl{6}
+\begin{enumerate}[label=\alph*.]
+\item Suunatud graafi suunatud ahel on tippude järjend $v_0,v_1,\ldots,v_k$, kus iga järjestikuse tipupaari $v_i,v_{i+1}$ korral leidub kaar $(v_i,v_{i+1})$.
+\item Naabrusmaatriksis näitab rea $i$ element $1$ veerus $j$, et leidub kaar $v_i\to v_j$. Sisend on tipp, mis ei ole ühegi kaare lõpptipp, seega vastav veerg on nullveerg. Väljund on tipp, millest ei välju ühtegi kaart, seega vastav rida on nullrida. Silmused on diagonaali ühed.
+
+Antud maatriksi veergudest on ainult viies veerg nullveerg. Seega ainus sisend on $v_5$. Ainult neljas rida on nullrida, seega ainus väljund on $v_4$. Diagonaalil on $1$ ainult kohal $(3,3)$, seega ainus silmus on $v_3\to v_3$.
+\item Kaalutud suunatud graafi suunatud ahela kaal on selle ahela kaarte kaalude summa.
+\item Sammul 0 on $L[4]=0$ ja kõik teised märgendid on $\infty$, seega algtipp on $v_4$. Sammul 1 töödeldakse algtippu $v_4$ ja saadakse tema väljuvate kaarte põhjal märgendid
+\[
+L[1]=10,
+\quad L[2]=7,
+\quad L[5]=2.
+\]
+
+Tippude lisamise järjekord hulka $S$ on tabeli järgi
+\[
+v_4,
+\ v_5,
+\ v_2,
+\ v_3,
+\ v_7,
+\ v_6.
+\]
+Algoritm lõpetab siis, kui lisatakse tipp $v_6$, seega otsiti lühimat teed tipust $v_4$ tippu $v_6$. Otsitud tee pikkus on lõplik märgend $L[6]=7$.
+
+Tee leitakse viimaseid parandusi tagasi vaadates: $L[6]$ paranes väärtuseni $7$ tipu $v_3$ kaudu, $L[3]$ tekkis tipu $v_2$ kaudu, $L[2]$ paranes tipu $v_5$ kaudu ja $L[5]$ tekkis algtipust $v_4$. Seega on otsitud tee
+\[
+v_4\to v_5\to v_2\to v_3\to v_6.
+\]
+\end{enumerate}
+
+\variant{C}
+
+\yl{1}
+\begin{enumerate}[label=\alph*.]
+\item Tipud $u$ ja $v$ on naabertipud, kui neid ühendab serv $uv$.
+\item Graafi tipu $v$ aste $d(v)$ on tipuga $v$ intsidentsete servade arv. Silmus, kui see on lubatud, annab astmesse panuse $2$.
+\item Tipuastmete teoreemi järgi on graafi kõigi tippude astmete summa võrdne arvuga $2|E(G)|$, seega on see summa paarisarv. Kui graafi kõik tipud on paaritu astmega ja tippe on $n$, siis astmete summa on $n$ paaritu arvu summa. See summa on paarisarv ainult siis, kui $n$ on paarisarv. Järelikult on graafi tippude arv paarisarv.
+\end{enumerate}
+
+\yl{2}
+\begin{enumerate}[label=\alph*.]
+\item Puu on sidus tsükliteta graaf.
+\item Mets on graaf, mille igas sidususkomponendis on puu; samaväärselt, mets on tsükliteta graaf.
+\item Tõestame väite induktsiooniga tippude arvu $n$ järgi. Kui $n=1$, siis puus on $0=n-1$ serva. Oletame, et väide kehtib kõigi $n-1$ tipuga puude korral, ja olgu $T$ $n$ tipuga puu, kus $n\ge 2$. Puul leidub leht $v$. Eemaldades lehe $v$ ja tema ainsa intsidentse serva, saame jälle puu, millel on $n-1$ tippu. Induktsioonieelduse järgi on selles puus $n-2$ serva. Algne puu $T$ saadi ühe tipu ja ühe serva lisamisega, seega on tal $(n-2)+1=n-1$ serva.
+\end{enumerate}
+
+\yl{3}
+\begin{enumerate}[label=\alph*.]
+\item Graafi toespuu on alamgraaf, mis on puu ja mille tipuhulk on sama mis algsel graafil.
+\item Üks sobiv kaalude määramine on järgmine.
+
+Graafil $J_1$ võtame
+\[
+ w(ab)=1,
+ w(bc)=1,
+ w(cd)=2,
+ w(de)=2,
+ w(ea)=3,
+ w(ac)=3,
+ w(bd)=4.
+\]
+Kruskal valib järjekorras servad $ab,bc,cd,de$. Need neli serva moodustavad viie tipuga toespuu kaaluga $6$. Kõik ülejäänud servad on suurema kaaluga ja ei anna sama kaaluga asendust; seepärast on minimaalne toespuu ainus.
+
+Graafil $J_2$ võtame
+\[
+ w(pq)=1,
+ w(qr)=1,
+ w(ps)=2,
+ w(qs)=2,
+ w(st)=3,
+ w(tu)=3,
+ w(ru)=4.
+\]
+Pärast servade $pq$ ja $qr$ valimist saab tipp $s$ sama hinnaga liituda kas serva $ps$ või serva $qs$ abil. Näiteks
+\[
+\{pq,qr,ps,st,tu\}
+\quad\text{ja}\quad
+\{pq,qr,qs,st,tu\}
+\]
+on kaks erinevat minimaalse kaaluga toespuud, mõlema kaal on $10$.
+\item Primi algoritm: valitakse algtipp ja kasvatatakse sellest puud. Igal sammul lisatakse odavaim serv, mille üks otstipp on juba konstrueeritud puus ja teine otstipp on sellest väljas. Jätkatakse, kuni kõik tipud on puusse lisatud.
+\item Alustades tipust $C$, on alguses kandidaatservad
+\[
+CE(1),\ AC(3),\ BC(4),\ CD(5).
+\]
+Esimesena lisatakse neist vähima kaaluga serv $CE$. Nüüd on puu tipuhulk $\{C,E\}$ ning üle lõike minevatest servadest on vähim $EF(2)$. Seega lisatakse teisena serv $EF$.
+\end{enumerate}
+
+\yl{4}
+\begin{enumerate}[label=\alph*.]
+\item Graafide $G$ ja $H$ isomorfism on bijektsioon $f:V(G)\to V(H)$, mille korral iga kahe tipu $u,v$ puhul kehtib $uv\in E(G)$ parajasti siis, kui $f(u)f(v)\in E(H)$.
+\item Graafi sidusus on invariant. Kui $G$ on sidus ja $f:G\to H$ on isomorfism, siis graafi $G$ iga ahel $u=v_0,v_1,\ldots,v_k=v$ läheb graafi $H$ ahelaks $f(u)=f(v_0),f(v_1),\ldots,f(v_k)=f(v)$. Seega leidub ka graafis $H$ iga kahe tipu vahel ahel ja $H$ on sidus. Sama arutlus isomorfismi pöördfunktsiooniga näitab vastassuunda.
+\item Graafid $F$ ja $G$ on isomorfsed, sest mõlemad on kuue tipuga tsüklid $C_6$. Näiteks järjestikused tipud tsüklil võib vastavusse seada
+\[
+a\mapsto g,
+\quad b\mapsto h,
+\quad c\mapsto i,
+\quad d\mapsto j,
+\quad e\mapsto k,
+\quad f\mapsto l.
+\]
+Graaf $H$ ei ole nendega isomorfne, sest $H$ ei ole sidus: ta koosneb kahest eraldi kolmnurgast. Graafid $F$ ja $G$ on sidusad. Kuna sidusus on invariant, ei ole $H$ isomorfne ei $F$-i ega $G$-ga.
+\end{enumerate}
+
+\yl{5}
+\begin{enumerate}[label=\alph*.]
+\item Hamiltoni graaf on graaf, milles leidub Hamiltoni tsükkel, st tsükkel, mis läbib kõik graafi tipud täpselt ühe korra.
+\item Diraci teoreem: kui lihtgraafil on $n\ge 3$ tippu ja iga tipu aste on vähemalt $n/2$, siis graaf on Hamiltoni graaf.
+\item $G_1$ on Hamiltoni graaf. Tegemist on täieliku graafiga $K_5$, seega võib valida suvalise viie tipu tsükli.
+
+$G_2$ ei ole Hamiltoni graaf, sest see on tee ja sellel on kaks lehte. Hamiltoni tsüklis ei saa olla astmega $1$ tippu.
+
+$G_3$ ei ole Hamiltoni graaf. Seda graafi võib vaadelda täieliku kaheosalise graafina $K_{2,4}$, mille osahulgad on kaks keskmist tippu ja neli äärmist tippu. Kaheosalise graafi igas tsüklis on mõlemast osahulgast sama palju tippe. Siin on osahulkade suurused $2$ ja $4$, seega ei saa tsükkel läbida kõiki kuut tippu.
+
+$G_4$ on Hamiltoni graaf, sest joonisel olev välimine viisnurk on Hamiltoni tsükkel. Chord ei sega Hamiltoni tsükli olemasolu.
+\end{enumerate}
+
+\yl{6}
+\begin{enumerate}[label=\alph*.]
+\item Suunatud graafi sisend on tipp, mis ei ole ühegi kaare lõpptipp. Suunatud graafi väljund on tipp, mis ei ole ühegi kaare algtipp.
+\item Naabrusmaatriksis vastab sisendile nullveerg ja väljundile nullrida. Silmused vastavad diagonaali elementidele, mis on võrdsed ühega.
+
+Antud maatriksis on nullveerg ainult esimene veerg, seega ainus sisend on $v_1$. Nullrida on ainult viies rida, seega ainus väljund on $v_5$. Diagonaalil on ühed kohtadel $(2,2)$ ja $(4,4)$, seega silmused on $v_2\to v_2$ ja $v_4\to v_4$.
+\item Kaalutud suunatud graafi suunatud ahela kaal on sellesse ahelasse kuuluvate kaarte kaalude summa.
+\item Sammul 0 on $L[2]=0$, seega algtipp on $v_2$. Sammul 1 töödeldakse tippu $v_2$ ja uuendatakse tema väljuvate kaarte põhjal
+\[
+L[1]=4,
+\quad L[3]=1,
+\quad L[5]=9.
+\]
+
+Tippude lisamise järjekord hulka $S$ on
+\[
+v_2,
+\ v_3,
+\ v_4,
+\ v_1,
+\ v_5,
+\ v_7.
+\]
+Pärast sammu 3 on tippudel $v_1$ ja $v_5$ mõlemal märgend $4$; tabeli muutustest on näha, et enne töödeldi $v_1$ ja seejärel $v_5$.
+
+Algoritm lõpetab tipu $v_7$ lisamisel, seega otsiti lühimat teed tipust $v_2$ tippu $v_7$. Tee pikkus on $L[7]=6$.
+
+Viimaseid märgendiparandusi tagasi vaadates saame, et $v_7$ tuli tipu $v_5$ kaudu, $v_5$ tuli tipu $v_4$ kaudu, $v_4$ tuli tipu $v_3$ kaudu ja $v_3$ tuli algtipu $v_2$ kaudu. Seega on üks otsitud lühim tee
+\[
+v_2\to v_3\to v_4\to v_5\to v_7.
+\]
+\end{enumerate}
+
+\variant{D}
+
+\yl{1}
+\begin{enumerate}[label=\alph*.]
+\item Serva otstipud on need tipud, mida serv ühendab. Kui serv on $uv$, siis selle serva otstipud on $u$ ja $v$.
+\item Tipuastmete teoreem: lõpliku graafi kõigi tippude astmete summa on kaks korda graafi servade arv:
+\[
+\sum_{v\in V(G)}d(v)=2|E(G)|.
+\]
+\item Oletame vastuväiteliselt, et paaritu arvu tippudega graafis on kõik tipud paaritu astmega. Siis on astmete summa paaritu arvu paaritute arvude summa, järelikult paaritu. Tipuastmete teoreemi järgi peab astmete summa olema aga paarisarv. Vastuolu. Seega leidub graafis vähemalt üks paarisarvulise astmega tipp.
+\end{enumerate}
+
+\yl{2}
+\begin{enumerate}[label=\alph*.]
+\item Puu on sidus tsükliteta graaf.
+\item Graafi $G$ alamgraaf on graaf $H$, mille tipuhulk on graafi $G$ tipuhulga alamhulk ja mille servahulk on graafi $G$ servahulga alamhulk, kusjuures alamgraafi iga serva otstipud kuuluvad alamgraafi tipuhulka.
+\item Olgu uue serva $e$ otstipud $u$ ja $v$. Kuna $T$ on puu, leidub puus $T$ tippude $u$ ja $v$ vahel täpselt üks lihtahel. Lisades sellele ahelale serva $e$, saame tsükli graafis $T+e$.
+
+Näitame, et see tsükkel on ainus. Iga tsükkel graafis $T+e$ peab kasutama uut serva $e$, sest puus $T$ tsükleid ei ole. Kui tsükkel kasutab serva $e$, siis ülejäänud osa sellest tsüklist on tippude $u$ ja $v$ vaheline ahel puus $T$. Puus on kahe tipu vahel täpselt üks lihtahel. Seega saab tekkida ainult eespool kirjeldatud tsükkel.
+\end{enumerate}
+
+\yl{3}
+\begin{enumerate}[label=\alph*.]
+\item Minimaalne toespuu on kaalutud graafi toespuu, mille servade kaalude summa on kõigi sama graafi toespuude hulgas vähim.
+\item Üks sobiv kaalude määramine on järgmine.
+
+Graafil $N_1$ võtame
+\[
+ w(ab)=1,
+ w(bc)=2,
+ w(cf)=2,
+ w(ef)=3,
+ w(de)=3,
+ w(ad)=4,
+ w(be)=4,
+ w(ae)=5.
+\]
+Kruskal valib servad $ab,bc,cf,ef,de$. Need moodustavad kuue tipuga toespuu. Sama kaaluga valikuid ei teki, sest kaaluga $2$ servad ühendavad kumbki uue osa ja kaaluga $3$ servad on samuti vältimatud, et ühendada tipud $e$ ja $d$ odavaimalt. Seega on minimaalne toespuu ainus.
+
+Graafil $N_2$ võtame
+\[
+ w(up)=1,
+ w(pt)=2,
+ w(ut)=2,
+ w(pq)=3,
+ w(qr)=3,
+ w(rs)=4,
+ w(st)=4,
+ w(ur)=5.
+\]
+Pärast serva $up$ valimist võib tipp $t$ sama hinnaga liituda kas serva $pt$ või serva $ut$ kaudu. Näiteks
+\[
+\{up,pt,pq,qr,rs\}
+\quad\text{ja}\quad
+\{up,ut,pq,qr,rs\}
+\]
+on kaks erinevat minimaalse kaaluga toespuud; mõlema kaal on $13$.
+\item Kruskali algoritm: järjestame kõik servad kaalude mittekahanevasse järjekorda. Seejärel lisame serva siis ja ainult siis, kui see ei tekita juba valitud servadega tsüklit. Lõpetame, kui valitud servad moodustavad toespuu.
+\item Graafis $R$ on servade kaalude järjekord alguses
+\[
+BC(1),\ AB(2),\ CD(3),\ BD(4),\ AC(5),\ DE(6),\ CE(7),\ DF(8),\ldots
+\]
+Kruskal lisab järjest $BC$, $AB$ ja $CD$. Serv $BD$ jäetakse vahele, sest $B,C,D$ on juba samas komponendis, ning serv $AC$ jäetakse samuti vahele, sest $A,B,C$ on juba samas komponendis. Järgmisena lisatakse $DE$ ja pärast serva $CE$ vahelejätmist lisatakse $DF$. Seega on viiendana lisatav serv $DF$.
+\end{enumerate}
+
+\yl{4}
+\begin{enumerate}[label=\alph*.]
+\item Graafide $G$ ja $H$ isomorfism on bijektsioon $f:V(G)\to V(H)$, mis säilitab servad ja mitteservad: $uv\in E(G)$ parajasti siis, kui $f(u)f(v)\in E(H)$.
+\item Näiteks tippude astmete multihulk on invariant. Kui $f$ on isomorfism, siis tipu $v$ naabrid lähevad bijektiivselt tipu $f(v)$ naabriteks, mistõttu $d(v)=d(f(v))$. Järelikult on isomorfsetel graafidel sama astmete multihulk.
+\item Graafid $F$ ja $H$ on isomorfsed. Üks isomorfism on
+\[
+a\mapsto m,
+\quad b\mapsto n,
+\quad c\mapsto o,
+\quad d\mapsto p,
+\quad e\mapsto q,
+\quad f\mapsto r.
+\]
+See vastavus viib ruudu $a-b-c-d-a$ ruuduks $m-n-o-p-m$ ning lehed $e$ ja $f$ vastavalt lehtedeks $q$ ja $r$.
+
+Graaf $G$ ei ole isomorfne graafidega $F$ ega $H$. Kõigis kolmes graafis on kaks astmega $3$ tippu. Graafis $G$ on need kaks astmega $3$ tippu omavahel naabrid, aga graafides $F$ ja $H$ ei ole astmega $3$ tipud omavahel naabrid. Kuna nii astmed kui ka naabrus säilivad isomorfismi korral, ei saa $G$ olla isomorfne graafidega $F$ ega $H$.
+\end{enumerate}
+
+\yl{5}
+\begin{enumerate}[label=\alph*.]
+\item Hamiltoni graaf on graaf, milles leidub Hamiltoni tsükkel ehk tsükkel, mis läbib kõik graafi tipud täpselt ühe korra.
+\item Diraci teoreem: kui lihtgraafil on $n\ge 3$ tippu ja iga tipu aste on vähemalt $n/2$, siis graaf on Hamiltoni graaf.
+\item $G_1$ on Hamiltoni graaf, sest graaf ise on seitsme tipuga tsükkel.
+
+$G_2$ ei ole Hamiltoni graaf, sest see on tähtgraaf ja selles on mitu lehte. Hamiltoni tsüklis ei saa olla astmega $1$ tippu.
+
+$G_3$ on Hamiltoni graaf, sest see on täielik graaf $K_4$; näiteks välimise nelja tipu läbimine annab Hamiltoni tsükli.
+
+$G_4$ ei ole Hamiltoni graaf. Kolmnurga ja nelinurga vaheline serv on sild: selle eemaldamisel graaf lahutub kaheks komponendiks. Hamiltoni tsüklit sisaldavas graafis ei saa sellist silda olla, sest tsükkel ei saa kasutada silda nii, et kõik tipud läbitakse ja algusse tagasi jõutakse.
+\end{enumerate}
+
+\yl{6}
+\begin{enumerate}[label=\alph*.]
+\item Suunatud graafi $G$ naabrusmaatriks tippude järjestuses $v_1,\ldots,v_n$ on maatriks $A=(a_{ij})$, kus $a_{ij}=1$, kui graafis leidub kaar $v_i\to v_j$, ja $a_{ij}=0$, kui sellist kaart ei leidu. Kordsete kaartega graafi korral võib $a_{ij}$ olla vastavate kaarte arv.
+\item Sisendile vastab naabrusmaatriksis nullveerg, väljundile nullrida ning silmused on diagonaali ühed.
+
+Antud maatriksis on nullveerg ainult kolmas veerg, seega ainus sisend on $v_3$. Nullrida on ainult neljas rida, seega ainus väljund on $v_4$. Diagonaalil on $1$ ainult kohal $(1,1)$, seega ainus silmus on $v_1\to v_1$.
+\item Kaalutud suunatud graafi suunatud ahela kaal on kõigi selles ahelas kasutatud kaarte kaalude summa.
+\item Sammul 0 on $L[1]=0$, seega algtipp on $v_1$. Sammul 1 töödeldakse tippu $v_1$ ja tema väljuvate kaarte põhjal saadakse
+\[
+L[2]=2,
+\quad L[3]=8,
+\quad L[4]=7.
+\]
+
+Tippude lisamise järjekord hulka $S$ on
+\[
+v_1,
+\ v_2,
+\ v_3,
+\ v_6,
+\ v_5.
+\]
+Algoritm lõpetab tipu $v_5$ lisamisel, seega otsiti lühimat teed tipust $v_1$ tippu $v_5$. Otsitud tee pikkus on $L[5]=6$.
+
+Tee saame taastada viimaste paranduste kaudu: $v_5$ märgend paranes väärtuseni $6$ tipu $v_6$ kaudu, $v_6$ märgend väärtuseni $5$ tipu $v_3$ kaudu, $v_3$ märgend väärtuseni $4$ tipu $v_2$ kaudu ja $v_2$ märgend tekkis algtipust $v_1$. Seega on otsitud tee
+\[
+v_1\to v_2\to v_3\to v_6\to v_5.
+\]
+Tipp $v_7$ jääb tabelis märgendiga $\infty$, seega ei ole ta algtipust saavutatav.
+\end{enumerate}
+
+\end{document}

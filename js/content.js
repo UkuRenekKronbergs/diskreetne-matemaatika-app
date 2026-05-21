@@ -1543,15 +1543,17 @@ luhimtee: `
 kontrolltood: `
 <h1>Harjutusvariandid kontrolltööks</h1>
 
-<p>Kontrolltöö nr 1 katab kursuse esimese poole (matemaatiline loogika). Siia jätame ainult need harjutusvariandid ja materjalid, mida tohib rakenduses jagada.</p>
+<p>Siin on kontrolltöödeks harjutamiseks mõeldud genereeritud variandid ja lahendused, mida tohib rakenduses jagada.</p>
 
 <div class="tip">
   <strong>AI-genereeritud harjutusmaterjal.</strong> Kõik allolevad variandid on loodud harjutamiseks ja ei ole ametlikud kontrolltööd.
 </div>
 
 <div class="tip">
-  Need failid on mõeldud ainult isiklikuks/lubatud kursusesiseseks harjutamiseks. Avalikus versioonis jäta PDF-id ja lahendused välja, kui sul ei ole nende jagamiseks selget luba.
+  Ülesannete ja lahenduste PDF-id on avalikus versioonis kaasas, sest need variandid on genereeritud harjutusmaterjal. Ametlikke kursuse PDF-e siin ei jagata.
 </div>
+
+<h2>Kontrolltöö nr 1: matemaatiline loogika</h2>
 
 <div class="card">
   <h3>📝 Variant A</h3>
@@ -1719,7 +1721,54 @@ kontrolltood: `
 </div>
 
 <div class="tip">
-  Iga variandi juures on nüüd eraldi ülesannete PDF ja lahenduste PDF.
+  Kontrolltöö nr 1 iga variandi juures on eraldi ülesannete PDF ja lahenduste PDF.
+</div>
+
+<h2>Kontrolltöö nr 2: graafiteooria</h2>
+
+<p>Variandid B, C ja D keskenduvad graafi põhimõistetele, puudele, minimaalsetele toespuudele, Kruskali/Primi algoritmile ja isomorfismile.</p>
+
+<div class="card">
+  <h3>📝 Variant B</h3>
+  <ul>
+    <li><strong>Ül 1.</strong> Tipu aste, tipuastmete teoreem ja paaritu astmega tippude arvu paarsus.</li>
+    <li><strong>Ül 2.</strong> Sidus graaf, indutseeritud alamgraaf ja puu vähemalt kaks lehte.</li>
+    <li><strong>Ül 3.</strong> Minimaalse kaaluga toespuu, Kruskali algoritm ja servade valik kaalutud graafis.</li>
+    <li><strong>Ül 4.</strong> Graafide isomorfism, invariandid ja joonisel antud graafide võrdlus.</li>
+  </ul>
+  <p class="btn-row">
+    <a href="materjalid/KT2_variant_B.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/KT2_lahendused_BCD.pdf" target="_blank" class="btn small secondary">Lahendused B-D (PDF)</a>
+    <a href="materjalid/KT2_lahendused_BCD.tex" target="_blank" class="btn small secondary">Lahenduste lähtefail (TeX)</a>
+  </p>
+</div>
+
+<div class="card">
+  <h3>📝 Variant C</h3>
+  <ul>
+    <li><strong>Ül 1.</strong> Naabertipud, tipu aste ja väide paaritu astmega graafi tippude arvu kohta.</li>
+    <li><strong>Ül 2.</strong> Puu, mets ja tõestus, et $n$ tipuga puus on $n-1$ serva.</li>
+    <li><strong>Ül 3.</strong> Toespuu, Primi algoritm ja minimaalsete toespuude servakaalude määramine.</li>
+    <li><strong>Ül 4.</strong> Isomorfism, sidusust eristav invariant ja kolme graafi võrdlus.</li>
+  </ul>
+  <p class="btn-row">
+    <a href="materjalid/KT2_variant_C.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/KT2_lahendused_BCD.pdf" target="_blank" class="btn small secondary">Lahendused B-D (PDF)</a>
+  </p>
+</div>
+
+<div class="card">
+  <h3>📝 Variant D</h3>
+  <ul>
+    <li><strong>Ül 1.</strong> Serva otstipud, tipuastmete teoreem ja paarisarvulise astmega tipu leidumine.</li>
+    <li><strong>Ül 2.</strong> Puu, alamgraaf ja tõestus, et puule ühe uue serva lisamisel tekib täpselt üks tsükkel.</li>
+    <li><strong>Ül 3.</strong> Minimaalne toespuu, Kruskali algoritm ja viienda lisatava serva leidmine.</li>
+    <li><strong>Ül 4.</strong> Graafide isomorfism, invariant ja joonisel antud graafide paarikaupa võrdlus.</li>
+  </ul>
+  <p class="btn-row">
+    <a href="materjalid/KT2_variant_D.pdf" target="_blank" class="btn small">Ülesanded (PDF)</a>
+    <a href="materjalid/KT2_lahendused_BCD.pdf" target="_blank" class="btn small secondary">Lahendused B-D (PDF)</a>
+  </p>
 </div>
 `,
 

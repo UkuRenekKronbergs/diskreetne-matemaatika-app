@@ -19,7 +19,10 @@ venv/
 *.log
 extracted.json
 
-# Course materials and extracted course text stay local.
-# Do not publish these without explicit permission from the rights holders.
-materjalid/
+# Course materials and extracted course text stay local by default.
+# Generated practice test files may be published.
+materjalid/*
+!materjalid/Kontrolltoo_1_*.pdf
+!materjalid/KT2_*.pdf
+!materjalid/KT2_*.tex
 data/extracted.json

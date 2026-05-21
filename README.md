@@ -4,7 +4,7 @@ Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I**
 
 > **Mitteametlik õppevahend.** See rakendus ei ole Tartu Ülikooli ametlik kursusekeskkond ega asenda Moodle'it, ÕIS-i või õppejõu juhiseid. Hinnatavas töös, kontrolltööl või eksamil kasuta seda ainult siis, kui õppejõud on sellise abivahendi sõnaselgelt lubanud.
 
-> **Avalikult jagatav versioon ei tohiks sisaldada kursuse PDF-e ega PDF-idest ekstraktitud otsinguandmeid.** Kood võib olla avalik, aga `materjalid/` kaust ja `data/extracted.json` on mõeldud ainult lokaalseks/isiklikuks kasutuseks juhul, kui sul on materjalide kasutamiseks õigus.
+> **Avalikult jagatav versioon ei tohiks sisaldada kursuse ametlikke PDF-e ega PDF-idest ekstraktitud otsinguandmeid.** Kood ja AI-genereeritud kontrolltöö harjutusfailid võivad olla avalikud; kursuse algmaterjalid ja `data/extracted.json` on mõeldud ainult lokaalseks/isiklikuks kasutuseks juhul, kui sul on materjalide kasutamiseks õigus.
 
 ## ✨ Mida saab teha
 
@@ -26,7 +26,7 @@ Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I**
 - **Tee teemaviktoriini** 5–15 juhusliku küsimusega kogu kursusest, kontrolltöö 1 teemadest või graafiteooriast.
 - **Korda mõistekaartidega** spaced repetition põhimõttel ja märgi sõnastikus selgeks kõik olulised mõisted.
 - **Kasuta spikrit** viimase hetke kompaktseks kordamiseks või printimiseks.
-- **Vaata AI-genereeritud harjutus- ja kontrolltöövariante** (A-K) eesti keeles koos eraldi ülesannete ja lahenduste PDF-idega.
+- **Vaata AI-genereeritud harjutus- ja kontrolltöövariante** (KT1 A-K ja KT2 B-D) eesti keeles koos ülesannete ja lahendustega.
 - **Koosta harjutustöö** juhusliku 32-punktise kontrolltöö struktuuriga.
 - **Arvuta hinnet** TBL punktide, kontrolltööde lävendite ja lisapunktide põhjal.
 - **Paigalda rakendus PWA-na** ning kasuta seda pärast esmast laadimist ka võrguühenduseta.
@@ -55,7 +55,7 @@ Kontrollskript vaatab üle JavaScripti süntaksi, JSON-failid ja Git diff'i whit
 
 Rakendus sisaldab `manifest.webmanifest` faili ja `service-worker.js` võrguühenduseta kasutuse vahemälu. Ava rakendus HTTP-serveri kaudu ja lae see korra täielikult ära; seejärel pakub brauser võimalust rakendus paigaldada. Pärast esmast vahemällu salvestamist töötavad rakenduse kest, teoorialehed, tööriistad, KaTeX ja kohalik edenemine ka ilma internetita.
 
-PDF-materjale ja `data/extracted.json` otsinguandmestikku ei panda enam automaatselt PWA precache'i. Lokaalses versioonis laaditakse need vajadusel ja brauser võib need tavapärase runtime-cache'i kaudu salvestada; avalikus versioonis jäta need failid välja.
+Kursuse ametlikke PDF-materjale ja `data/extracted.json` otsinguandmestikku ei panda PWA precache'i. AI-genereeritud kontrolltöö harjutusfailid võivad olla avalikus versioonis kaasas; lokaalses versioonis laadib brauser muud lubatud materjalid vajadusel tavapärase runtime-cache'i kaudu.
 
 Kui arenduse ajal staatilisi faile muudad, suurenda `service-worker.js` failis `CACHE_NAME` väärtust, et brauser võtaks uue võrguühenduseta versiooni kasutusele.
 
@@ -88,7 +88,7 @@ app/
 │       ├── study-tools.js # Õppimise töölaud, vigade päevik, konspektiotsing, spikker, õpijada
 │       └── topic-tools.js # Väikesed tööriistad ja lahendusülesanded teoorialehtede sees
 ├── vendor/katex/          # KaTeX-i kohalik varu võrguühenduseta kasutuseks
-└── materjalid/            # Lokaalsed PDF-id; avalikku reposse mitte lisada
+└── materjalid/            # Avalikud AI-genereeritud kontrolltöö failid + lokaalsed kursuse PDF-id
 ```
 
 ## 🎯 Peatükid
@@ -124,7 +124,7 @@ app/
 
 - *Diskreetne matemaatika I konspekt* — Valdis Laan, täiendanud Kati Ain (28.01.2026)
 - *DM I praktikumiülesannete kogu* — Reimo Palm, Valdis Laan, Kati Ain (2026K)
-- AI-genereeritud kontrolltööde harjutusvariandid A-K (kevadsemester 2026)
+- AI-genereeritud kontrolltööde harjutusvariandid KT1 A-K ja KT2 B-D (kevadsemester 2026)
 
 ## Tehisintellekti kasutus
 
@@ -134,13 +134,13 @@ Rakenduse arenduses on kasutatud tehisintellekti programmeerimise, ideede strukt
 
 Rakenduse lähtekood on MIT-litsentsiga — vaata [LICENSE-CODE](LICENSE-CODE).
 
-Õppematerjalid, PDF-id, kontrolltööd, lahendused ja nendest ekstraktitud tekst ei kuulu MIT-litsentsi alla — vaata [MATERIALS-LICENSE.md](MATERIALS-LICENSE.md) ja [NOTICE.md](NOTICE.md).
+Õppematerjalid, PDF-id, kontrolltööd, lahendused ja nendest ekstraktitud tekst ei kuulu MIT-litsentsi alla — vaata [MATERIALS-LICENSE.md](MATERIALS-LICENSE.md) ja [NOTICE.md](NOTICE.md). AI-genereeritud kontrolltöö harjutusfailid on avalikus versioonis kaasas harjutusmaterjalina.
 
 ## Avaliku jagamise kontrollnimekiri
 
 Enne GitHubi, Netlifysse, Vercelisse või ZIP-failina jagamist kontrolli:
 
-- `materjalid/` kaust ei ole repos ega arhiivis;
+- `materjalid/` kaustas on avalikus versioonis ainult AI-genereeritud `Kontrolltoo_1_*.pdf`, `KT2_*.pdf` ja `KT2_*.tex` harjutusfailid;
 - `data/extracted.json` ei ole repos ega arhiivis;
 - `.git/` kataloogi ei panda jagatavasse arhiivi;
 - README-s on alles mitteametliku õppevahendi ja materjalide õiguste märkus;

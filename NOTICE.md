@@ -20,4 +20,4 @@ Rakenduse arenduses on kasutatud tehisintellekti tööriistu programmeerimise, i
 
 ## Õppematerjalid
 
-Kursuse konspektid, ülesannetekogud, kontrolltööd, lahendused ja nendest ekstraktitud tekst ei kuulu rakenduse MIT-koodilitsentsi alla. Need tuleb hoida avalikust versioonist väljas, kui nende jagamiseks pole selget luba.
+Kursuse konspektid, ülesannetekogud, ametlikud kontrolltööd, lahendused ja nendest ekstraktitud tekst ei kuulu rakenduse MIT-koodilitsentsi alla. Need tuleb hoida avalikust versioonist väljas, kui nende jagamiseks pole selget luba. AI-genereeritud kontrolltöö harjutusfailid (`materjalid/Kontrolltoo_1_*.pdf`, `materjalid/KT2_*.pdf` ja `materjalid/KT2_*.tex`) on avalikus versioonis kaasas harjutusmaterjalina.
