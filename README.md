@@ -16,7 +16,7 @@ Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I**
 - **Ehita tõeväärtustabeleid** sisestades suvalisi lausearvutuse valemeid (parser toetab `&`, `|`, `!`, `->`, `<->`).
 - **Genereeri täielikku DNK/KNK kuju** valemist koos tõeväärtustabeliga.
 - **Ehita tõesuspuid** lausearvutuse valemitele ning kontrolli samaselt tõesust, samaselt väärust ja kehtestatavust.
-- **Otsi konspektidest** mõisteid ja teoreeme kõigi ekstraktitud PDF-lehtede seest koos kontekstiga.
+- **Otsi konspektidest** lokaalses versioonis, kui `data/extracted.json` on olemas; tulemused näitavad PDF-i nime, lehekülge ja lähikonteksti.
 - **Kasuta teemasiseseid tööriistu** samaväärsuse, kvantorite, predikaadimudelite, Havel-Hakimi astmejärjendite, sekventside, Euleri/Hamiltoni tingimuste ja puude omaduste kontrollimiseks.
 - **Lahenda teemasiseseid lahendusülesandeid** iga suurema teoorialehe lõpus, koos avatava lahenduskäiguga.
 - **Genereeri lõputult parameetrilisi ülesandeid** prefikskuju, Havel-Hakimi, kaalutud graafide ja sekventside harjutamiseks; tulemused salvestuvad ja valed vastused liiguvad vigade päevikusse.
@@ -49,13 +49,13 @@ cd app
 .\scripts\check.ps1
 ```
 
-Kontrollskript vaatab üle JavaScripti süntaksi, JSON-failid ja Git diff'i whitespace-probleemid. `data/extracted.json` on valikuline lokaalne fail; avalikus versioonis võib see puududa.
+Kontrollskript vaatab üle JavaScripti süntaksi, JSON-failid ja Git diff'i whitespace-probleemid. `data/extracted.json` on valikuline lokaalne fail; avalikku reposse seda ei lisata.
 
 ## 📲 PWA / võrguühenduseta kasutus
 
 Rakendus sisaldab `manifest.webmanifest` faili ja `service-worker.js` võrguühenduseta kasutuse vahemälu. Ava rakendus HTTP-serveri kaudu ja lae see korra täielikult ära; seejärel pakub brauser võimalust rakendus paigaldada. Pärast esmast vahemällu salvestamist töötavad rakenduse kest, teoorialehed, tööriistad, KaTeX ja kohalik edenemine ka ilma internetita.
 
-Kursuse ametlikke PDF-materjale ja `data/extracted.json` otsinguandmestikku ei panda PWA precache'i. AI-genereeritud kontrolltöö harjutusfailid võivad olla avalikus versioonis kaasas; lokaalses versioonis laadib brauser muud lubatud materjalid vajadusel tavapärase runtime-cache'i kaudu.
+Kursuse ametlikke PDF-materjale ja `data/extracted.json` otsinguandmestikku ei panda PWA precache'i. AI-genereeritud kontrolltöö harjutusfailid võivad olla avalikus versioonis kaasas; lokaalses versioonis laadib brauser muud lubatud materjalid vajadusel tavapärase runtime-cache'i kaudu. Kui `data/extracted.json` puudub, näitab konspektiotsing selle kohta selget teadet.
 
 Kui arenduse ajal staatilisi faile muudad, suurenda `service-worker.js` failis `CACHE_NAME` väärtust, et brauser võtaks uue võrguühenduseta versiooni kasutusele.
 
@@ -68,7 +68,7 @@ app/
 ├── service-worker.js      # Võrguühenduseta vahemälu ja navigatsiooni varuvariant
 ├── icons/                 # PWA ikoonid
 ├── css/style.css          # Kujundus (tume teema)
-├── data/extracted.json    # Lokaalne otsinguandmestik; avalikku reposse mitte lisada
+├── data/extracted.json    # Valikuline lokaalne otsinguandmestik; ei kuulu avalikku reposse
 ├── js/
 │   ├── app.js             # Marsruutimine, edenemise jälgimine
 │   ├── content.js         # Kogu teooriasisu
@@ -88,7 +88,7 @@ app/
 │       ├── study-tools.js # Õppimise töölaud, vigade päevik, konspektiotsing, spikker, õpijada
 │       └── topic-tools.js # Väikesed tööriistad ja lahendusülesanded teoorialehtede sees
 ├── vendor/katex/          # KaTeX-i kohalik varu võrguühenduseta kasutuseks
-└── materjalid/            # Avalikud AI-genereeritud kontrolltöö failid + lokaalsed kursuse PDF-id
+└── materjalid/            # Avalikus repos AI-genereeritud harjutusfailid; lokaalselt lubatud kursuse PDF-id
 ```
 
 ## 🎯 Peatükid
@@ -115,7 +115,7 @@ app/
 
 ## 🛠 Tehnoloogiad
 
-- **Vanilla JavaScript** — pole vajalik framework, ehitusriistu ega NPMi
+- **Vanilla JavaScript** — raamistikku, ehitustööriistu ega NPMi pole vaja
 - **KaTeX** matemaatilise notatsiooni renderdamiseks lokaalsest `vendor/` kaustast
 - **Canvas API** graafide joonistamiseks
 - **LocalStorage** edenemise, mõistekaartide kordamise, õpijada ja peatüki märkmete salvestamiseks

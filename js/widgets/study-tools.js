@@ -999,13 +999,15 @@
           <input id="studySearchInput" type="text" placeholder="Nt: Havel-Hakimi, prefikskuju, Euleri graaf" autocomplete="off">
           <button class="btn" id="studySearchBtn" type="button">Otsi</button>
         </div>
-        <div class="muted" id="studySearchStatus">Andmestik laadimata.</div>
+        <div class="muted" id="studySearchStatus">Laadin valikulist lokaalset otsinguandmestikku...</div>
       </div>
       <div id="studySearchResults"></div>
     `;
 
     const status = document.getElementById('studySearchStatus');
     let pages = [];
+    let loading = true;
+    let loadError = null;
     fetch('data/extracted.json')
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -1018,15 +1020,26 @@
           text: repairText(text),
           search: normalize(text),
         })));
+        loading = false;
         status.textContent = `${pages.length} lehekülge laaditud.`;
       })
       .catch(err => {
-        status.textContent = `Otsinguandmestikku ei saanud laadida: ${err.message}`;
+        loading = false;
+        loadError = err;
+        status.textContent = 'Otsinguandmestik puudub. Avalikus versioonis on see teadlikult välja jäetud; lokaalselt lisa data/extracted.json.';
       });
 
     function search() {
       const query = document.getElementById('studySearchInput').value.trim();
       const out = document.getElementById('studySearchResults');
+      if (loading) {
+        out.innerHTML = '<div class="card muted">Otsinguandmestik alles laadib. Proovi hetke pärast uuesti.</div>';
+        return;
+      }
+      if (loadError && !pages.length) {
+        out.innerHTML = `<div class="card muted">Konspektiotsing vajab lokaalset faili <code>data/extracted.json</code>. Tehniline põhjus: ${escapeHtml(loadError.message)}.</div>`;
+        return;
+      }
       if (query.length < 2) {
         out.innerHTML = '<div class="card muted">Sisesta vähemalt kaks märki.</div>';
         return;

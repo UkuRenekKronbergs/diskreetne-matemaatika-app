@@ -1,4 +1,4 @@
-const CACHE_NAME = 'diskreetne-matemaatika-v20260522-4';
+const CACHE_NAME = 'diskreetne-matemaatika-v20260522-5';
 
 const PRECACHE_URLS = [
   './',
