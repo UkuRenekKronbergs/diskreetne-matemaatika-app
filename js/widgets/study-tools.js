@@ -993,7 +993,7 @@
     if (!view) return;
     view.innerHTML = `
       <h1>Konspekti otsing</h1>
-      <p>Otsi kõigi ekstraktitud PDF-ide tekstist. Tulemused näitavad PDF-i nime, lehekülge ja lähikonteksti. Avalikus versioonis võib otsinguandmestik puududa, sest PDF-ide täisteksti ei jagata koos koodiga.</p>
+      <p>Otsi konspekti tekstist. Tulemused näitavad PDF-i nime, lehekülge ja lähikonteksti.</p>
       <div class="card">
         <div class="input-row">
           <input id="studySearchInput" type="text" placeholder="Nt: Havel-Hakimi, prefikskuju, Euleri graaf" autocomplete="off">

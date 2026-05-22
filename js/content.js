@@ -1550,15 +1550,7 @@ luhimtee: `
 kontrolltood: `
 <h1>Harjutusvariandid kontrolltööks</h1>
 
-<p>Siin on kontrolltöödeks harjutamiseks mõeldud genereeritud variandid ja lahendused, mida tohib rakenduses jagada.</p>
-
-<div class="tip">
-  <strong>AI-genereeritud harjutusmaterjal.</strong> Kõik allolevad variandid on loodud harjutamiseks ja ei ole ametlikud kontrolltööd.
-</div>
-
-<div class="tip">
-  Ülesannete ja lahenduste PDF-id on avalikus versioonis kaasas, sest need variandid on genereeritud harjutusmaterjal. Ametlikke kursuse PDF-e siin ei jagata.
-</div>
+<p>Siin on kontrolltöödeks harjutamiseks mõeldud variandid ja lahendused.</p>
 
 <div class="filter-panel exam-variant-filter" aria-label="Harjutusvariantide teema">
   <span class="filter-label">Teema</span>
@@ -1802,9 +1794,7 @@ ulesandegeneraator: `<h1>Ülesannete generaator</h1><p>Laadin...</p>`,
 ulesanded: `
 <h1>Praktikumiülesanded</h1>
 
-<p>Allpool on kogu praktikumiülesannete kogu (Reimo Palm, Valdis Laan, Kati Ain) avamiseks PDF-ina ja kokkuvõte iga peatüki sisust.</p>
-
-<a href="materjalid/DM_1_ülesannete_kogu_2026K.pdf" target="_blank" class="btn">📋 Ava ülesannete kogu (PDF)</a>
+<p>Allpool on praktikumiülesannete teemade kokkuvõte peatükkide kaupa.</p>
 
 <div class="card">
   <h3>1. Lausearvutuse kordamine</h3>

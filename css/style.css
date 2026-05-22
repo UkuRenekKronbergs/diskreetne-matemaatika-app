@@ -645,11 +645,15 @@ select:focus-visible {
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 2px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-color: var(--bg-3) transparent;
+  scrollbar-width: thin;
 }
 .katex-display::-webkit-scrollbar {
-  display: none;
+  height: 6px;
+}
+.katex-display::-webkit-scrollbar-thumb {
+  background: var(--bg-3);
+  border-radius: 999px;
 }
 .katex {
   max-width: 100%;
@@ -661,8 +665,18 @@ select:focus-visible {
 .view :not(.katex-display) > .katex {
   display: inline-block;
   max-width: 100%;
-  overflow: visible;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-color: var(--bg-3) transparent;
+  scrollbar-width: thin;
   vertical-align: middle;
+}
+.view :not(.katex-display) > .katex::-webkit-scrollbar {
+  height: 4px;
+}
+.view :not(.katex-display) > .katex::-webkit-scrollbar-thumb {
+  background: var(--bg-3);
+  border-radius: 999px;
 }
 .katex .katex-mathml {
   contain: strict;
