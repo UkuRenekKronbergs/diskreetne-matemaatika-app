@@ -283,11 +283,11 @@ normaalkujud: `<h1>DNK/KNK generaator</h1><p>Laadin...</p>`,
 /* ============= TÕESUSPUU ============= */
 toesuspuu: `
 <h1>Tõesuspuu meetod</h1>
-<p>Tõesuspuu on süstemaatiline meetod selleks, et kontrollida, kas lausearvutuse valem on samaselt tõene, samaselt väär või kehtestatav. Meetod uurib valemi struktuuri ja võimaldab kiiremini lahenduseni jõuda kui tõeväärtustabel.</p>
+<p>Tõesuspuu on süstemaatiline meetod selleks, et kontrollida, kas lausearvutuse valem on samaselt tõene, samaselt väär või kehtestatav. Kursuse käsitluses kirjutatakse puu read kujul $F=1$ või $F=0$: valemile omistatakse tõeväärtus ja seda tingimust lagundatakse peatehte järgi.</p>
 
 <div class="card">
   <h3>Põhiidee</h3>
-  <p>Eeldame, et valem on <strong>tõene</strong> (või vastavalt väär), ja püüame leida muutujate väärtustuse, mis annab selle tulemuse. Kui igas harus tekib vastuolu, järeldub, et meie eeldus oli vale.</p>
+  <p>Kirjutame puu algusse tingimuse $F=1$ või $F=0$ ja asendame keerulisema valemi lihtsamate tingimustega. Kui saadud tingimused peavad kehtima koos, jätkame samas harus; kui võimalikud on eri juhud, hargneme. Haru sulgub siis, kui samas harus tekib sama valem korraga väärtusega 1 ja väärtusega 0.</p>
 </div>
 
 <table>
@@ -295,59 +295,65 @@ toesuspuu: `
   <tbody>
     <tr>
       <td>Kas $F$ on kehtestatav?</td>
-      <td>$F$</td>
+      <td>$F=1$</td>
       <td>$F$ ei ole kehtestatav (samaselt väär)</td>
-      <td>$F$ on kehtestatav</td>
+      <td>$F$ on kehtestatav; avatud haru annab sobiva väärtustuse</td>
     </tr>
     <tr>
       <td>Kas $F$ on samaselt tõene?</td>
-      <td>$\\neg F$</td>
+      <td>$F=0$</td>
       <td>$F$ on samaselt tõene</td>
-      <td>$F$ ei ole samaselt tõene</td>
+      <td>$F$ ei ole samaselt tõene; avatud haru annab vastunäite</td>
     </tr>
     <tr>
       <td>Kas $F$ on samaselt väär?</td>
-      <td>$F$</td>
+      <td>$F=1$</td>
       <td>$F$ on samaselt väär</td>
       <td>$F$ ei ole samaselt väär</td>
+    </tr>
+    <tr>
+      <td>Kas $F_1,\\ldots,F_n\\models G$?</td>
+      <td>$F_1=1,\\ldots,F_n=1,\\ G=0$</td>
+      <td>Järeldumine kehtib</td>
+      <td>Avatud haru annab väärtustuse, kus eeldused on tõesed ja väide väär</td>
     </tr>
   </tbody>
 </table>
 
-<h2>Lagundamisreeglid</h2>
+<h2>Elementaarsammud</h2>
 
-<div class="compare">
-  <div>
-    <h4>α-reeglid (mõlemad harud)</h4>
-    <p>$F \\& G \\Rightarrow F, G$ (mõlemad alla)</p>
-    <p>$\\neg(F \\lor G) \\Rightarrow \\neg F, \\neg G$</p>
-    <p>$\\neg(F \\Rightarrow G) \\Rightarrow F, \\neg G$</p>
-    <p>$\\neg \\neg F \\Rightarrow F$</p>
-  </div>
-  <div>
-    <h4>β-reeglid (hargnemine)</h4>
-    <p>$F \\lor G \\Rightarrow F \\mid G$</p>
-    <p>$\\neg(F \\& G) \\Rightarrow \\neg F \\mid \\neg G$</p>
-    <p>$F \\Rightarrow G \\Rightarrow \\neg F \\mid G$</p>
-    <p>$F \\Leftrightarrow G \\Rightarrow (F\\&G) \\mid (\\neg F \\& \\neg G)$</p>
-    <p>$\\neg(F \\Leftrightarrow G) \\Rightarrow (F \\& \\neg G) \\mid (\\neg F \\& G)$</p>
-  </div>
-</div>
+<p>Allolevad sammud näitavad, mida tuleb vastava reaga edasi teha. Kui märgitud on kaks tingimust samas lahtris, kirjutatakse mõlemad samasse harusse; kui märgitud on hargnemine, tekivad eraldi harud.</p>
+
+<table>
+  <thead><tr><th>Rida puus</th><th>Jätk samas harus</th><th>Hargnemine</th></tr></thead>
+  <tbody>
+    <tr><td>$\\neg F=1$</td><td>$F=0$</td><td></td></tr>
+    <tr><td>$\\neg F=0$</td><td>$F=1$</td><td></td></tr>
+    <tr><td>$F\\&G=1$</td><td>$F=1$, $G=1$</td><td></td></tr>
+    <tr><td>$F\\&G=0$</td><td></td><td>$F=0$ või $G=0$</td></tr>
+    <tr><td>$F\\lor G=1$</td><td></td><td>$F=1$ või $G=1$</td></tr>
+    <tr><td>$F\\lor G=0$</td><td>$F=0$, $G=0$</td><td></td></tr>
+    <tr><td>$F\\Rightarrow G=1$</td><td></td><td>$F=0$ või $G=1$</td></tr>
+    <tr><td>$F\\Rightarrow G=0$</td><td>$F=1$, $G=0$</td><td></td></tr>
+    <tr><td>$F\\Leftrightarrow G=1$</td><td></td><td>$F=1$, $G=1$ või $F=0$, $G=0$</td></tr>
+    <tr><td>$F\\Leftrightarrow G=0$</td><td></td><td>$F=1$, $G=0$ või $F=0$, $G=1$</td></tr>
+  </tbody>
+</table>
 
 <div class="example">
-  <strong>Näide.</strong> Kas $(A \\Rightarrow B) \\& A \\Rightarrow B$ on samaselt tõene?
+  <strong>Näide.</strong> Kas $\\neg(A\\&B) \\Rightarrow \\neg A \\lor \\neg B$ on samaselt tõene?
   <ol>
-    <li>Kirjutame puu juurde valemi eituse: $\\neg((A \\Rightarrow B) \\& A \\Rightarrow B)$</li>
-    <li>$\\neg(F \\Rightarrow G)$ tüüpi: $(A \\Rightarrow B) \\& A$ ja $\\neg B$</li>
-    <li>$\\&$-reegel: $A \\Rightarrow B$ ja $A$</li>
-    <li>$\\Rightarrow$-reegel hargneb: $\\neg A$ või $B$</li>
-    <li>Mõlemad harud sisaldavad vasturääkivust ($\\neg A$ vs $A$; $B$ vs $\\neg B$).</li>
-    <li>Järeldus: valem on samaselt tõene. ✓</li>
+    <li>Samaselt tõesuse kontrolliks alustame reast $(\\neg(A\\&B) \\Rightarrow \\neg A \\lor \\neg B)=0$.</li>
+    <li>Implikatsiooni väärtus 0 annab samasse harusse $\\neg(A\\&B)=1$ ja $\\neg A \\lor \\neg B=0$.</li>
+    <li>Eitus ja disjunktsioon väärtusega 0 annavad $A\\&B=0$, $\\neg A=0$ ja $\\neg B=0$.</li>
+    <li>Eitustest saame $A=1$ ja $B=1$.</li>
+    <li>Rea $A\\&B=0$ tõttu hargneme: ühes harus $A=0$, teises $B=0$.</li>
+    <li>Mõlemad harud sulguvad, sest samas harus on vastavalt $A=1$ ja $A=0$ või $B=1$ ja $B=0$. Järelikult on algne valem samaselt tõene.</li>
   </ol>
 </div>
 
 <div class="tip">
-  💡 Kui kõik harud sulguvad ($\\bot$), siis valemi eitus on samaselt väär, järelikult valem ise on samaselt tõene.
+  Kui puu algas reast $F=0$ ja kõik harud sulgusid, siis ei leidu väärtustust, millel $F$ oleks väär. Seega on $F$ samaselt tõene.
 </div>
 
 <h2>Eelised tõeväärtustabeli ees</h2>
@@ -358,13 +364,14 @@ toesuspuu: `
 </ul>
 
 <h2>Tõesuspuu predikaatarvutuses</h2>
-<p>Predikaatarvutuses lisanduvad kvantorireeglid:</p>
+<p>Predikaatarvutuses jääb sama $=1$ ja $=0$ märgistus alles. Lisanduvad kvantorite sammud:</p>
 <ul>
-  <li>$\\forall x F(x) \\Rightarrow F(t)$ (suvaline term $t$, võib korrata)</li>
-  <li>$\\exists x F(x) \\Rightarrow F(a)$ (uus konstant $a$)</li>
-  <li>$\\neg \\forall x F(x) \\Rightarrow \\exists x \\neg F(x)$</li>
-  <li>$\\neg \\exists x F(x) \\Rightarrow \\forall x \\neg F(x)$</li>
+  <li>$\\forall x F(x)=1$ annab $F(t)=1$, kus $t$ on juba harus kasutusel olev term.</li>
+  <li>$\\forall x F(x)=0$ annab $F(c)=0$, kus $c$ on uus konstant.</li>
+  <li>$\\exists x F(x)=1$ annab $F(c)=1$, kus $c$ on uus konstant.</li>
+  <li>$\\exists x F(x)=0$ annab $F(t)=0$, kus $t$ on juba harus kasutusel olev term.</li>
 </ul>
+<p>Kui harus pole veel ühtegi termi, võib universumi mittetühjuse tõttu vajaduse korral võtta kasutusele esimese konstandi.</p>
 `,
 
 /* ============= PREDIKAADID ============= */

@@ -77,10 +77,10 @@
       title: 'Tõesuspuu',
       route: 'toesuspuu',
       items: [
-        'Kehtestatavus: pane puu juureks $F$; avatud haru annab väärtustuse.',
-        'Samaselt tõesus: pane juureks $\\neg F$; kõik harud sulguvad $\\Rightarrow F$ on tautoloogia.',
-        'Alfa-reeglid lisavad samasse harusse; beeta-reeglid hargnevad.',
-        'Vastuolu harus: sama valem ja tema eitus.',
+        'Kehtestatavus: pane puu juureks $F=1$; avatud haru annab väärtustuse.',
+        'Samaselt tõesus: pane juureks $F=0$; kõik harud sulguvad $\\Rightarrow F$ on samaselt tõene.',
+        'Järeldumine: pane eeldused väärtusega 1 ja väide väärtusega 0.',
+        'Vastuolu harus: sama valem saab samas harus väärtused 1 ja 0.',
       ],
     },
     {

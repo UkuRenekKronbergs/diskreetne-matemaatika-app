@@ -132,7 +132,7 @@
   }
 
   function signedText(f) {
-    return `${f.sign ? 'T' : 'F'} ${astToStr(f.ast)}`;
+    return `${astToStr(f.ast)} = ${f.sign ? 1 : 0}`;
   }
 
   function closureReason(branch) {
@@ -144,7 +144,7 @@
       }
       if (f.ast.op !== 'var') continue;
       const prev = seen.get(f.ast.v);
-      if (prev !== undefined && prev !== f.sign) return `${f.ast.v} on samal harus tõene ja väär`;
+      if (prev !== undefined && prev !== f.sign) return `${f.ast.v} = 1 ja ${f.ast.v} = 0 samas harus`;
       seen.set(f.ast.v, f.sign);
     }
     return '';
@@ -170,31 +170,31 @@
   function expandOne(branch, formula) {
     const { sign, ast } = formula;
     if (ast.op === 'not') {
-      return addLinear(branch, formula, [{ sign: !sign, ast: ast.a }], 'eituse reegel');
+      return addLinear(branch, formula, [{ sign: !sign, ast: ast.a }], 'eitus: tõeväärtus vahetub');
     }
     if (ast.op === 'and') {
-      if (sign) return addLinear(branch, formula, [{ sign: true, ast: ast.a }, { sign: true, ast: ast.b }], 'T∧: mõlemad tõesed');
-      return addBranches(branch, formula, [[{ sign: false, ast: ast.a }], [{ sign: false, ast: ast.b }]], 'F∧: hargnemine');
+      if (sign) return addLinear(branch, formula, [{ sign: true, ast: ast.a }, { sign: true, ast: ast.b }], 'konjunktsioon = 1: mõlemad liikmed on 1');
+      return addBranches(branch, formula, [[{ sign: false, ast: ast.a }], [{ sign: false, ast: ast.b }]], 'konjunktsioon = 0: hargnemine');
     }
     if (ast.op === 'or') {
-      if (sign) return addBranches(branch, formula, [[{ sign: true, ast: ast.a }], [{ sign: true, ast: ast.b }]], 'T∨: hargnemine');
-      return addLinear(branch, formula, [{ sign: false, ast: ast.a }, { sign: false, ast: ast.b }], 'F∨: mõlemad väärad');
+      if (sign) return addBranches(branch, formula, [[{ sign: true, ast: ast.a }], [{ sign: true, ast: ast.b }]], 'disjunktsioon = 1: hargnemine');
+      return addLinear(branch, formula, [{ sign: false, ast: ast.a }, { sign: false, ast: ast.b }], 'disjunktsioon = 0: mõlemad liikmed on 0');
     }
     if (ast.op === 'imp') {
-      if (sign) return addBranches(branch, formula, [[{ sign: false, ast: ast.a }], [{ sign: true, ast: ast.b }]], 'T⇒: hargnemine');
-      return addLinear(branch, formula, [{ sign: true, ast: ast.a }, { sign: false, ast: ast.b }], 'F⇒: eeldus tõene, järeldus väär');
+      if (sign) return addBranches(branch, formula, [[{ sign: false, ast: ast.a }], [{ sign: true, ast: ast.b }]], 'implikatsioon = 1: hargnemine');
+      return addLinear(branch, formula, [{ sign: true, ast: ast.a }, { sign: false, ast: ast.b }], 'implikatsioon = 0: eeldus 1, järeldus 0');
     }
     if (ast.op === 'iff') {
       if (sign) {
         return addBranches(branch, formula, [
           [{ sign: true, ast: ast.a }, { sign: true, ast: ast.b }],
           [{ sign: false, ast: ast.a }, { sign: false, ast: ast.b }],
-        ], 'T⇔: sama tõeväärtus');
+        ], 'ekvivalents = 1: sama tõeväärtus');
       }
       return addBranches(branch, formula, [
         [{ sign: true, ast: ast.a }, { sign: false, ast: ast.b }],
         [{ sign: false, ast: ast.a }, { sign: true, ast: ast.b }],
-      ], 'F⇔: erinev tõeväärtus');
+      ], 'ekvivalents = 0: erinev tõeväärtus');
     }
     formula.expanded = true;
     return [branch];
@@ -255,17 +255,17 @@
     const openBranches = branches.filter(b => !b.closed);
     if (goal === 'tautology') {
       return allClosed
-        ? { cls: 'good', title: 'Valem on samaselt tõene', text: 'Valemi vääraks eeldamine sulgeb kõik harud.' }
-        : { cls: 'warn', title: 'Valem ei ole samaselt tõene', text: `Avatud haru annab vastunäite: ${valuationFromBranch(openBranches[0])}.` };
+        ? { cls: 'good', title: 'Valem on samaselt tõene', text: 'Puu alguses oli valem = 0; kõik harud sulgusid.' }
+        : { cls: 'warn', title: 'Valem ei ole samaselt tõene', text: `Avatud haru annab väärtustuse, millel valem = 0: ${valuationFromBranch(openBranches[0])}.` };
     }
     if (goal === 'contradiction') {
       return allClosed
-        ? { cls: 'good', title: 'Valem on samaselt väär', text: 'Valemi tõeseks eeldamine sulgeb kõik harud.' }
-        : { cls: 'warn', title: 'Valem ei ole samaselt väär', text: `Avatud haru teeb valemi tõeseks: ${valuationFromBranch(openBranches[0])}.` };
+        ? { cls: 'good', title: 'Valem on samaselt väär', text: 'Puu alguses oli valem = 1; kõik harud sulgusid.' }
+        : { cls: 'warn', title: 'Valem ei ole samaselt väär', text: `Avatud haru annab väärtustuse, millel valem = 1: ${valuationFromBranch(openBranches[0])}.` };
     }
     return allClosed
-      ? { cls: 'bad', title: 'Valem ei ole kehtestatav', text: 'Valemi tõeseks eeldamine viib igal harus vastuoluni.' }
-      : { cls: 'good', title: 'Valem on kehtestatav', text: `Üks sobiv väärtustus: ${valuationFromBranch(openBranches[0])}.` };
+      ? { cls: 'bad', title: 'Valem ei ole kehtestatav', text: 'Puu alguses oli valem = 1; kõik harud sulgusid.' }
+      : { cls: 'good', title: 'Valem on kehtestatav', text: `Avatud haru annab väärtustuse, millel valem = 1: ${valuationFromBranch(openBranches[0])}.` };
   }
 
   function renderResult(goal, ast, branches) {
@@ -321,7 +321,7 @@
     builder.className = 'card truth-tree-builder';
     builder.innerHTML = `
       <h2>Interaktiivne tõesuspuu ehitaja</h2>
-      <p>Lausearvutuse valemite jaoks. Predikaatloogika kvantorireegleid see tööriist veel ei rakenda.</p>
+      <p>Lausearvutuse valemite jaoks. Puu read kuvatakse kursuse märgistuses F=1 ja F=0; predikaatloogika kvantorireegleid see tööriist veel ei rakenda.</p>
       <div class="symbol-bar" id="treeSymbolBar"></div>
       <div class="input-row">
         <input id="treeFormulaInput" type="text" placeholder="Nt: (A -> B) & A -> B" autocomplete="off">
