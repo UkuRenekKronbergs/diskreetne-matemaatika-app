@@ -1553,6 +1553,16 @@ kontrolltood: `
   Ülesannete ja lahenduste PDF-id on avalikus versioonis kaasas, sest need variandid on genereeritud harjutusmaterjal. Ametlikke kursuse PDF-e siin ei jagata.
 </div>
 
+<div class="filter-panel exam-variant-filter" aria-label="Harjutusvariantide teema">
+  <span class="filter-label">Teema</span>
+  <div class="filter-chip-group" role="group" aria-label="Harjutusvariantide teema">
+    <button class="filter-chip active" data-exam-variant-filter="all" type="button" aria-pressed="true">Kõik</button>
+    <button class="filter-chip" data-exam-variant-filter="kt1" type="button" aria-pressed="false">KT1: loogika</button>
+    <button class="filter-chip" data-exam-variant-filter="kt2" type="button" aria-pressed="false">KT2: graafiteooria</button>
+  </div>
+</div>
+
+<section class="exam-variant-section" data-exam-variant-section="kt1">
 <h2>Kontrolltöö nr 1: matemaatiline loogika</h2>
 
 <div class="card">
@@ -1723,7 +1733,9 @@ kontrolltood: `
 <div class="tip">
   Kontrolltöö nr 1 iga variandi juures on eraldi ülesannete PDF ja lahenduste PDF.
 </div>
+</section>
 
+<section class="exam-variant-section" data-exam-variant-section="kt2">
 <h2>Kontrolltöö nr 2: graafiteooria</h2>
 
 <p>Variandid B, C ja D keskenduvad graafi põhimõistetele, puudele, minimaalsetele toespuudele, Kruskali/Primi algoritmile ja isomorfismile.</p>
@@ -1770,6 +1782,7 @@ kontrolltood: `
     <a href="materjalid/KT2_lahendused_BCD.pdf" target="_blank" class="btn small secondary">Lahendused B-D (PDF)</a>
   </p>
 </div>
+</section>
 `,
 
 /* ============= HARJUTUSTÖÖ GENERAATOR (laeb widget) ============= */

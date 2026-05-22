@@ -553,6 +553,53 @@ tbody tr:hover { background: rgba(255,255,255,0.02); }
 
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
 
+.filter-panel {
+  align-items: center;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+  padding: 12px 14px;
+}
+.filter-label {
+  color: var(--fg-3);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.filter-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.filter-chip {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--fg-2);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  min-height: 34px;
+  padding: 6px 10px;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.filter-chip:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+.filter-chip.active,
+.filter-chip[aria-pressed="true"] {
+  background: rgba(92,184,255,0.12);
+  border-color: rgba(92,184,255,0.6);
+  color: var(--accent);
+}
+
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -817,7 +864,7 @@ select:focus-visible {
 /* ===== Glossary learning state ===== */
 .glossary-controls {
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(170px, 220px) auto;
+  grid-template-columns: minmax(220px, 1fr) max-content minmax(170px, 220px) auto;
   gap: 10px;
   align-items: center;
   margin: 0 0 16px;
@@ -2323,6 +2370,7 @@ select:focus-visible {
   }
   .btn,
   .btn.small,
+  .filter-chip,
   .tab,
   .symbol-row button,
   .symbol-bar button {
@@ -2369,6 +2417,9 @@ select:focus-visible {
   .dashboard { grid-template-columns: 1fr; }
   .input-row {
     flex-direction: column;
+  }
+  .filter-panel {
+    align-items: flex-start;
   }
   .truth-tree-builder .input-row select {
     flex-basis: auto;

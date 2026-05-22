@@ -980,6 +980,57 @@
     localStorage.setItem(GLOSSARY_LEARNED_KEY, JSON.stringify([...learned]));
   }
 
+  const GLOSSARY_GRAPH_TERMS = new Set([
+    'Ahel',
+    'Alamgraaf',
+    'Alusgraaf',
+    'Eraldav tipp',
+    'Euleri ahel',
+    'Euleri graaf',
+    'Graaf',
+    'Graafide isomorfism',
+    'Graafi kaal',
+    'Hamiltoni ahel',
+    'Hamiltoni graaf',
+    'Intsidentsus',
+    'Isoleeritud tipp',
+    'Kaalutud graaf',
+    'Kaar',
+    'Kinnine ahel',
+    'Kruskali algoritm',
+    'Leht',
+    'Lihtahel',
+    'Mets',
+    'Naaberservad',
+    'Naabertipud',
+    'Naabrusmaatriks',
+    'Nullgraaf',
+    'Otstipud',
+    'Primi algoritm',
+    'Puu',
+    'Puu sisetipp',
+    'Regulaarne graaf',
+    'Rippuv tipp',
+    'Sidus graaf',
+    'Sidususkomponent',
+    'Sild',
+    'Silmus',
+    'Sisend',
+    'Sisendaste',
+    'Suunatud graaf',
+    'Tipuaste',
+    'Toespuu',
+    'Tsükkel',
+    'Täiendgraaf',
+    'Täisgraaf',
+    'Väljund',
+    'Väljundaste',
+  ]);
+
+  function getGlossaryTopic(term) {
+    return GLOSSARY_GRAPH_TERMS.has(term) ? 'graph' : 'logic';
+  }
+
   window.initGlossary = function () {
     const list = document.getElementById('glossaryList');
     const filterInput = document.getElementById('glossaryFilter');
@@ -989,6 +1040,11 @@
     controls.className = 'glossary-controls';
     controls.innerHTML = `
       <div class="glossary-progress" id="glossaryProgress"></div>
+      <div class="filter-chip-group glossary-topic-filter" role="group" aria-label="Sõnastiku teema">
+        <button class="filter-chip active" data-glossary-topic="all" type="button" aria-pressed="true">Kõik</button>
+        <button class="filter-chip" data-glossary-topic="logic" type="button" aria-pressed="false">Loogika</button>
+        <button class="filter-chip" data-glossary-topic="graph" type="button" aria-pressed="false">Graafiteooria</button>
+      </div>
       <select id="glossaryStatusFilter" aria-label="Sõnastiku oleku filter">
         <option value="all">Kõik mõisted</option>
         <option value="open">Veel õppida</option>
@@ -1000,20 +1056,35 @@
 
     const statusFilter = document.getElementById('glossaryStatusFilter');
     const clearBtn = document.getElementById('glossaryClearLearned');
+    const topicButtons = [...controls.querySelectorAll('[data-glossary-topic]')];
+    let topicFilter = 'all';
+
+    function setTopicFilter(nextTopic) {
+      topicFilter = nextTopic;
+      topicButtons.forEach(button => {
+        const active = button.dataset.glossaryTopic === nextTopic;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      render();
+    }
 
     function render() {
       const learned = getLearnedTerms();
       const f = filterInput.value.toLowerCase().trim();
       const status = statusFilter.value;
-      const items = (window.GLOSSARY || [])
+      const topicItems = (window.GLOSSARY || [])
+        .filter(g => topicFilter === 'all' || getGlossaryTopic(g.term) === topicFilter);
+      const items = topicItems
         .filter(g => !f || g.term.toLowerCase().includes(f) || g.def.toLowerCase().includes(f))
         .filter(g => status === 'all' || (status === 'learned' ? learned.has(g.term) : !learned.has(g.term)))
         .sort((a, b) => a.term.localeCompare(b.term, 'et'));
 
-      const total = (window.GLOSSARY || []).length;
+      const total = topicItems.length;
+      const learnedTotal = topicItems.filter(g => learned.has(g.term)).length;
       document.getElementById('glossaryProgress').innerHTML = `
-        <strong>${learned.size} / ${total}</strong> mõistet selgeks märgitud
-        <div class="progress-bar"><div class="progress-fill" style="width:${total ? Math.round(100 * learned.size / total) : 0}%"></div></div>
+        <strong>${learnedTotal} / ${total}</strong> mõistet selgeks märgitud
+        <div class="progress-bar"><div class="progress-fill" style="width:${total ? Math.round(100 * learnedTotal / total) : 0}%"></div></div>
       `;
 
       list.innerHTML = items.length === 0
@@ -1046,6 +1117,9 @@
 
     filterInput.addEventListener('input', render);
     statusFilter.addEventListener('change', render);
+    topicButtons.forEach(button => {
+      button.addEventListener('click', () => setTopicFilter(button.dataset.glossaryTopic));
+    });
     clearBtn.addEventListener('click', () => {
       localStorage.removeItem(GLOSSARY_LEARNED_KEY);
       render();

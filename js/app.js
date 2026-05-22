@@ -136,6 +136,29 @@
     });
   }
 
+  function initExamVariantsFilter() {
+    const buttons = [...document.querySelectorAll('[data-exam-variant-filter]')];
+    const sections = [...document.querySelectorAll('[data-exam-variant-section]')];
+    if (!buttons.length || !sections.length) return;
+
+    function setFilter(nextFilter) {
+      buttons.forEach(button => {
+        const active = button.dataset.examVariantFilter === nextFilter;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      sections.forEach(section => {
+        const visible = nextFilter === 'all' || section.dataset.examVariantSection === nextFilter;
+        section.hidden = !visible;
+      });
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => setFilter(button.dataset.examVariantFilter));
+    });
+    setFilter('all');
+  }
+
   // ---------- Routing ----------
   function getRoute() {
     const hash = location.hash.replace('#', '') || 'avaleht';
@@ -176,6 +199,7 @@
     if (route === 'hinnekalkulaator') window.initGradeCalculator && window.initGradeCalculator();
     if (route === 'toesuspuu') window.initTruthTree && window.initTruthTree();
     if (route === 'harjutustoo') window.initExamPractice && window.initExamPractice();
+    if (route === 'kontrolltood') initExamVariantsFilter();
     if (route === 'ulesandegeneraator') window.initProblemGenerator && window.initProblemGenerator();
     if (route === 'oppimine') window.initStudyDashboard && window.initStudyDashboard();
     if (route === 'otsing') window.initStudySearch && window.initStudySearch();
