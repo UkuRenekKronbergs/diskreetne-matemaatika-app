@@ -154,9 +154,6 @@ kursus: `
 /* ============= HINDE KALKULAATOR ============= */
 hinnekalkulaator: `<h1>Hinde kalkulaator</h1><p>Laadin...</p>`,
 
-/* ============= KONSPEKTI OTSING ============= */
-otsing: `<h1>Konspekti otsing</h1><p>Laadin...</p>`,
-
 /* ============= CHEAT-SHEET ============= */
 spikker: `<h1>Spikker</h1><p>Laadin...</p>`,
 

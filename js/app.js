@@ -248,7 +248,6 @@
     if (route === 'kontrolltood') initExamVariantsFilter();
     if (route === 'ulesandegeneraator') window.initProblemGenerator && window.initProblemGenerator();
     if (route === 'oppimine') window.initStudyDashboard && window.initStudyDashboard();
-    if (route === 'otsing') window.initStudySearch && window.initStudySearch();
     if (route === 'spikker') window.initCheatSheet && window.initCheatSheet();
     if (route === 'vead') window.initWeaknessJournal && window.initWeaknessJournal();
     if (route === 'normaalkujud') window.initNormalForms && window.initNormalForms();

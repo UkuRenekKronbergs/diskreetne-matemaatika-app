@@ -1623,34 +1623,10 @@ select:focus-visible {
   white-space: nowrap;
 }
 
-/* ===== Search, cheat-sheet, normal forms ===== */
-.search-panel,
+/* ===== Cheat-sheet, normal forms ===== */
 .normal-form-panel {
   display: grid;
   gap: 12px;
-}
-.search-hit {
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  margin: 10px 0;
-  padding: 12px 14px;
-}
-.search-hit-head {
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-}
-.search-hit-head a {
-  color: var(--accent);
-  font-weight: 700;
-  text-decoration: none;
-}
-.search-hit mark {
-  background: rgba(251,191,36,0.25);
-  color: var(--fg);
-  padding: 0 2px;
 }
 .cheat-toolbar {
   align-items: center;
@@ -2530,7 +2506,6 @@ select:focus-visible {
   .study-pulse {
     grid-template-columns: 1fr;
   }
-  .search-hit-head,
   .cheat-toolbar,
   .chapter-notes-head,
   .study-section-head,

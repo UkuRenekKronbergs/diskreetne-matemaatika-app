@@ -221,23 +221,8 @@
     if (box) box.textContent = `Õpijada: ${data.streak} ${data.streak === 1 ? 'päev' : 'päeva'} · rekord ${data.best || data.streak}`;
   };
 
-  function repairText(text) {
-    const value = String(text || '');
-    if (!/[ÃÂâ]/.test(value)) return value;
-    try { return decodeURIComponent(escape(value)); }
-    catch { return value; }
-  }
-
-  function normalize(text) {
-    return repairText(text).toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-  }
-
   function escapeHtml(text) {
     return String(text || '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-  }
-
-  function escapeRegExp(text) {
-    return String(text || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
   function readJson(key, fallback) {
@@ -973,97 +958,6 @@
     }
 
     render();
-  };
-
-  function contextFor(text, query) {
-    const repaired = repairText(text).replace(/\s+/g, ' ').trim();
-    const idx = normalize(repaired).indexOf(normalize(query));
-    const start = Math.max(0, idx - 130);
-    const end = Math.min(repaired.length, (idx >= 0 ? idx : 0) + query.length + 180);
-    let snippet = repaired.slice(start, end);
-    if (start > 0) snippet = `...${snippet}`;
-    if (end < repaired.length) snippet += '...';
-    const safe = escapeHtml(snippet);
-    const pattern = escapeRegExp(query.trim());
-    return pattern ? safe.replace(new RegExp(pattern, 'ig'), match => `<mark>${match}</mark>`) : safe;
-  }
-
-  window.initStudySearch = function () {
-    const view = document.getElementById('view');
-    if (!view) return;
-    view.innerHTML = `
-      <h1>Konspekti otsing</h1>
-      <p>Otsi konspekti tekstist. Tulemused näitavad PDF-i nime, lehekülge ja lähikonteksti.</p>
-      <div class="card">
-        <div class="input-row">
-          <input id="studySearchInput" type="text" placeholder="Nt: Havel-Hakimi, prefikskuju, Euleri graaf" autocomplete="off">
-          <button class="btn" id="studySearchBtn" type="button">Otsi</button>
-        </div>
-        <div class="muted" id="studySearchStatus">Laadin valikulist lokaalset otsinguandmestikku...</div>
-      </div>
-      <div id="studySearchResults"></div>
-    `;
-
-    const status = document.getElementById('studySearchStatus');
-    let pages = [];
-    let loading = true;
-    let loadError = null;
-    fetch('data/extracted.json')
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then(data => {
-        pages = Object.entries(data).flatMap(([file, list]) => (list || []).map((text, index) => ({
-          file,
-          page: index + 1,
-          text: repairText(text),
-          search: normalize(text),
-        })));
-        loading = false;
-        status.textContent = `${pages.length} lehekülge laaditud.`;
-      })
-      .catch(err => {
-        loading = false;
-        loadError = err;
-        status.textContent = 'Otsinguandmestik puudub. Avalikus versioonis on see teadlikult välja jäetud; lokaalselt lisa data/extracted.json.';
-      });
-
-    function search() {
-      const query = document.getElementById('studySearchInput').value.trim();
-      const out = document.getElementById('studySearchResults');
-      if (loading) {
-        out.innerHTML = '<div class="card muted">Otsinguandmestik alles laadib. Proovi hetke pärast uuesti.</div>';
-        return;
-      }
-      if (loadError && !pages.length) {
-        out.innerHTML = `<div class="card muted">Konspektiotsing vajab lokaalset faili <code>data/extracted.json</code>. Tehniline põhjus: ${escapeHtml(loadError.message)}.</div>`;
-        return;
-      }
-      if (query.length < 2) {
-        out.innerHTML = '<div class="card muted">Sisesta vähemalt kaks märki.</div>';
-        return;
-      }
-      const nq = normalize(query);
-      const hits = pages
-        .map(page => ({ ...page, idx: page.search.indexOf(nq) }))
-        .filter(page => page.idx >= 0)
-        .slice(0, 30);
-
-      status.textContent = `${hits.length}${hits.length === 30 ? '+' : ''} tulemust päringule "${query}".`;
-      out.innerHTML = hits.length ? hits.map(hit => `
-        <article class="search-hit">
-          <div class="search-hit-head">
-            <strong>${escapeHtml(repairText(hit.file))}</strong>
-            <a class="btn small secondary" href="materjalid/${encodeURIComponent(hit.file)}#page=${hit.page}" target="_blank" rel="noopener noreferrer">lk ${hit.page}</a>
-          </div>
-          <p>${contextFor(hit.text, query)}</p>
-        </article>
-      `).join('') : '<div class="card muted">Tulemusi ei leitud. Proovi lühemat vormi või ilma käändelõputa.</div>';
-    }
-
-    document.getElementById('studySearchBtn').addEventListener('click', search);
-    document.getElementById('studySearchInput').addEventListener('keydown', e => { if (e.key === 'Enter') search(); });
   };
 
   window.initCheatSheet = function () {

@@ -4,7 +4,7 @@ Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I**
 
 > **Mitteametlik õppevahend.** See rakendus ei ole Tartu Ülikooli ametlik kursusekeskkond ega asenda Moodle'it, ÕIS-i või õppejõu juhiseid. Hinnatavas töös, kontrolltööl või eksamil kasuta seda ainult siis, kui õppejõud on sellise abivahendi sõnaselgelt lubanud.
 
-> **Avalikult jagatav versioon ei tohiks sisaldada kursuse ametlikke PDF-e ega PDF-idest ekstraktitud otsinguandmeid.** Kood ja AI-genereeritud kontrolltöö harjutusfailid võivad olla avalikud; kursuse algmaterjalid ja `data/extracted.json` on mõeldud ainult lokaalseks/isiklikuks kasutuseks juhul, kui sul on materjalide kasutamiseks õigus.
+> **Avalikult jagatav versioon ei tohiks sisaldada kursuse ametlikke PDF-e ega PDF-idest ekstraktitud tekstiandmeid.** Kood ja AI-genereeritud kontrolltöö harjutusfailid võivad olla avalikud; kursuse algmaterjalid ja `data/extracted.json` on mõeldud ainult lokaalseks/isiklikuks kasutuseks juhul, kui sul on materjalide kasutamiseks õigus.
 
 ## ✨ Mida saab teha
 
@@ -16,7 +16,6 @@ Interaktiivne veebirakendus Tartu Ülikooli kursuse **Diskreetne matemaatika I**
 - **Ehita tõeväärtustabeleid** sisestades suvalisi lausearvutuse valemeid (parser toetab `&`, `|`, `!`, `->`, `<->`).
 - **Genereeri täielikku DNK/KNK kuju** valemist koos tõeväärtustabeliga.
 - **Ehita tõesuspuid** lausearvutuse valemitele ning kontrolli samaselt tõesust, samaselt väärust ja kehtestatavust.
-- **Otsi konspektidest** lokaalses versioonis, kui `data/extracted.json` on olemas; tulemused näitavad PDF-i nime, lehekülge ja lähikonteksti.
 - **Kasuta teemasiseseid tööriistu** samaväärsuse, kvantorite, predikaadimudelite, Havel-Hakimi astmejärjendite, sekventside, Euleri/Hamiltoni tingimuste ja puude omaduste kontrollimiseks.
 - **Lahenda teemasiseseid lahendusülesandeid** iga suurema teoorialehe lõpus, koos avatava lahenduskäiguga.
 - **Genereeri lõputult parameetrilisi ülesandeid** prefikskuju, Havel-Hakimi, kaalutud graafide ja sekventside harjutamiseks; tulemused salvestuvad ja valed vastused liiguvad vigade päevikusse.
@@ -55,7 +54,7 @@ Kontrollskript vaatab üle JavaScripti süntaksi, JSON-failid ja Git diff'i whit
 
 Rakendus sisaldab `manifest.webmanifest` faili ja `service-worker.js` võrguühenduseta kasutuse vahemälu. Ava rakendus HTTP-serveri kaudu ja lae see korra täielikult ära; seejärel pakub brauser võimalust rakendus paigaldada. Pärast esmast vahemällu salvestamist töötavad rakenduse kest, teoorialehed, tööriistad, KaTeX ja kohalik edenemine ka ilma internetita.
 
-Kursuse ametlikke PDF-materjale ja `data/extracted.json` otsinguandmestikku ei panda PWA precache'i. AI-genereeritud kontrolltöö harjutusfailid võivad olla avalikus versioonis kaasas; lokaalses versioonis laadib brauser muud lubatud materjalid vajadusel tavapärase runtime-cache'i kaudu. Kui `data/extracted.json` puudub, näitab konspektiotsing selle kohta selget teadet.
+Kursuse ametlikke PDF-materjale ja `data/extracted.json` andmestikku ei panda PWA precache'i. AI-genereeritud kontrolltöö harjutusfailid võivad olla avalikus versioonis kaasas; lokaalses versioonis laadib brauser muud lubatud materjalid vajadusel tavapärase runtime-cache'i kaudu.
 
 Kui arenduse ajal staatilisi faile muudad, suurenda `service-worker.js` failis `CACHE_NAME` väärtust, et brauser võtaks uue võrguühenduseta versiooni kasutusele.
 
@@ -68,7 +67,6 @@ app/
 ├── service-worker.js      # Võrguühenduseta vahemälu ja navigatsiooni varuvariant
 ├── icons/                 # PWA ikoonid
 ├── css/style.css          # Kujundus (tume teema)
-├── data/extracted.json    # Valikuline lokaalne otsinguandmestik; ei kuulu avalikku reposse
 ├── js/
 │   ├── app.js             # Marsruutimine, edenemise jälgimine
 │   ├── content.js         # Kogu teooriasisu
@@ -85,7 +83,7 @@ app/
 │       ├── grade-calculator.js # Hinde ja miinimumi kalkulaator
 │       ├── normal-forms.js # Täieliku DNK/KNK generaator
 │       ├── problem-generator.js # Lõputu parameetriline ülesannete generaator + tulemuste statistika
-│       ├── study-tools.js # Õppimise töölaud, vigade päevik, konspektiotsing, spikker, õpijada
+│       ├── study-tools.js # Õppimise töölaud, vigade päevik, spikker, õpijada
 │       └── topic-tools.js # Väikesed tööriistad ja lahendusülesanded teoorialehtede sees
 ├── vendor/katex/          # KaTeX-i kohalik varu võrguühenduseta kasutuseks
 └── materjalid/            # Avalikus repos AI-genereeritud harjutusfailid; lokaalselt lubatud kursuse PDF-id
