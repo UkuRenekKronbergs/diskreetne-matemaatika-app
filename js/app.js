@@ -5,6 +5,7 @@
 
   const VISITED_KEY = 'dm_visited_v1';
   const TOPIC_CHECK_KEY = 'dm_topic_checks_v1';
+  const NAV_GROUP_KEY = 'dm_nav_groups_v1';
   const MOBILE_NAV_QUERY = '(max-width: 900px)';
 
   function getProgressRoutes() {
@@ -121,6 +122,48 @@
     setSidebarOpen(!sidebar?.classList.contains('open'));
   }
 
+  function getCollapsedNavGroups() {
+    try {
+      const stored = JSON.parse(localStorage.getItem(NAV_GROUP_KEY)) || {};
+      return stored && typeof stored === 'object' && !Array.isArray(stored) ? stored : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveCollapsedNavGroups(groups) {
+    try { localStorage.setItem(NAV_GROUP_KEY, JSON.stringify(groups)); }
+    catch { /* Local storage can be unavailable in private browsing modes. */ }
+  }
+
+  function setNavGroupCollapsed(group, collapsed) {
+    const button = group.querySelector('[data-nav-toggle]');
+    const links = group.querySelector('.nav-group-links');
+    group.classList.toggle('collapsed', collapsed);
+    if (button) button.setAttribute('aria-expanded', String(!collapsed));
+    if (links) links.hidden = collapsed;
+  }
+
+  function initNavGroups() {
+    const groups = [...document.querySelectorAll('.nav-group[data-nav-group]')];
+    if (!groups.length) return;
+
+    const collapsedGroups = getCollapsedNavGroups();
+    groups.forEach(group => {
+      const key = group.dataset.navGroup;
+      const button = group.querySelector('[data-nav-toggle]');
+      setNavGroupCollapsed(group, Boolean(collapsedGroups[key]));
+
+      button?.addEventListener('click', () => {
+        const collapsed = !group.classList.contains('collapsed');
+        if (collapsed) collapsedGroups[key] = true;
+        else delete collapsedGroups[key];
+        setNavGroupCollapsed(group, collapsed);
+        saveCollapsedNavGroups(collapsedGroups);
+      });
+    });
+  }
+
   function updateProgress() {
     const routes = getProgressRoutes();
     const completed = routes.filter(isRouteCompleted);
@@ -188,6 +231,9 @@
     document.querySelectorAll('.nav-group a').forEach(a => {
       a.classList.toggle('active', a.dataset.route === route);
     });
+    document.querySelectorAll('.nav-group').forEach(group => {
+      group.classList.toggle('has-active', Boolean(group.querySelector('a.active')));
+    });
 
     // Initialise widgets for this route
     if (route === 'truthtable') window.initTruthTable && window.initTruthTable();
@@ -242,6 +288,7 @@
     if (mobileNav.addEventListener) mobileNav.addEventListener('change', handleMobileNavChange);
     else mobileNav.addListener(handleMobileNavChange);
     setSidebarOpen(false);
+    initNavGroups();
 
     // Reset progress
     document.getElementById('resetProgress')?.addEventListener('click', () => {

@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
-<link rel="stylesheet" href="css/style.css?v=20260522-2">
+<link rel="stylesheet" href="css/style.css?v=20260522-3">
 </head>
 <body>
 <div class="app">
@@ -29,50 +29,74 @@
       <div class="streak" id="streakBox">Õpijada: 0 päeva</div>
     </div>
     <nav>
-      <div class="nav-group">
-        <h3>Üldist</h3>
-        <a href="#avaleht" data-route="avaleht">Avaleht</a>
-        <a href="#oppimine" data-route="oppimine">Õppimise töölaud</a>
-        <a href="#spikker" data-route="spikker">Spikker</a>
-        <a href="#hinnekalkulaator" data-route="hinnekalkulaator">Hinde kalkulaator</a>
+      <div class="nav-group" data-nav-group="general">
+        <h3>
+          <button class="nav-group-toggle" type="button" aria-expanded="true" aria-controls="nav-general" data-nav-toggle>
+            <span>Üldist</span>
+          </button>
+        </h3>
+        <div class="nav-group-links" id="nav-general">
+          <a href="#avaleht" data-route="avaleht">Avaleht</a>
+          <a href="#oppimine" data-route="oppimine">Õppimise töölaud</a>
+          <a href="#spikker" data-route="spikker">Spikker</a>
+          <a href="#hinnekalkulaator" data-route="hinnekalkulaator">Hinde kalkulaator</a>
+        </div>
       </div>
-      <div class="nav-group">
-        <h3>1. osa — Matemaatiline loogika</h3>
-        <a href="#lausearvutus" data-route="lausearvutus">Lausearvutus</a>
-        <a href="#truthtable" data-route="truthtable">Tõeväärtustabeli ehitaja</a>
-        <a href="#normaalkujud" data-route="normaalkujud">DNK/KNK generaator</a>
-        <a href="#toesuspuu" data-route="toesuspuu">Tõesuspuu meetod</a>
-        <a href="#predikaadid" data-route="predikaadid">Predikaadid ja kvantorid</a>
-        <a href="#signatuur" data-route="signatuur">Signatuur ja interpretatsioonid</a>
-        <a href="#samavaarsus" data-route="samavaarsus">Samaväärsus</a>
-        <a href="#prefikskuju" data-route="prefikskuju">Prefikskuju</a>
-        <a href="#aksiomaatika" data-route="aksiomaatika">Aksiomaatilised teooriad</a>
-        <a href="#sekvents" data-route="sekvents">Sekventsiaalne lausearvutus</a>
-        <a href="#peano" data-route="peano">Peano aritmeetika</a>
+      <div class="nav-group" data-nav-group="logic">
+        <h3>
+          <button class="nav-group-toggle" type="button" aria-expanded="true" aria-controls="nav-logic" data-nav-toggle>
+            <span>1. osa — Matemaatiline loogika</span>
+          </button>
+        </h3>
+        <div class="nav-group-links" id="nav-logic">
+          <a href="#lausearvutus" data-route="lausearvutus">Lausearvutus</a>
+          <a href="#truthtable" data-route="truthtable">Tõeväärtustabeli ehitaja</a>
+          <a href="#normaalkujud" data-route="normaalkujud">DNK/KNK generaator</a>
+          <a href="#toesuspuu" data-route="toesuspuu">Tõesuspuu meetod</a>
+          <a href="#predikaadid" data-route="predikaadid">Predikaadid ja kvantorid</a>
+          <a href="#signatuur" data-route="signatuur">Signatuur ja interpretatsioonid</a>
+          <a href="#samavaarsus" data-route="samavaarsus">Samaväärsus</a>
+          <a href="#prefikskuju" data-route="prefikskuju">Prefikskuju</a>
+          <a href="#aksiomaatika" data-route="aksiomaatika">Aksiomaatilised teooriad</a>
+          <a href="#sekvents" data-route="sekvents">Sekventsiaalne lausearvutus</a>
+          <a href="#peano" data-route="peano">Peano aritmeetika</a>
+        </div>
       </div>
-      <div class="nav-group">
-        <h3>2. osa — Graafiteooria</h3>
-        <a href="#graafid" data-route="graafid">Graafi mõiste</a>
-        <a href="#grapheditor" data-route="grapheditor">Graafiredaktor</a>
-        <a href="#tipuastmed" data-route="tipuastmed">Tipuastmed</a>
-        <a href="#ahelad" data-route="ahelad">Ahelad ja tsüklid</a>
-        <a href="#sidusus" data-route="sidusus">Sidusus</a>
-        <a href="#isomorfism" data-route="isomorfism">Isomorfism</a>
-        <a href="#eulerhamilton" data-route="eulerhamilton">Euler ja Hamilton</a>
-        <a href="#puud" data-route="puud">Puud</a>
-        <a href="#toespuud" data-route="toespuud">Toespuud (Kruskal ja Prim)</a>
-        <a href="#suunatud" data-route="suunatud">Suunatud graafid</a>
-        <a href="#luhimtee" data-route="luhimtee">Lühim tee (Dijkstra ja Floyd)</a>
+      <div class="nav-group" data-nav-group="graph">
+        <h3>
+          <button class="nav-group-toggle" type="button" aria-expanded="true" aria-controls="nav-graph" data-nav-toggle>
+            <span>2. osa — Graafiteooria</span>
+          </button>
+        </h3>
+        <div class="nav-group-links" id="nav-graph">
+          <a href="#graafid" data-route="graafid">Graafi mõiste</a>
+          <a href="#grapheditor" data-route="grapheditor">Graafiredaktor</a>
+          <a href="#tipuastmed" data-route="tipuastmed">Tipuastmed</a>
+          <a href="#ahelad" data-route="ahelad">Ahelad ja tsüklid</a>
+          <a href="#sidusus" data-route="sidusus">Sidusus</a>
+          <a href="#isomorfism" data-route="isomorfism">Isomorfism</a>
+          <a href="#eulerhamilton" data-route="eulerhamilton">Euler ja Hamilton</a>
+          <a href="#puud" data-route="puud">Puud</a>
+          <a href="#toespuud" data-route="toespuud">Toespuud (Kruskal ja Prim)</a>
+          <a href="#suunatud" data-route="suunatud">Suunatud graafid</a>
+          <a href="#luhimtee" data-route="luhimtee">Lühim tee (Dijkstra ja Floyd)</a>
+        </div>
       </div>
-      <div class="nav-group">
-        <h3>Harjutamine</h3>
-        <a href="#kviis" data-route="kviis">Kiirviktoriin</a>
-        <a href="#flashcards" data-route="flashcards">Mõistekaardid</a>
-        <a href="#vead" data-route="vead">Vigade päevik</a>
-        <a href="#ulesandegeneraator" data-route="ulesandegeneraator">Ülesannete generaator</a>
-        <a href="#kontrolltood" data-route="kontrolltood">Harjutusvariandid</a>
-        <a href="#harjutustoo" data-route="harjutustoo">Harjutustöö generaator</a>
-        <a href="#sonastik" data-route="sonastik">Mõistete sõnastik</a>
+      <div class="nav-group" data-nav-group="practice">
+        <h3>
+          <button class="nav-group-toggle" type="button" aria-expanded="true" aria-controls="nav-practice" data-nav-toggle>
+            <span>Harjutamine</span>
+          </button>
+        </h3>
+        <div class="nav-group-links" id="nav-practice">
+          <a href="#kviis" data-route="kviis">Kiirviktoriin</a>
+          <a href="#flashcards" data-route="flashcards">Mõistekaardid</a>
+          <a href="#vead" data-route="vead">Vigade päevik</a>
+          <a href="#ulesandegeneraator" data-route="ulesandegeneraator">Ülesannete generaator</a>
+          <a href="#kontrolltood" data-route="kontrolltood">Harjutusvariandid</a>
+          <a href="#harjutustoo" data-route="harjutustoo">Harjutustöö generaator</a>
+          <a href="#sonastik" data-route="sonastik">Mõistete sõnastik</a>
+        </div>
       </div>
     </nav>
     <div class="sidebar-footer">
@@ -81,7 +105,6 @@
         <span id="pwaStatus" class="pwa-status">Seadistan võrguühenduseta režiimi...</span>
       </div>
       <button id="resetProgress" class="btn-link">Lähtesta edenemine</button>
-      <span class="version">v1.0</span>
     </div>
   </aside>
 

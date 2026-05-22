@@ -102,12 +102,53 @@ body.sidebar-open {
 .nav-group { margin-bottom: 16px; }
 .nav-group h3 {
   margin: 0;
-  padding: 8px 20px 6px;
+  padding: 0;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--fg-3);
   font-weight: 600;
+}
+.nav-group-toggle {
+  align-items: center;
+  background: none;
+  border: 0;
+  color: var(--fg-3);
+  cursor: pointer;
+  display: grid;
+  font: inherit;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  letter-spacing: inherit;
+  padding: 8px 20px 6px;
+  text-align: left;
+  text-transform: inherit;
+  width: 100%;
+}
+.nav-group-toggle:hover {
+  background: rgba(255,255,255,0.03);
+  color: var(--fg-2);
+}
+.nav-group-toggle::after {
+  border-bottom: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  content: "";
+  height: 7px;
+  justify-self: end;
+  margin-top: -4px;
+  transform: rotate(45deg);
+  transition: transform 0.15s ease, margin 0.15s ease;
+  width: 7px;
+}
+.nav-group.collapsed .nav-group-toggle::after {
+  margin-top: 0;
+  transform: rotate(-45deg);
+}
+.nav-group.has-active > h3 .nav-group-toggle {
+  color: var(--accent);
+}
+.nav-group-links[hidden] {
+  display: none;
 }
 .nav-group a {
   display: block;
