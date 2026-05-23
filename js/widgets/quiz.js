@@ -793,13 +793,24 @@
     let idx = 0;
     let order = [];
     let lastAction = '';
+    let topicFilter = 'all';
 
     view.innerHTML = `
       <h1>Mõistekaardid</h1>
       <p>Anki-stiilis kordamine: unustatud mõisted tulevad varem tagasi, kindlalt teatud mõisted liiguvad kaugemale tulevikku.</p>
+      <div class="filter-panel flashcard-filter">
+        <span class="filter-label">Kaardipakk</span>
+        <div class="filter-chip-group" role="group" aria-label="Mõistekaartide teema">
+          <button class="filter-chip active" data-flash-topic="all" type="button" aria-pressed="true">Kõik</button>
+          <button class="filter-chip" data-flash-topic="logic" type="button" aria-pressed="false">Loogika</button>
+          <button class="filter-chip" data-flash-topic="graph" type="button" aria-pressed="false">Graafiteooria</button>
+        </div>
+      </div>
       <div class="flashcard-srs" id="flashStats"></div>
       <div id="flashContainer"></div>
     `;
+
+    const topicButtons = [...view.querySelectorAll('[data-flash-topic]')];
 
     function todayKey(offset = 0) {
       const d = new Date();
@@ -832,14 +843,34 @@
       return schedule[card.term];
     }
 
+    function filteredIndexes() {
+      return cards
+        .map((card, i) => ({ card, i }))
+        .filter(({ card }) => topicFilter === 'all' || getGlossaryTopic(card.term) === topicFilter)
+        .map(({ i }) => i);
+    }
+
+    function deckLabel() {
+      if (topicFilter === 'logic') return 'loogika';
+      if (topicFilter === 'graph') return 'graafiteooria';
+      return 'kõigi mõistete';
+    }
+
+    function doneMessage() {
+      if (topicFilter === 'all') {
+        return 'Kõik tänase kuupäevaga mõisted on üle vaadatud. Võid selle paki kaardid segada, kui tahad veel harjutada.';
+      }
+      return `Kõik ${deckLabel()} tänase kuupäevaga mõisted on üle vaadatud. Võid selle paki kaardid segada, kui tahad veel harjutada.`;
+    }
+
     function buildQueue(mode = 'due') {
       const schedule = loadSchedule();
       const today = todayKey();
-      const indexes = cards.map((_, i) => i);
+      const indexes = filteredIndexes();
       indexes.forEach(i => stateFor(schedule, cards[i]));
       saveSchedule(schedule);
       const due = indexes.filter(i => stateFor(schedule, cards[i]).due <= today);
-      order = mode === 'all' || due.length === 0
+      order = mode === 'all'
         ? pickRandom(indexes, indexes.length)
         : due.sort((a, b) => {
           const sa = stateFor(schedule, cards[a]);
@@ -852,10 +883,12 @@
     function updateStats() {
       const schedule = loadSchedule();
       const today = todayKey();
-      const total = cards.length;
-      const due = cards.filter(card => stateFor(schedule, card).due <= today).length;
-      const learning = cards.filter(card => stateFor(schedule, card).reps > 0).length;
-      const mature = cards.filter(card => stateFor(schedule, card).interval >= 7).length;
+      const indexes = filteredIndexes();
+      const topicCards = indexes.map(i => cards[i]);
+      const total = topicCards.length;
+      const due = topicCards.filter(card => stateFor(schedule, card).due <= today).length;
+      const learning = topicCards.filter(card => stateFor(schedule, card).reps > 0).length;
+      const mature = topicCards.filter(card => stateFor(schedule, card).interval >= 7).length;
       saveSchedule(schedule);
       document.getElementById('flashStats').innerHTML = `
         <div><strong>${due}</strong><span>täna korrata</span></div>
@@ -900,11 +933,12 @@
       updateStats();
       const card = cards[order[idx]];
       if (!card) {
+        const total = filteredIndexes().length;
         document.getElementById('flashContainer').innerHTML = `
           <div class="card">
-            <h3>${cards.length ? 'Tänane kordamine on valmis.' : 'Sõnastik puudub.'}</h3>
-            <p>${cards.length ? 'Kõik tänase kuupäevaga mõisted on üle vaadatud. Võid segada kõik kaardid, kui tahad veel harjutada.' : ''}</p>
-            <button class="btn small" id="studyAllCards" type="button">Harjuta kõiki kaarte</button>
+            <h3>${total ? 'Tänane kordamine on valmis.' : 'Selles kaardipakis pole mõisteid.'}</h3>
+            <p>${total ? doneMessage() : ''}</p>
+            ${total ? '<button class="btn small" id="studyAllCards" type="button">Harjuta selle paki kaarte</button>' : ''}
           </div>
         `;
         document.getElementById('studyAllCards')?.addEventListener('click', () => {
@@ -955,17 +989,45 @@
       });
       document.getElementById('shuffleCards').addEventListener('click', () => {
         buildQueue('all');
-        lastAction = 'Kõik kaardid on segatud.';
+        lastAction = topicFilter === 'all' ? 'Kõik kaardid on segatud.' : `${deckLabel()} kaardid on segatud.`;
         show();
       });
       document.getElementById('resetSrs').addEventListener('click', () => {
-        if (!confirm('Lähtesta mõistekaartide kordamise ajalugu?')) return;
-        localStorage.removeItem(FLASH_SRS_KEY);
-        lastAction = 'Kordamise ajalugu lähtestatud.';
+        const message = topicFilter === 'all'
+          ? 'Lähtesta mõistekaartide kordamise ajalugu?'
+          : `Lähtesta ${deckLabel()} kaartide kordamise ajalugu?`;
+        if (!confirm(message)) return;
+        if (topicFilter === 'all') {
+          localStorage.removeItem(FLASH_SRS_KEY);
+        } else {
+          const schedule = loadSchedule();
+          filteredIndexes().forEach(i => delete schedule[cards[i].term]);
+          saveSchedule(schedule);
+        }
+        lastAction = topicFilter === 'all'
+          ? 'Kordamise ajalugu lähtestatud.'
+          : `${deckLabel()} kaartide kordamise ajalugu lähtestatud.`;
         buildQueue();
         show();
       });
     }
+
+    function setTopicFilter(nextTopic) {
+      topicFilter = nextTopic;
+      topicButtons.forEach(button => {
+        const active = button.dataset.flashTopic === nextTopic;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      lastAction = '';
+      buildQueue();
+      show();
+    }
+
+    topicButtons.forEach(button => {
+      button.addEventListener('click', () => setTopicFilter(button.dataset.flashTopic));
+    });
+
     buildQueue();
     show();
   };
